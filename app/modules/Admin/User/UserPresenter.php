@@ -3,8 +3,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\User;
 
-use App\Domain\User\CreateUserFacade;
-use App\Domain\User\UpdateUserFacade;
+use App\Domain\User\UserFacade;
 use App\Model\Exception\Logic\InvalidArgumentException;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Security\PasswordFormFactory;
@@ -33,10 +32,7 @@ class UserPresenter extends BaseAdminPresenter
     public PasswordFormFactory $passwordFormFactory;
 
     /** @inject */
-    public CreateUserFacade $createUserFacade;
-
-    /** @inject */
-    public UpdateUserFacade $updateUserFacade;
+    public UserFacade $userFacade;
 
     public function actionEdit(int $id): void
     {
@@ -70,7 +66,7 @@ class UserPresenter extends BaseAdminPresenter
             $values = (array) $form->getValues();
 
             try {
-                $user = $this->createUserFacade->create($values);
+                $user = $this->userFacade->create($values);
             } catch (UniqueConstraintViolationException $e) {
                 $this->flashError(sprintf('Email "%s" is already used.', $values['email']));
                 return;
@@ -93,7 +89,7 @@ class UserPresenter extends BaseAdminPresenter
             $user = $this->em->getUserRepository()->find($this->id);
 
             try {
-                $this->updateUserFacade->update($user, $values);
+                $this->userFacade->update($user, $values);
             } catch (UniqueConstraintViolationException $e) {
                 $this->flashError(sprintf('Email "%s" is already used.', $user->getEmail()));
                 return;
@@ -116,7 +112,7 @@ class UserPresenter extends BaseAdminPresenter
             $user = $this->em->getUserRepository()->find($this->user->getId());
 
             try {
-                $this->updateUserFacade->changePassword($user, $values['passwordOld'], $values['passwordNew']);
+                $this->userFacade->changePassword($user, $values['passwordOld'], $values['passwordNew']);
             } catch (InvalidArgumentException $e) {
                 $this->flashError($e->getMessage());
                 return;

@@ -8,7 +8,7 @@ use App\Model\Database\EntityManager;
 use App\Model\Exception\Logic\InvalidArgumentException;
 use App\Model\Security\Passwords;
 
-class UpdateUserFacade
+class UserFacade
 {
 
     private EntityManager $em;
@@ -22,8 +22,29 @@ class UpdateUserFacade
     }
 
     /**
+     * @param array<string, string> $data
+     * @return User
+     */
+    public function create(array $data): User
+    {
+        $user = new User(
+            $data['name'],
+            $data['surname'],
+            $data['email'],
+            $this->passwords->hash($data['password'])
+        );
+        $user->setRole($data['role']);
+        $user->activate();
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return $user;
+    }
+
+    /**
      * @param User $user
-     * @param array<string> $data
+     * @param array<string, string> $data
      * @return User
      */
     public function update(User $user, array $data): User

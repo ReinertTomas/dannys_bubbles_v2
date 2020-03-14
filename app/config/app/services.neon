@@ -37,8 +37,7 @@ services:
 	- App\Domain\File\FileFacade
 
 	## User
-	- App\Domain\User\CreateUserFacade
-	- App\Domain\User\UpdateUserFacade
+	- App\Domain\User\UserFacade
 
 	## Gallery
 	- App\Domain\Card\CreateCardFacade
