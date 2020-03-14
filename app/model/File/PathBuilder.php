@@ -28,6 +28,11 @@ final class PathBuilder implements PathBuilderInterface
         return new static($root);
     }
 
+    public function getRoot(): string
+    {
+        return $this->root;
+    }
+
     public function getPath(): string
     {
         return $this->buildPath();

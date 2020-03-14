@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Example;
 
-use App\Domain\File\FileFacade;
 use App\Domain\Order\Event\OrderCreated;
 use App\Model\Exception\Logic\InvalidArgumentException;
 use App\Model\Utils\DateTime;
@@ -11,6 +10,7 @@ use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Control\Dropzone\DropzoneControl;
 use App\UI\Control\Dropzone\DropzoneFactory;
 use App\UI\Form\FormFactory;
+use App\UI\Grid\GridFactory;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\Button;
 use Nette\Utils\Json;
@@ -22,6 +22,9 @@ class ExamplePresenter extends BaseAdminPresenter
 {
 
     /** @inject */
+    public GridFactory $gridFactory;
+
+    /** @inject */
     public FormFactory $formFactory;
 
     /** @inject */
@@ -29,9 +32,6 @@ class ExamplePresenter extends BaseAdminPresenter
 
     /** @inject */
     public DropzoneFactory $dropzoneFactory;
-
-    /** @inject */
-    public FileFacade $fileFacade;
 
     /**
      * @var array<array>
@@ -178,7 +178,8 @@ class ExamplePresenter extends BaseAdminPresenter
             $values = (array)$form->getValues();
 
             if (!empty($values['files'])) {
-                $files = $this->fileFacade->createFromJson($values['files'], '/example');
+                dump('files');
+                die();
             }
 
             $this->flashSuccess('_message.success');

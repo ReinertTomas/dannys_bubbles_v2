@@ -66,4 +66,9 @@
         }
     });
 
+    $(document).on('change', '.custom-file-input', function () {
+        const fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+
 })(jQuery); // End of use strict

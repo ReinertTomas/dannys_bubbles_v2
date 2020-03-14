@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\UI\Control;
 
 use App\Modules\Base\BasePresenter;
-use Nette\Application\AbortException;
 use stdClass;
 
 /**
@@ -13,9 +12,6 @@ use stdClass;
 trait TFlashMessage
 {
 
-    /**
-     * @throws AbortException
-     */
     public function redrawFlashes(): void
     {
         $this->redrawControl('flashes');

@@ -31,11 +31,4 @@ abstract class BasePresenter extends Presenter
     /** @inject */
     public DirectoryManager $dm;
 
-    protected function beforeRender(): void
-    {
-        parent::beforeRender();
-
-        $this->template->filesPath = $this->dm->getFiles()->getPath();
-    }
-
 }

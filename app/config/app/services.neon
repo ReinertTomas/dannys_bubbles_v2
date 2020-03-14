@@ -26,11 +26,6 @@ services:
 	- App\UI\Control\Dropzone\DropzoneFactory
 
 
-	# Grid ===================
-	- App\UI\Grid\GridFactory
-	- App\UI\Grid\User\UserGridFactory
-
-
 	# Console ================
 	- {class: App\Model\Console\HelloCommand, tags: {console.command: hello}}
 
@@ -39,7 +34,6 @@ services:
 	- App\Domain\Order\OrderLogSubscriber
 
 	## File
-	- App\Model\File\FileFactory
 	- App\Domain\File\FileFacade
 
 	## User
@@ -49,8 +43,5 @@ services:
 	## Gallery
 	- App\Domain\Card\CreateCardFacade
 
-decorator:
-    # File
-    App\Model\File\FileFactory:
-        setup:
-            - setThumb(%thumb%)
+	## Offer
+	- App\Domain\Offer\OfferFacade

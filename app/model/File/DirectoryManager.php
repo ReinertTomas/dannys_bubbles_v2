@@ -4,14 +4,9 @@ declare(strict_types=1);
 namespace App\Model\File;
 
 use App\Model\Database\Entity\File;
-use Nette\Http\Request;
 
 final class DirectoryManager
 {
-
-    private string $basePath;
-
-    private string $baseUrl;
 
     private string $app;
 
@@ -21,69 +16,54 @@ final class DirectoryManager
 
     private string $www;
 
-    private PathBuilder $upload;
+    private string $upload;
 
-    private PathBuilder $files;
+    private string $files;
 
-    public function __construct(string $app, string $upload, string $files, Request $request)
+    public function __construct(string $app, string $upload, string $files)
     {
-        $this->basePath = $request->getUrl()->getBasePath();
-        $this->baseUrl = $request->getUrl()->getBaseUrl();
-
         $this->app = $app;
-        $this->temp = PathBuilder::create($app)
+        $this->temp = PathBuilder::create($this->app)
             ->addSuffix('/../temp')
             ->exists()
             ->getPathAbs();
-        $this->resources = PathBuilder::create($app)
+        $this->resources = PathBuilder::create($this->app)
             ->addSuffix('/resources')
             ->exists()
             ->getPathAbs();
-        $this->www = PathBuilder::create($app)
+        $this->www = PathBuilder::create($this->app)
             ->addSuffix('/../www')
             ->exists()
             ->getPathAbs();
-        $this->upload = PathBuilder::create($this->www)
-            ->addSuffix($upload)
-            ->exists();
-        $this->files = PathBuilder::create($this->www)
-            ->addSuffix($files)
-            ->exists();
+        $this->upload = $upload;
+        $this->files = $files;
     }
 
-    public function getApp(): string
-    {
-        return $this->app;
-    }
-
-    public function getTemp(): string
-    {
-        return $this->temp;
-    }
-
-    public function getResources(): string
-    {
-        return $this->resources;
-    }
-
-    public function getWww(): string
+    public function getWWW(): string
     {
         return $this->www;
     }
 
-    public function getUpload(): PathBuilderInterface
+    public function getUpload(): string
     {
-        return $this->upload;
+        return PathBuilder::create($this->www)
+            ->addSuffix($this->upload)
+            ->exists()
+            ->getPathAbs();
     }
 
-    public function getFiles(): PathBuilderInterface
+    public function getFiles(): string
     {
-        return $this->files;
+        return PathBuilder::create($this->www)
+            ->addSuffix($this->files)
+            ->exists()
+            ->getPathAbs();
     }
 
     public function findInUpload(string $filename): PathBuilderInterface
     {
-        return PathBuilder::create($this->upload->getPathAbs())
+        return PathBuilder::create($this->www)
+            ->addSuffix($this->upload)
             ->addSuffix('/')
             ->addSuffix($filename)
             ->exists();
@@ -91,48 +71,25 @@ final class DirectoryManager
 
     public function findInFiles(File $file): PathBuilderInterface
     {
-        return PathBuilder::create($this->files->getPathAbs())
+        return PathBuilder::create($this->www)
             ->addSuffix($file->getPath())
             ->exists();
     }
 
     public function createInFiles(string $filename, string $namespace = null): PathBuilderInterface
     {
-        $pb = PathBuilder::create($this->files->getPathAbs());
+        $pb = PathBuilder::create($this->www)
+            ->addSuffix($this->files);
 
         if ($namespace) {
-            $pb->addSuffix($namespace)
+            $pb->addSuffix('/')
+                ->addSuffix($namespace)
                 ->generatePath()
                 ->exists();
         }
 
         return $pb->addSuffix('/')
             ->addSuffix($filename);
-    }
-
-    public function removeInFiles(File $file): void
-    {
-        $pathAbs = $this->files->getPathAbs();
-        $pb = PathBuilder::create($pathAbs)
-            ->addSuffix($file->getPath());
-        // Remove if exists
-        if ($pb->isExist()) {
-            unlink($pb->getPathAbs());
-        }
-        // Remove thumb if image
-        if ($file->isImage()) {
-            $pbThumb = PathBuilder::create($pathAbs)
-                ->addSuffix($file->getThumb());
-            // Remove if exists
-            if ($pbThumb->isExist()) {
-                unlink($pbThumb->getPathAbs());
-            }
-        }
-    }
-
-    public function move(PathBuilderInterface $old, PathBuilderInterface $new): void
-    {
-        rename($old->getPathAbs(), $new->getPathAbs());
     }
 
 }

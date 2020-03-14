@@ -9,6 +9,7 @@ import 'bootstrap-datepicker';
 import 'bootstrap-select';
 // import 'ublaboo-datagrid/assets/datagrid';
 // import 'ublaboo-datagrid/assets/datagrid-instant-url-refresh';
+import './js/image';
 import './js/sb-admin-2';
 
 /**

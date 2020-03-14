@@ -1,4 +1,4 @@
-# Services
+# Forms
 #
 services:
 
@@ -16,3 +16,6 @@ services:
     # Gallery
     - App\UI\Form\Card\CardFormFactory
     - App\UI\Form\Card\CardUploadFormFactory
+
+    # Offer
+    - App\UI\Form\Offer\OfferFormFactory

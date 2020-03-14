@@ -5,9 +5,11 @@ namespace App\Model\Database;
 
 use App\Model\Database\Entity\Card;
 use App\Model\Database\Entity\File;
+use App\Model\Database\Entity\Offer;
 use App\Model\Database\Entity\User;
 use App\Model\Database\Repository\CardRepository;
 use App\Model\Database\Repository\FileRepository;
+use App\Model\Database\Repository\OfferRepository;
 use App\Model\Database\Repository\UserRepository;
 
 /**
@@ -29,6 +31,11 @@ trait TRepositories
     public function getCardRepository(): CardRepository
     {
         return $this->getRepository(Card::class);
+    }
+
+    public function getOfferRepository(): OfferRepository
+    {
+        return $this->getRepository(Offer::class);
     }
 
 }

@@ -1,0 +1,31 @@
+{block #heading}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Offer</li>
+        </ol>
+    </nav>
+{/}
+
+{block #content}
+    <div class="d-sm-flex justify-content-end mb-3">
+        <a n:href=":Admin:Offer:new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> New Offer
+        </a>
+    </div>
+    <div n:snippet="offers" class="row">
+        <div n:foreach="$offers as $offer" class="col-md-3">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <img class="img-offer shadow" src="{$basePath}{$offer->getImage()->getPath()}" alt="Image">
+                    </div>
+                    <h5 class="text-gray-900 font-weight-bold">{$offer->getTitle()}</h5>
+                    <p class="card-text">{$offer->getText()}</p>
+                    <a n:href=":Admin:Offer:edit $offer->getId()" class="btn btn-warning"><i class="fa fa-pencil-alt"></i></a>
+                    <a n:href="delete! $offer->getId()" class="ajax btn btn-danger"><i class="fa fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+{/}

@@ -25,6 +25,7 @@
         "bootstrap": "^4.4.1",
         "bootstrap-datepicker": "^1.9.0",
         "bootstrap-select": "^1.13.12",
+        "cropperjs": "^1.5.6",
         "dropzone": "^5.7.0",
         "jquery": "^3.4.1",
         "jquery.easing": "^1.4.1",

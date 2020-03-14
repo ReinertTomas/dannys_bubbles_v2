@@ -8,9 +8,12 @@ use Ublaboo\DataGrid\DataGrid;
 
 final class GridFactory
 {
-    public function create(?IContainer $parent = null, ?string $name = null): DataGrid
+
+    const ICON_EDIT = 'pencil-alt';
+
+    public function create(IContainer $parent, string $name): DataGrid
     {
-        $grid = new DataGrid($parent, $name);
-        return $grid;
+        return new DataGrid($parent, $name);
     }
+
 }

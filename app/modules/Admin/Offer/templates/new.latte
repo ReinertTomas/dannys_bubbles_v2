@@ -1,0 +1,37 @@
+{block #heading}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+            <li class="breadcrumb-item"><a n:href=":Admin:Offer:">Offer</a></li>
+            <li class="breadcrumb-item active" aria-current="page">New</li>
+        </ol>
+    </nav>
+{/}
+
+{block #content}
+    <div class="container p-0">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {form offerForm}
+                    <div class="mb-3">
+                        {label title/}
+                        {input title 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-4">
+                        {label text/}
+                        {input text 'class' => 'form-control', 'rows' => '4'}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="img-input">
+                                {input image 'data-image' => ''}
+                                <img class="img-offer shadow" data-image src="{$basePath}/img/blank_offer.png" alt="Image">
+                            </div>
+                        </div>
+                    </div>
+                    {input submit 'class' => 'btn btn-primary', 'value' => 'Create Offer'}
+                {/form}
+            </div>
+        </div>
+    </div>
+{/}

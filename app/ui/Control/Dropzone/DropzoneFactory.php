@@ -19,7 +19,6 @@ final class DropzoneFactory
     {
         return new DropzoneControl(
             $this->dm->getUpload()
-                ->getPathAbs()
         );
     }
 

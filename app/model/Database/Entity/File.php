@@ -5,6 +5,8 @@ namespace App\Model\Database\Entity;
 
 use App\Model\Database\Entity\Attributes\TCreatedAt;
 use App\Model\Exception\Logic\InvalidArgumentException;
+use App\Model\File\PathBuilder;
+use App\Model\Utils\FileSystem;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,11 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
 class File extends AbstractEntity
 {
 
-    public const TYPE_DOCUMENT = 1;
+    public const TYPE_FILE = 1;
     public const TYPE_IMAGE = 2;
 
     public const TYPES = [
-        self::TYPE_DOCUMENT,
+        self::TYPE_FILE,
         self::TYPE_IMAGE
     ];
 
@@ -49,12 +51,17 @@ class File extends AbstractEntity
         $this->name = $name;
         $this->path = $path;
         $this->mime = $mime;
-        $this->type = self::TYPE_DOCUMENT;
+        $this->type = self::TYPE_FILE;
     }
 
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 
     public function getFilename(): string
@@ -69,6 +76,11 @@ class File extends AbstractEntity
     public function getPath(): string
     {
         return $this->path;
+    }
+
+    public function setPath(string $path): void
+    {
+        $this->path = $path;
     }
 
     public function getMime(): string
@@ -92,11 +104,6 @@ class File extends AbstractEntity
         $extension = substr($this->path, $position);
 
         return $filepath . '_thumb' . $extension;
-    }
-
-    public function isDocument(): bool
-    {
-        return $this->type === self::TYPE_DOCUMENT;
     }
 
     public function isImage(): bool

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Database\Entity\Attributes;
 
-use \DateTime;
+use App\Model\Utils\DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 trait TCreatedAt
