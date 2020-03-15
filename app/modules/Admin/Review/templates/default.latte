@@ -1,0 +1,39 @@
+{block #heading}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Review</li>
+        </ol>
+    </nav>
+{/}
+
+{block #content}
+    <div class="d-sm-flex justify-content-end mb-3">
+        <a n:href=":Admin:Review:new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> New Review
+        </a>
+    </div>
+    <div n:snippet="reviews" class="row">
+        <div n:foreach="$reviews as $review" class="col-md-3">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div n:class="badge, $review->isActive() ? badge-primary : badge-danger, card-badge">
+                        <i n:class="fas, $review->isActive() ? fa-eye : fa-eye-slash"></i> {$review->isActive() ? 'Public' : 'Hidden'}
+                    </div>
+                    <h5 class="text-gray-900 font-weight-bold">{$review->getTitle()}</h5>
+                    <h6 n:if="$review->hasAuthor()" class="card-subtitle mb-2 text-gray-900">{$review->getAuthor()}</h6>
+                    <p class="card-text">{$review->getText()}</p>
+                    <a n:href="toggleActive! $review->getId()" class="ajax btn btn-primary" title="{$review->isActive() ? 'Hide' : 'Show'}">
+                        <i n:class="fas, $review->isActive() ? fa-eye-slash : fa-eye"></i>
+                    </a>
+                    <a n:href=":Admin:Review:edit $review->getId()" class="btn btn-warning" title="Edit">
+                        <i class="fa fa-pencil-alt"></i>
+                    </a>
+                    <a n:href="delete! $review->getId()" class="ajax btn btn-danger" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{/}

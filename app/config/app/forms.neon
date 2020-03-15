@@ -19,3 +19,6 @@ services:
 
     # Offer
     - App\UI\Form\Offer\OfferFormFactory
+
+    # Review
+    - App\UI\Form\Review\ReviewFormFactory

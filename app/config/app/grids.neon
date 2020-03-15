@@ -4,4 +4,3 @@ services:
 
     - App\UI\Grid\GridFactory
     - App\UI\Grid\User\UserGridFactory
-    - App\UI\Grid\Offer\OfferGridFactory

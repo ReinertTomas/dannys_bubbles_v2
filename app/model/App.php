@@ -12,4 +12,5 @@ final class App
     public const DESTINATION_AFTER_SIGN_OUT = self::DESTINATION_FRONT_HOMEPAGE;
 
     public const ADMIN_OFFER = ':Admin:Offer:';
+    public const ADMIN_REVIEW = ':Admin:Review:';
 }

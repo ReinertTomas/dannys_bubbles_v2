@@ -8,7 +8,7 @@ use App\Model\Database\Entity\File;
 use App\Model\Database\EntityManager;
 use App\Model\File\DirectoryManager;
 
-class CreateCardFacade
+class CardFacade
 {
 
     private EntityManager $em;

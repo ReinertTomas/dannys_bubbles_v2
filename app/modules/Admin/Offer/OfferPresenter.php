@@ -8,7 +8,6 @@ use App\Model\App;
 use App\Model\Database\Entity\Offer;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Offer\OfferFormFactory;
-use App\UI\Grid\Offer\OfferGridFactory;
 use Nette\Application\UI\Form;
 
 final class OfferPresenter extends BaseAdminPresenter
@@ -17,9 +16,6 @@ final class OfferPresenter extends BaseAdminPresenter
     private int $id;
 
     private ?Offer $offer = null;
-
-    /** @inject */
-    public OfferGridFactory $offerGridFactory;
 
     /** @inject */
     public OfferFormFactory $offerFormFactory;

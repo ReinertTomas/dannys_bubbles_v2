@@ -1,0 +1,33 @@
+{block #heading}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+            <li class="breadcrumb-item"><a n:href=":Admin:Review:">Review</a></li>
+            <li class="breadcrumb-item active" aria-current="page">New</li>
+        </ol>
+    </nav>
+{/}
+
+{block #content}
+    <div class="container p-0">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {form reviewForm}
+                    <div class="mb-3">
+                        {label title/}
+                        {input title 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label author/}
+                        {input author 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label text/}
+                        {input text 'class' => 'form-control', 'rows' => '4'}
+                    </div>
+                    {input submit 'class' => 'btn btn-primary', 'value' => 'Save'}
+                {/form}
+            </div>
+        </div>
+    </div>
+{/}

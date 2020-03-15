@@ -40,7 +40,10 @@ services:
 	- App\Domain\User\UserFacade
 
 	## Gallery
-	- App\Domain\Card\CreateCardFacade
+	- App\Domain\Card\CardFacade
 
 	## Offer
 	- App\Domain\Offer\OfferFacade
+
+	## Review
+	- App\Domain\Review\ReviewFacade
