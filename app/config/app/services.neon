@@ -39,9 +39,6 @@ services:
 	## User
 	- App\Domain\User\UserFacade
 
-	## Gallery
-	- App\Domain\Card\CardFacade
-
 	## Offer
 	- App\Domain\Offer\OfferFacade
 

@@ -13,10 +13,6 @@ services:
     - App\UI\Form\User\NewUserFormFactory
     - App\UI\Form\User\EditUserFormFactory
 
-    # Gallery
-    - App\UI\Form\Card\CardFormFactory
-    - App\UI\Form\Card\CardUploadFormFactory
-
     # Offer
     - App\UI\Form\Offer\OfferFormFactory
 
