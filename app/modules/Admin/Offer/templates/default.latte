@@ -17,13 +17,23 @@
         <div n:foreach="$offers as $offer" class="col-md-3">
             <div class="card shadow mb-4">
                 <div class="card-body">
+                    <div n:class="badge, $offer->isActive() ? badge-primary : badge-danger, card-badge">
+                        <i n:class="fas, $offer->isActive() ? fa-eye : fa-eye-slash"></i> {$offer->isActive() ? 'Public' : 'Hidden'}
+                    </div>
                     <div class="text-center mb-4">
                         <img class="img-offer shadow" src="{$basePath}{$offer->getImage()->getPath()}" alt="Image">
                     </div>
                     <h5 class="text-gray-900 font-weight-bold">{$offer->getTitle()}</h5>
                     <p class="card-text">{$offer->getText()}</p>
-                    <a n:href=":Admin:Offer:edit $offer->getId()" class="btn btn-warning"><i class="fa fa-pencil-alt"></i></a>
-                    <a n:href="delete! $offer->getId()" class="ajax btn btn-danger"><i class="fa fa-trash"></i></a>
+                    <a n:href="toggleActive! $offer->getId()" class="ajax btn btn-primary" title="{$offer->isActive() ? 'Hide' : 'Show'}">
+                        <i n:class="fas, $offer->isActive() ? fa-eye-slash : fa-eye"></i>
+                    </a>
+                    <a n:href=":Admin:Offer:edit $offer->getId()" class="btn btn-warning" title="Edit">
+                        <i class="fa fa-pencil-alt"></i>
+                    </a>
+                    <a n:href="delete! $offer->getId()" class="ajax btn btn-danger" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </a>
                 </div>
             </div>
         </div>

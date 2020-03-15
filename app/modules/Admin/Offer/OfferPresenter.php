@@ -70,6 +70,29 @@ final class OfferPresenter extends BaseAdminPresenter
         }
     }
 
+    public function handleToggleActive(int $id): void
+    {
+        $offer = $this->em->getOfferRepository()->find($id);
+        if (!$offer) {
+            $this->errorNotFoundEntity($id);
+        }
+
+        $offer->toggleActive();
+        $this->em->flush();
+
+        $this->flashSuccess(
+            sprintf('_message.offer.%s', $offer->isActive() ? 'show' : 'hide')
+        );
+
+        if ($this->isAjax()) {
+            $this->redrawFlashes();
+            $this->redrawOffers();
+            $this->setAjaxPostGet();
+        } else {
+            $this->redirect('this');
+        }
+    }
+
     protected function createComponentOfferForm(): Form
     {
         $form = $this->offerFormFactory->create();

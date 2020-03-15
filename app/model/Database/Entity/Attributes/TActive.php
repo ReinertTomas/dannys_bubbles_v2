@@ -28,4 +28,9 @@ trait TActive
         $this->active = false;
     }
 
+    public function toggleActive(): void
+    {
+        $this->active = !$this->active;
+    }
+
 }
