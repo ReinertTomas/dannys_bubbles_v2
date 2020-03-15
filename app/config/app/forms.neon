@@ -6,6 +6,9 @@ services:
     - App\UI\Form\FormFactory
     - App\UI\Form\Security\SignInFormFactory
 
+    # File
+    - App\UI\Form\File\UploadFormFactory
+
     # Security
     - App\UI\Form\Security\PasswordFormFactory
 
@@ -18,3 +21,6 @@ services:
 
     # Review
     - App\UI\Form\Review\ReviewFormFactory
+
+    # Album
+    - App\UI\Form\Album\AlbumFormFactory

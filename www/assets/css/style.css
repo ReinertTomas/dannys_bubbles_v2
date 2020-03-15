@@ -33,11 +33,10 @@
     position: relative;
 }
 
-.card .card-badge {
+.card .card-top {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 16px;
 }
 
 .img-offer {

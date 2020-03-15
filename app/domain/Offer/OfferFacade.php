@@ -32,7 +32,7 @@ final class OfferFacade
             throw FileUploadException::create();
         }
 
-        $file = $this->fileFacade->create($fileUpload, Offer::NAMESPACE);
+        $file = $this->fileFacade->createFromHttp($fileUpload, Offer::NAMESPACE);
 
         $offer = new Offer(
             $file,

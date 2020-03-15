@@ -44,3 +44,6 @@ services:
 
 	## Review
 	- App\Domain\Review\ReviewFacade
+
+	## Album
+	- App\Domain\Album\AlbumFacade

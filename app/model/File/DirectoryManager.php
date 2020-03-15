@@ -92,4 +92,9 @@ final class DirectoryManager
             ->addSuffix($filename);
     }
 
+    public function move(PathBuilderInterface $old, PathBuilderInterface $new): void
+    {
+        rename($old->getPathAbs(), $new->getPathAbs());
+    }
+
 }
