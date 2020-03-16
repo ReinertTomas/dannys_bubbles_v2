@@ -6,11 +6,13 @@ namespace App\Model\Database;
 use App\Model\Database\Entity\Album;
 use App\Model\Database\Entity\File;
 use App\Model\Database\Entity\Offer;
+use App\Model\Database\Entity\Product;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\Entity\User;
 use App\Model\Database\Repository\AlbumRepository;
 use App\Model\Database\Repository\FileRepository;
 use App\Model\Database\Repository\OfferRepository;
+use App\Model\Database\Repository\ProductRepository;
 use App\Model\Database\Repository\ReviewRepository;
 use App\Model\Database\Repository\UserRepository;
 
@@ -43,6 +45,11 @@ trait TRepositories
     public function getAlbumRepository(): AlbumRepository
     {
         return $this->getRepository(Album::class);
+    }
+
+    public function getProductRepository(): ProductRepository
+    {
+        return $this->getRepository(Product::class);
     }
 
 }

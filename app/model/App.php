@@ -14,4 +14,5 @@ final class App
     public const ADMIN_OFFER = ':Admin:Offer:';
     public const ADMIN_REVIEW = ':Admin:Review:';
     public const ADMIN_ALBUM = ':Admin:Album:';
+    public const ADMIN_PRODUCT = ':Admin:Product:';
 }

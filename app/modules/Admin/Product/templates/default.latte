@@ -1,0 +1,41 @@
+{block #heading}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Product</li>
+        </ol>
+    </nav>
+{/}
+
+{block #content}
+    <div class="d-sm-flex justify-content-end mb-3">
+        <a n:href=":Admin:Product:new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50"></i> New Product
+        </a>
+    </div>
+    <div n:snippet="products" class="row">
+        <div n:foreach="$products as $product" class="col-md-3">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div n:class="badge, $product->isActive() ? badge-primary : badge-danger, badge-md, card-top">
+                        <i n:class="fas, $product->isActive() ? fa-eye : fa-eye-slash"></i> {$product->isActive() ? 'Public' : 'Hidden'}
+                    </div>
+                    <div class="text-center mb-4">
+                        <img class="shadow" src="{$basePath}{$product->getImage()->getPath()}" alt="Image" style="width: 150px">
+                    </div>
+                    <h5 class="text-gray-900 font-weight-bold">{$product->getTitle()}</h5>
+                    <p class="card-text">{$product->getDescription()}</p>
+                    <a n:href="toggleActive! $product->getId()" class="ajax btn btn-primary" title="{$product->isActive() ? 'Hide' : 'Show'}">
+                        <i n:class="fas, $product->isActive() ? fa-eye-slash : fa-eye"></i>
+                    </a>
+                    <a n:href=":Admin:Product:edit $product->getId()" class="btn btn-warning" title="Edit">
+                        <i class="fa fa-pencil-alt"></i>
+                    </a>
+                    <a n:href="delete! $product->getId()" class="ajax btn btn-danger" title="Delete">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{/}

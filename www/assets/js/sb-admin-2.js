@@ -1,5 +1,21 @@
+import 'summernote/dist/summernote-bs4.css'
+import summernote from 'summernote';
+
 (function ($) {
     "use strict"; // Start of use strict
+
+    // init summernote
+    $("textarea.summernote").summernote({
+        placeholder: '* Your text',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['height', ['height']]
+        ]
+    });
 
     // Toggle the side navigation
     $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
@@ -71,4 +87,4 @@
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-})(jQuery); // End of use strict
+})(jQuery, summernote); // End of use strict

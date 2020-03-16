@@ -21,7 +21,7 @@
                         <i n:class="fas, $offer->isActive() ? fa-eye : fa-eye-slash"></i> {$offer->isActive() ? 'Public' : 'Hidden'}
                     </div>
                     <div class="text-center mb-4">
-                        <img class="img-offer shadow" src="{$basePath}{$offer->getImage()->getPath()}" alt="Image">
+                        <img class="img-thumb img-circle shadow" src="{$basePath}{$offer->getImage()->getPath()}" alt="Image">
                     </div>
                     <h5 class="text-gray-900 font-weight-bold">{$offer->getTitle()}</h5>
                     <p class="card-text">{$offer->getText()}</p>

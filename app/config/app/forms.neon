@@ -24,3 +24,6 @@ services:
 
     # Album
     - App\UI\Form\Album\AlbumFormFactory
+
+    # Product
+    - App\UI\Form\Product\ProductFormFactory

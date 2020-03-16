@@ -104,6 +104,11 @@ class FileFacade
             $file->setName($fileUpload->getName());
             $file->setPath($pb->getPath());
 
+            if (FileSystem::isImage($pb->getPathAbs())) {
+                $file->image();
+                $this->createThumb($file);
+            }
+
             $this->em->flush();
         }
 

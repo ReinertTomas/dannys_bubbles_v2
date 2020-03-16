@@ -49,7 +49,7 @@ final class OfferFacade
     public function update(Offer $offer, string $title, string $text, FileUpload $fileUpload): Offer
     {
         if ($fileUpload->hasFile()) {
-            $this->fileFacade->update($offer->getImage(), $fileUpload, Offer::NAMESPACE);
+            $this->fileFacade->update($offer->getImage(), $fileUpload, $offer->getNamespace());
         }
 
         $offer->setTitle($title);

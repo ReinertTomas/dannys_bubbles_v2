@@ -39,9 +39,12 @@
     right: 10px;
 }
 
-.img-offer {
+.img-thumb {
     width: 150px;
     height: 150px;
+}
+
+.img-circle {
     border-radius: 50%;
 }
 
