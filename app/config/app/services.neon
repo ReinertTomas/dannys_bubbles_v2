@@ -50,3 +50,6 @@ services:
 
 	## Product
 	- App\Domain\Product\ProductFacade
+
+	## Config
+	- App\Domain\Config\ConfigFacade

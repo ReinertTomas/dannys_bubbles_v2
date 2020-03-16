@@ -1,0 +1,67 @@
+{block #heading}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Config</li>
+        </ol>
+    </nav>
+{/}
+
+{block #content}
+    <div class="container p-0">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {form configForm}
+                    <h5 class="h5 text-gray-900 font-weight-bold">Person</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {label name/}
+                            {input name 'class' => 'form-control'}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {label surname/}
+                            {input surname 'class' => 'form-control'}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {label email/}
+                        {input email 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label ico/}
+                        {input ico 'class' => 'form-control'}
+                    </div>
+                    <h5 class="h5 text-gray-900 font-weight-bold">Websites</h5>
+                    <div class="mb-3">
+                        {label website/}
+                        {input website 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label facebook/}
+                        {input facebook 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label instagram/}
+                        {input instagram 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label youtube/}
+                        {input youtube 'class' => 'form-control'}
+                    </div>
+                    <h5 class="h5 text-gray-900 font-weight-bold">File</h5>
+                    <div class="mb-3">
+                        {label condition/}
+                        {input condition 'class' => 'form-control border-0 mb-3'}
+                        <a n:href="downloadCondition!">Download</a>
+                    </div>
+                    <h5 class="h5 text-gray-900 font-weight-bold">Others</h5>
+                    <div class="mb-3">
+                        {label promoVideo/}
+                        {input promoVideo 'class' => 'form-control'}
+                    </div>
+                    {input submit 'class' => 'btn btn-primary'}
+                {/form}
+            </div>
+        </div>
+    </div>
+{/}

@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace App\Model\Database;
 
 use App\Model\Database\Entity\Album;
+use App\Model\Database\Entity\Config;
 use App\Model\Database\Entity\File;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\Entity\Product;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\Entity\User;
 use App\Model\Database\Repository\AlbumRepository;
+use App\Model\Database\Repository\ConfigRepository;
 use App\Model\Database\Repository\FileRepository;
 use App\Model\Database\Repository\OfferRepository;
 use App\Model\Database\Repository\ProductRepository;
@@ -50,6 +52,11 @@ trait TRepositories
     public function getProductRepository(): ProductRepository
     {
         return $this->getRepository(Product::class);
+    }
+
+    public function getConfigRepository(): ConfigRepository
+    {
+        return $this->getRepository(Config::class);
     }
 
 }

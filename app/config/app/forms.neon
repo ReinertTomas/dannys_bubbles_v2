@@ -27,3 +27,6 @@ services:
 
     # Product
     - App\UI\Form\Product\ProductFormFactory
+
+    # Config
+    - App\UI\Form\Config\ConfigFormFactory
