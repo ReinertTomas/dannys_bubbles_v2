@@ -5,7 +5,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        admin: './www/assets/admin.js'
+        admin: './www/assets/admin.js',
+        front: './www/assets/front.js'
     },
     output: {
         path: path.resolve(__dirname, 'www/dist'),

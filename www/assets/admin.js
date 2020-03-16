@@ -1,5 +1,5 @@
 /**
- * Required dependencies
+ * Admin dependencies
  */
 import 'jquery';
 import 'jquery.easing'
@@ -17,6 +17,7 @@ import './js/sb-admin-2';
  * These assets are extracted to [id].bundle.css using MiniCssExtractPlugin, see more on webpack.config.js
  */
 // import 'bootstrap/dist/css/bootstrap.css';
+import './css/font.admin.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap-datepicker/dist/css/bootstrap-datepicker3.css';
 import 'bootstrap-select/dist/css/bootstrap-select.css';
