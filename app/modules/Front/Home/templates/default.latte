@@ -1,6 +1,291 @@
 {block #content}
-<div class="starter-template">
-    <h1>Bootstrap starter template</h1>
-    <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text
-        and a mostly barebones HTML document.</p>
-</div>
+    <section class="hero-section py-3 py-md-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6 pt-3 mb-5 mb-lg-0">
+                    <h1 class="site-headline font-weight-bold mb-3">Launch and promote your software project like a pro</h1>
+                    <div class="site-tagline mb-4">Designed for entrepreneurial software developers, CoderPro is the ultimate Bootstrap 4 template for promoting or selling your <span id="typewriter" class="text-primary font-weight-bold"></span>.</div>
+                    <div class="cta-btns mb-lg-3">
+                        <a class="btn btn-primary mr-2 mb-3" href="pricing.html">Get Started Free<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+                        <a class="btn btn-secondary mb-3" href="docs.html">View Docs<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-6 text-center">
+                    <img class="hero-figure mx-auto" src="assets/images/promo-figure-alt.svg" alt="">
+                </div>
+            </div><!--//row-->
+        </div>
+    </section><!--//hero-section-->
+
+    <section class="benefits-section theme-bg-light py-5">
+        <div class="container">
+            <h3 class="mb-2 text-center font-weight-bold section-title">Produkty</h3>
+            <div class="mb-5 text-center section-intro">You're only a few simple steps away</div>
+
+            <div class="row">
+                <div n:foreach="$products as $product" class="item col-12 col-md-6 col-lg-3">
+                    <div class="item-inner rounded">
+                        <div class="img-holder text-center mb-3">
+                            <img class="shadow" src="{$basePath}{$product->getImage()->getThumb()}" alt="Product">
+                        </div>
+                        <h5 class="mb-3">{$product->getTitle()}</h5>
+                        <div>{$product->getDescription()}</div>
+                        <div class="mt-2"><a href="features.html">Learn more &rarr;</a></div>
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div><!--//row-->
+            <div class="pt-3 text-center">
+                <a class="btn btn-light" href="features.html">View All Features<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+            </div>
+        </div>
+    </section><!--//benefits-section-->
+
+    <section class="how-section py-5">
+        <div class="container">
+            <h3 class="mb-2 text-center font-weight-bold section-title">Nabídka</h3>
+            <div class="mb-5 text-center section-intro">You're only a few simple steps away</div>
+
+            <div class="row">
+                <div n:foreach="$offers as $offer" class="item col-12 col-md-4">
+                    <div class="img-holder text-center mb-3">
+                        <img class="shadow" src="{$basePath}{$offer->getImage()->getThumb()}" alt="Product">
+                    </div>
+                    <div class="desc p-3">
+                        <h5><span class="step-count mr-2">{$iterator->getCounter()}</span>{$offer->getTitle()}</h5>
+                        <p>{$offer->getText()}</p>
+                    </div><!--//desc-->
+                </div><!--//item-->
+            </div><!--//row-->
+        </div><!--//container-->
+    </section><!--//how-section-->
+    <div class="container"><hr></div>
+    <section class="logos-section theme-bg-primary py-5 text-center">
+        <div class="container">
+            <h3 class="text-center">You're In Good Company</h3>
+            <div class="section-intro mb-5">Join 500,000+ users around the world lorem ipsum dolor sit amet</div>
+            <div class="logos-row row mx-auto">
+                <div class="item col-6 col-md-4 mb-3 mb-lg-0">
+                    <div class="item-inner">
+                        <img src="assets/images/logos/logo-1.svg" alt="logo">
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-6 col-md-4 mb-3 mb-lg-0">
+                    <div class="item-inner">
+                        <img src="assets/images/logos/logo-2.svg" alt="logo">
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-6 col-md-4 mb-3 mb-lg-0">
+                    <div class="item-inner">
+                        <img src="assets/images/logos/logo-3.svg" alt="logo">
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-6 col-md-4 mb-3 mb-lg-0">
+                    <div class="item-inner">
+                        <img src="assets/images/logos/logo-4.svg" alt="logo">
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-6 col-md-4 mb-3 mb-lg-0">
+                    <div class="item-inner">
+                        <img src="assets/images/logos/logo-5.svg" alt="logo">
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item col-6 col-md-4 mb-3 mb-lg-0">
+                    <div class="item-inner">
+                        <img src="assets/images/logos/logo-6.svg" alt="logo">
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div>
+        </div><!--//container-->
+    </section><!--//logo-section-->
+
+    <section class="testimonial-section pb-5">
+        <div class="container">
+            <div class="testimonial-carousel owl-carousel owl-theme">
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-1.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-twitter"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-2.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-facebook"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-3.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-github"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-4.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-product-hunt"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-5.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-twitter"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-6.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-twitter"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-7.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-twitter"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+                <div class="item">
+                    <div class="item-inner rounded shadow-sm">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-8.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">User Name</div>
+                                <div class="info"><a href="#">@username</a></div>
+                            </div>
+                            <div class="source-icon"><i class="fab fa-twitter"></i></div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">
+                                You can list user reviews or testimonials here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat vel quam cursus sagittis. Curabitur vestibulum mollis leo, sed ultricies felis egestas ac.
+                            </blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div><!--//testimonial-carousel-->
+            <div class="pt-5 text-center">
+                <a class="btn btn-light" href="pricing.html">Get Started<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+            </div>
+        </div><!--//container-->
+    </section><!--//testiomonial-section-->
+    <div class="container"><hr></div>
+    <section class="integration-section text-center py-5">
+        <div class="container">
+            <h3 class="mb-2">Seamless Integrations</h3>
+            <div class="section-intro mb-3">Section intro goes here lorem ipsum</div>
+            <div class="integration-list row justify-content-center py-5">
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 top-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/slack.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 bottom-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/jira.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 top-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/trello.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 bottom-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/aws.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 top-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/bootstrap.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5"><img class="shadow rounded-circle" src="assets/images/logos/wordpress.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 top-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/shopify.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 bottom-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/ionic.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 top-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/paypal.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5 bottom-line-lg"><img class="shadow rounded-circle" src="assets/images/logos/stripe.svg" alt=""></div>
+                <div class="item col-4 col-md-3 col-lg-2 mb-3 mb-lg-5"><img class="shadow rounded-circle" src="assets/images/logos/apple-pay.svg" alt=""></div>
+            </div><!--//row-->
+
+            <div class="pt-3 text-center">
+                <a class="btn btn-light" href="#">View Docs<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+            </div>
+        </div>
+    </section><!--//intergration-section-->
+
+
+    <section class="cta-section text-center py-5 theme-bg-dark position-relative">
+        <div class="theme-bg-shapes-right"></div>
+        <div class="theme-bg-shapes-left"></div>
+        <div class="container">
+            <h3 class="mb-2 text-white mb-3">Get Started in No Time</h3>
+            <div class="section-intro text-white mb-3 single-col-max mx-auto">CoderPro makes it super easy to get your software project online, so you can start promoting or selling your digital product to your audience.</div>
+            <div class="pt-3 text-center">
+                <a class="btn btn-light" href="https://themes.3rdwavemedia.com/bootstrap-templates/startup/coderpro-bootstrap-4-startup-template-for-software-projects/">Get Started<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+            </div>
+        </div>
+    </section><!--//cta-section-->
+{/}

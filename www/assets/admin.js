@@ -24,4 +24,4 @@ import 'bootstrap-select/dist/css/bootstrap-select.css';
 import './css/datagrid.css';
 import 'dropzone/dist/dropzone.css';
 import './css/sb-admin-2.css';
-import './css/style.css';
+import './css/admin.css';

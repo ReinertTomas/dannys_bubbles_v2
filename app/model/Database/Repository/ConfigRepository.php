@@ -12,4 +12,9 @@ use App\Model\Database\Entity\Config;
 class ConfigRepository extends AbstractRepository
 {
 
+    public function findOne(): Config
+    {
+        return $this->find(1);
+    }
+
 }

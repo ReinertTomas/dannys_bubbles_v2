@@ -14,8 +14,6 @@ use Nette\Http\Response;
 final class ConfigPresenter extends BaseAdminPresenter
 {
 
-    private int $id = 1;
-
     private Config $config;
 
     /** @inject */
@@ -26,9 +24,9 @@ final class ConfigPresenter extends BaseAdminPresenter
 
     public function actionDefault(): void
     {
-        $this->config = $this->em->getConfigRepository()->find($this->id);
+        $this->config = $this->em->getConfigRepository()->findOne();
         if (!$this->config) {
-            $this->errorNotFoundEntity($this->id);
+            $this->errorNotFoundEntity(1);
         }
 
         /** @var Form $form */
