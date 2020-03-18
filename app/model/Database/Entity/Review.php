@@ -4,14 +4,17 @@ declare(strict_types=1);
 namespace App\Model\Database\Entity;
 
 use App\Model\Database\Entity\Attributes\TActive;
+use App\Model\Database\Entity\Attributes\TCreatedAt;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\ReviewRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Review extends AbstractEntity
 {
 
+    use TCreatedAt;
     use TActive;
 
     /**

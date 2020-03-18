@@ -15,4 +15,19 @@ use App\Model\Database\Entity\Review;
 class ReviewRepository extends AbstractRepository
 {
 
+    /**
+     * @return Review[]
+     */
+    public function findByActivated(): array
+    {
+        $qb = $this->createQueryBuilder('r1');
+        $qb->where($qb->expr()->eq('r1.active', ':active'))
+            ->setParameter('active', true);
+
+        $qb->orderBy('r1.createdAt', 'DESC');
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
 }
