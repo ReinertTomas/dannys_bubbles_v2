@@ -17,19 +17,13 @@ class OfferRepository extends AbstractRepository
 {
 
     /**
-     * @param bool $homepage
      * @return Product[]
      */
-    public function findByActivated(bool $homepage = false): array
+    public function findByActivated(): array
     {
         $qb = $this->createQueryBuilder('o1');
         $qb->where($qb->expr()->eq('o1.active', ':active'))
             ->setParameter('active', true);
-
-        if ($homepage) {
-            $qb->orderBy('o1.id');
-            $qb->setMaxResults(4);
-        }
 
         return $qb->getQuery()
             ->getResult();

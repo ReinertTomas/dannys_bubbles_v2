@@ -18,8 +18,10 @@
             <div class="card shadow mb-4">
                 <img class="card-img-top" src="{$basePath}{$album->hasImages() ? $album->getImageFirst()->getPath() : '/img/blank_album.png'}" alt="Image">
                 <div class="card-body">
-                    <div n:class="badge, $album->isActive() ? badge-primary : badge-danger, badge-md, card-top">
-                        <i n:class="fas, $album->isActive() ? fa-eye : fa-eye-slash"></i> {$album->isActive() ? 'Public' : 'Hidden'}
+                    <div class="card-top">
+                        <span n:class="badge, $album->isActive() ? badge-primary : badge-danger, badge-md">
+                            <i n:class="fas, $album->isActive() ? fa-eye : fa-eye-slash"></i> {$album->isActive() ? 'Public' : 'Hidden'}
+                        </span>
                     </div>
                     <h5 class="text-gray-900 font-weight-bold">{$album->getTitle()}</h5>
                     <p class="card-text">{$album->getText()}</p>

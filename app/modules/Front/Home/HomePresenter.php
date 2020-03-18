@@ -22,7 +22,7 @@ final class HomePresenter extends BaseFrontPresenter
             ->findByActivated(true);
 
         $this->offers = $this->em->getOfferRepository()
-            ->findByActivated(true);
+            ->findByActivated();
     }
 
     public function renderDefault(): void

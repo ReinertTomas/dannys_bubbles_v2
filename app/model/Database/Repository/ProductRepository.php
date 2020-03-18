@@ -17,19 +17,34 @@ class ProductRepository extends AbstractRepository
 {
 
     /**
-     * @param bool $homepage
+     * @param bool $highlight
      * @return Product[]
      */
-    public function findByActivated(bool $homepage = false): array
+    public function findByActivated(bool $highlight = false): array
     {
         $qb = $this->createQueryBuilder('p1');
-        $qb->where($qb->expr()->eq('p1.active', ':active'))
+        $qb->andWhere($qb->expr()->eq('p1.active', ':active'))
             ->setParameter('active', true);
 
-        if ($homepage) {
-            $qb->orderBy('p1.createdAt');
-            $qb->setMaxResults(4);
+        if ($highlight) {
+            $qb->andWhere($qb->expr()->eq('p1.highlight', ':highlight'))
+                ->setParameter('highlight', true)
+                ->setMaxResults(4);
         }
+
+        $qb->orderBy('p1.id');
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Product[]
+     */
+    public function findByHighlighted(): array
+    {
+        $qb = $this->createQueryBuilder('p1');
+        $qb->where($qb->expr()->eq('p1.highlight', ':highlight'))
+            ->setParameter('highlight', true);
 
         return $qb->getQuery()
             ->getResult();

@@ -6,6 +6,7 @@ namespace App\Domain\Product;
 use App\Domain\File\FileFacade;
 use App\Model\Database\Entity\Product;
 use App\Model\Database\EntityManager;
+use App\Model\Exception\Runtime\InvalidStateException;
 use Nette\Http\FileUpload;
 
 class ProductFacade
@@ -58,6 +59,23 @@ class ProductFacade
 
         $this->em->remove($product);
         $this->em->flush();
+    }
+
+    public function toggleHighlight(Product $product): Product
+    {
+        if (!$product->isHighlight()) {
+            $highlights = $this->em->getProductRepository()
+                ->findByHighlighted();
+
+            if (count($highlights) > 3) {
+                throw InvalidStateException::create('Only 4 products can by highlighted.');
+            }
+        }
+
+        $product->toggleHighlight();
+        $this->em->flush();
+
+        return $product;
     }
 
 }

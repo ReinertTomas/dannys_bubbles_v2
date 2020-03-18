@@ -17,8 +17,10 @@
         <div n:foreach="$offers as $offer" class="col-md-3">
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    <div n:class="badge, $offer->isActive() ? badge-primary : badge-danger, badge-md, card-top">
-                        <i n:class="fas, $offer->isActive() ? fa-eye : fa-eye-slash"></i> {$offer->isActive() ? 'Public' : 'Hidden'}
+                    <div class="card-top">
+                        <span n:class="badge, $offer->isActive() ? badge-primary : badge-danger, badge-md">
+                            <i n:class="fas, $offer->isActive() ? fa-eye : fa-eye-slash"></i> {$offer->isActive() ? 'Public' : 'Hidden'}
+                        </span>
                     </div>
                     <div class="text-center mb-4">
                         <img class="img-thumb img-circle shadow" src="{$basePath}{$offer->getImage()->getPath()}" alt="Image">

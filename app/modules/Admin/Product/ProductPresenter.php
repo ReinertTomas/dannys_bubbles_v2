@@ -6,6 +6,7 @@ namespace App\Modules\Admin\Product;
 use App\Domain\Product\ProductFacade;
 use App\Model\App;
 use App\Model\Database\Entity\Product;
+use App\Model\Exception\Runtime\InvalidStateException;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Product\ProductFormFactory;
 use Nette\Application\UI\Form;
@@ -31,11 +32,7 @@ final class ProductPresenter extends BaseAdminPresenter
     public function actionEdit(int $id): void
     {
         $this->id = $id;
-
-        $this->product = $this->em->getProductRepository()->find($this->id);
-        if (!$this->product) {
-            $this->errorNotFoundEntity($this->id);
-        }
+        $this->product = $this->findProduct($id);
 
         /** @var Form $form */
         $form = $this->getComponent('productForm');
@@ -49,10 +46,7 @@ final class ProductPresenter extends BaseAdminPresenter
 
     public function handleDelete(int $id): void
     {
-        $product = $this->em->getProductRepository()->find($id);
-        if (!$product) {
-            $this->errorNotFoundEntity($id);
-        }
+        $product = $this->findProduct($id);
 
         $this->productFacade->remove($product);
         $this->flashSuccess('_message.offer.removed');
@@ -68,10 +62,7 @@ final class ProductPresenter extends BaseAdminPresenter
 
     public function handleToggleActive(int $id): void
     {
-        $product = $this->em->getProductRepository()->find($id);
-        if (!$product) {
-            $this->errorNotFoundEntity($id);
-        }
+        $product = $this->findProduct($id);
 
         $product->toggleActive();
         $this->em->flush();
@@ -79,6 +70,28 @@ final class ProductPresenter extends BaseAdminPresenter
         $this->flashSuccess(
             sprintf('_message.product.%s', $product->isActive() ? 'show' : 'hide')
         );
+
+        if ($this->isAjax()) {
+            $this->redrawFlashes();
+            $this->redrawProducts();
+            $this->setAjaxPostGet();
+        } else {
+            $this->redirect('this');
+        }
+    }
+
+    public function handleToggleHighlight(int $id): void
+    {
+        $product = $this->findProduct($id);
+
+        try {
+            $this->productFacade->toggleHighlight($product);
+            $this->flashSuccess(
+                sprintf('_message.product.%s', $product->isHighlight() ? 'highlight' : 'unhighlight')
+            );
+        } catch (InvalidStateException $e) {
+            $this->flashWarning($e->getMessage());
+        }
 
         if ($this->isAjax()) {
             $this->redrawFlashes();
@@ -111,6 +124,15 @@ final class ProductPresenter extends BaseAdminPresenter
     public function redrawProducts(): void
     {
         $this->redrawControl('products');
+    }
+
+    private function findProduct(int $id): Product
+    {
+        $product = $this->em->getProductRepository()->find($id);
+        if (!$product) {
+            $this->errorNotFoundEntity($id);
+        }
+        return $product;
     }
 
 }

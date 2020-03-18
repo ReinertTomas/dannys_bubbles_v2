@@ -17,22 +17,30 @@
         <div n:foreach="$products as $product" class="col-md-3">
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    <div n:class="badge, $product->isActive() ? badge-primary : badge-danger, badge-md, card-top">
-                        <i n:class="fas, $product->isActive() ? fa-eye : fa-eye-slash"></i> {$product->isActive() ? 'Public' : 'Hidden'}
+                    <div class="card-top">
+                        <div n:class="badge, $product->isActive() ? badge-primary : badge-danger, badge-md, mb-2">
+                            <i n:class="fas, $product->isActive() ? fa-eye : fa-eye-slash"></i> {$product->isActive() ? 'Public' : 'Hidden'}
+                        </div>
+                        <div n:class="badge, $product->isHighlight() ? badge-warning : badge-secondary, badge-md, mb-2">
+                            <i n:class="fas, $product->isHighlight() ? fa-bell : fa-bell-slash"></i> {$product->isHighlight() ? 'Highlight' : 'Unhighlight'}
+                        </div>
                     </div>
                     <div class="text-center mb-4">
-                        <img class="shadow" src="{$basePath}{$product->getImage()->getPath()}" alt="Image" style="width: 150px">
+                        <img class="shadow rounded-circle" src="{$basePath}{$product->getImage()->getPath()}" alt="Image" style="width: 150px">
                     </div>
                     <h5 class="text-gray-900 font-weight-bold">{$product->getTitle()}</h5>
                     <p class="card-text">{$product->getDescription()}</p>
+                    <a n:href="toggleHighlight! $product->getId()" class="ajax btn btn-primary">
+                        <i n:class="fas, $product->isHighlight() ? fa-bell-slash : fa-bell" title="{$product->isHighlight() ? 'Unhighlight' : 'Highlight'}"></i>
+                    </a>
                     <a n:href="toggleActive! $product->getId()" class="ajax btn btn-primary" title="{$product->isActive() ? 'Hide' : 'Show'}">
                         <i n:class="fas, $product->isActive() ? fa-eye-slash : fa-eye"></i>
                     </a>
                     <a n:href=":Admin:Product:edit $product->getId()" class="btn btn-warning" title="Edit">
-                        <i class="fa fa-pencil-alt"></i>
+                        <i class="fas fa-pencil-alt"></i>
                     </a>
                     <a n:href="delete! $product->getId()" class="ajax btn btn-danger" title="Delete">
-                        <i class="fa fa-trash"></i>
+                        <i class="fas fa-trash"></i>
                     </a>
                 </div>
             </div>

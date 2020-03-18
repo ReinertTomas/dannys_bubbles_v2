@@ -6,6 +6,7 @@ namespace App\Model\Database\Entity;
 use App\Model\Database\Entity\Attributes\IFile;
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
+use App\Model\Database\Entity\Attributes\THighlight;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,6 +22,7 @@ class Product extends AbstractEntity implements IFile
     use TCreatedAt;
     use TUpdatedAt;
     use TActive;
+    use THighlight;
 
     /**
      * @ORM\ManyToOne(targetEntity="File", cascade={"remove"})
@@ -50,6 +52,7 @@ class Product extends AbstractEntity implements IFile
         $this->description = $description;
         $this->text = $text;
         $this->active = false;
+        $this->highlight = false;
     }
 
     public function getImage(): File

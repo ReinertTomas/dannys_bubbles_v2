@@ -8,4 +8,9 @@ use App\Model\Exception\RuntimeException;
 final class InvalidStateException extends RuntimeException
 {
 
+    public static function create(string $message): InvalidStateException
+    {
+        return new static($message);
+    }
+
 }

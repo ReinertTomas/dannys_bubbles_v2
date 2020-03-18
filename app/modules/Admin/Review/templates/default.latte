@@ -17,8 +17,10 @@
         <div n:foreach="$reviews as $review" class="col-md-3">
             <div class="card shadow mb-4">
                 <div class="card-body">
-                    <div n:class="badge, $review->isActive() ? badge-primary : badge-danger, badge-md, card-top">
-                        <i n:class="fas, $review->isActive() ? fa-eye : fa-eye-slash"></i> {$review->isActive() ? 'Public' : 'Hidden'}
+                    <div class="card-top">
+                        <span n:class="badge, $review->isActive() ? badge-primary : badge-danger, badge-md">
+                            <i n:class="fas, $review->isActive() ? fa-eye : fa-eye-slash"></i> {$review->isActive() ? 'Public' : 'Hidden'}
+                        </span>
                     </div>
                     <h5 class="text-gray-900 font-weight-bold">{$review->getTitle()}</h5>
                     <h6 n:if="$review->hasAuthor()" class="card-subtitle mb-2 text-gray-900">{$review->getAuthor()}</h6>
