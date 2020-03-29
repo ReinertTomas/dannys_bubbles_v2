@@ -22,19 +22,26 @@
     "homepage": "https://github.com/ReinertTomas/nette-bundle#readme",
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.12.1",
+        "@icon/themify-icons": "^1.0.1-alpha.3",
+        "animate.css": "^3.7.2",
         "bootstrap": "^4.4.1",
         "bootstrap-datepicker": "^1.9.0",
         "bootstrap-select": "^1.13.12",
         "cropperjs": "^1.5.6",
         "dropzone": "^5.7.0",
+        "gijgo": "^1.9.13",
+        "imagesloaded": "^4.1.4",
+        "isotope-layout": "^3.0.6",
         "jquery": "^3.4.1",
         "jquery.easing": "^1.4.1",
+        "magnific-popup": "^1.1.0",
         "naja": "^2.0.0-alpha.1",
         "nette-forms": "^3.0.3",
         "owl.carousel": "^2.3.4",
         "popper.js": "^1.16.1",
         "summernote": "^0.8.16",
-        "ublaboo-datagrid": "^6.2.10"
+        "ublaboo-datagrid": "^6.2.10",
+        "waypoints": "^4.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.8.7",
