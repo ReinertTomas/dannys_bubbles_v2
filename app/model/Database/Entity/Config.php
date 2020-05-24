@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Config
 {
 
-    public const NAMESPACE = 'config';
+    public const NAMESPACE = '/config';
 
     use TId;
     use TUpdatedAt;
