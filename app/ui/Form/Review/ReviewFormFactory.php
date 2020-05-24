@@ -17,30 +17,28 @@ final class ReviewFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(): Form
+    public function create(?Review $review): Form
     {
         $form = $this->formFactory->createSecured();
 
-        $form->addText('title', 'Title')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Title (required)');
+        $form->addText('title', 'Title (required)')
+            ->setRequired();
         $form->addText('author', 'Author')
             ->setNullable();
-        $form->addTextArea('text', 'Text')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Text (required)');
-        $form->addSubmit('submit');
+        $form->addTextArea('text', 'Text (required)')
+            ->setRequired();
+        $form->addSubmit('submit', 'Save');
+        $form->setMappedType(ReviewFormType::class);
+
+        if ($review !== null) {
+            $form->setDefaults([
+                'title' => $review->getTitle(),
+                'author' => $review->getAuthor(),
+                'text' => $review->getText()
+            ]);
+        }
 
         return $form;
-    }
-
-    public function setDefaults(Form $form, Review $review): void
-    {
-        $form->setDefaults([
-            'title' => $review->getTitle(),
-            'author' => $review->getAuthor(),
-            'text' => $review->getText()
-        ]);
     }
 
 }

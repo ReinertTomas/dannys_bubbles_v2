@@ -3,10 +3,17 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\User;
 use App\Model\Database\EntityManager;
 use App\Model\Exception\Logic\InvalidArgumentException;
+use App\Model\File\FileTemporaryFactory;
+use App\Model\File\Image\ImageInitialCreator;
 use App\Model\Security\Passwords;
+use App\UI\Form\Security\PasswordFormType;
+use App\UI\Form\Security\RoleFormType;
+use App\UI\Form\User\RegisterFormType;
+use App\UI\Form\User\UserFormType;
 
 class UserFacade
 {
@@ -15,25 +22,36 @@ class UserFacade
 
     private Passwords $passwords;
 
-    public function __construct(EntityManager $em, Passwords $passwords)
+    private ImageInitialCreator $imageInitialCreator;
+
+    private FileTemporaryFactory $fileTemporaryFactory;
+
+    public function __construct(EntityManager $em, Passwords $passwords, ImageInitialCreator $imageInitialCreator, FileTemporaryFactory $fileTemporaryFactory)
     {
         $this->em = $em;
         $this->passwords = $passwords;
+        $this->imageInitialCreator = $imageInitialCreator;
+        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
-    /**
-     * @param array<string, string> $data
-     * @return User
-     */
-    public function create(array $data): User
+    public function get(int $id): ?User
     {
-        $user = new User(
-            $data['name'],
-            $data['surname'],
-            $data['email'],
-            $this->passwords->hash($data['password'])
+        return $this->em
+            ->getUserRepository()
+            ->find($id);
+    }
+
+    public function create(RegisterFormType $formType): User
+    {
+        $fileInfo = $this->imageInitialCreator->create($formType->name, $formType->surname);
+
+        $user = User::create(
+            Image::create($fileInfo, User::NAMESPACE, false),
+            $formType->name,
+            $formType->surname,
+            $formType->email,
+            $this->passwords->hash($formType->password)
         );
-        $user->setRole($data['role']);
         $user->activate();
 
         $this->em->persist($user);
@@ -42,36 +60,53 @@ class UserFacade
         return $user;
     }
 
-    /**
-     * @param User $user
-     * @param array<string, string> $data
-     * @return User
-     */
-    public function update(User $user, array $data): User
+    public function update(User $user, UserFormType $formType): User
     {
-        $user->setName($data['name']);
-        $user->setSurname($data['surname']);
-        $user->setEmail($data['email']);
-
-        if (isset($data['role'])) {
-            $user->setRole($data['role']);
+        $image = $formType->image;
+        if ($image->hasFile() and $image->isImage()) {
+            $user->changeImage(
+                $this->fileTemporaryFactory->createFromUpload($image)
+            );
         }
 
+        $user->changeName($formType->name);
+        $user->changeSurname($formType->surname);
+        $user->changeEmail($formType->email);
         $this->em->flush();
 
         return $user;
     }
 
-    public function changePassword(User $user, string $oldPassword, string $newPassword): User
+    public function remove(User $user): void
     {
-        if (!$this->passwords->verify($oldPassword, $user->getPassword())) {
-            throw new InvalidArgumentException('User current password is wrong.');
+        $this->em->remove($user);
+        $this->em->flush();
+    }
+
+    public function changeRole(User $user, RoleFormType $formType): void
+    {
+        $user->changeRole($formType->role);
+        $this->em->flush();
+    }
+
+    public function changePassword(User $user, PasswordFormType $formType): User
+    {
+        if (!$this->passwords->verify($formType->passwordOld, $user->getPassword())) {
+            throw new InvalidArgumentException('messages.credentials.wrong');
         }
-        if ($oldPassword === $newPassword) {
-            throw new InvalidArgumentException('Old and new password cannot be same.');
+        if ($formType->passwordOld === $formType->passwordNew) {
+            throw new InvalidArgumentException('messages.password.equal');
         }
 
-        $user->setPassword($this->passwords->hash($newPassword));
+        $user->changePassword($this->passwords->hash($formType->passwordNew));
+        $this->em->flush();
+
+        return $user;
+    }
+
+    public function changeState(User $user, int $state): User
+    {
+        $user->changeState($state);
         $this->em->flush();
 
         return $user;

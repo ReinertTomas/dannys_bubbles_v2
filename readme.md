@@ -26,3 +26,4 @@ Features
 - Datagrid
 - Console
 - Events
+- uuid

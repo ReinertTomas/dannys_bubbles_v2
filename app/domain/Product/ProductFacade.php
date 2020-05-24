@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace App\Domain\Product;
 
-use App\Domain\File\FileFacade;
+use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Product;
 use App\Model\Database\EntityManager;
 use App\Model\Exception\Runtime\InvalidStateException;
+use App\Model\File\FileTemporaryFactory;
 use Nette\Http\FileUpload;
 
 class ProductFacade
@@ -14,20 +15,26 @@ class ProductFacade
 
     private EntityManager $em;
 
-    private FileFacade $fileFacade;
+    private FileTemporaryFactory $fileTemporaryFactory;
 
-    public function __construct(EntityManager $em, FileFacade $fileFacade)
+    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
     {
         $this->em = $em;
-        $this->fileFacade = $fileFacade;
+        $this->fileTemporaryFactory = $fileTemporaryFactory;
+    }
+
+    public function get(int $id): ?Product
+    {
+        return $this->em
+            ->getProductRepository()
+            ->find($id);
     }
 
     public function create(string $title, string $description, string $text, FileUpload $fileUpload): Product
     {
-        $image = $this->fileFacade->createFromHttp($fileUpload, Product::NAMESPACE);
+//        $file = $this->fileTemporaryFactory->createFromUpload($fileUpload);
 
-        $product = new Product(
-            $image,
+        $product = Product::create(
             $title,
             $description,
             $text
@@ -41,10 +48,6 @@ class ProductFacade
 
     public function update(Product $product, string $title, string $description, string $text, FileUpload $fileUpload): Product
     {
-        if ($fileUpload->hasFile()) {
-            $this->fileFacade->update($product->getImage(), $fileUpload, $product->getNamespace());
-        }
-
         $product->setTitle($title);
         $product->setDescription($description);
         $product->setText($text);
@@ -55,8 +58,6 @@ class ProductFacade
 
     public function remove(Product $product): void
     {
-        $this->fileFacade->purge($product->getImage());
-
         $this->em->remove($product);
         $this->em->flush();
     }
@@ -68,7 +69,8 @@ class ProductFacade
                 ->findByHighlighted();
 
             if (count($highlights) > 3) {
-                throw InvalidStateException::create('Only 4 products can by highlighted.');
+                throw InvalidStateException::create()
+                    ->withMessage('Only 4 products can by highlighted.');
             }
         }
 

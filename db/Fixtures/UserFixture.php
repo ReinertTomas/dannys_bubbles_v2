@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace Database\Fixtures;
 
+use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\User;
+use App\Model\File\Image\ImageInitialCreator;
 use App\Model\Security\Passwords;
 use Doctrine\Persistence\ObjectManager;
 
@@ -17,14 +19,22 @@ class UserFixture extends AbstractFixture
 
     public function load(ObjectManager $manager): void
     {
+        /** @var ImageInitialCreator $imageService */
+        $imageService = $this->container->getByType(ImageInitialCreator::class);
+        /** @var Passwords $passwordService */
+        $passwordService = $this->container->getByType(Passwords::class);
+
         foreach ($this->getUsers() as $user) {
-            $entity = new User(
+            $fileInfo = $imageService->create($user['name'], $user['surname']);
+
+            $entity = User::create(
+                Image::create($fileInfo, User::NAMESPACE, false),
                 $user['name'],
                 $user['surname'],
                 $user['email'],
-                $this->container->getByType(Passwords::class)->hash($user['password'])
+                $passwordService->hash($user['password'])
             );
-            $entity->setRole($user['role']);
+            $entity->changeRole($user['role']);
             $entity->activate();
 
             $manager->persist($entity);
@@ -36,7 +46,7 @@ class UserFixture extends AbstractFixture
     {
         yield [
             'name' => 'Admin',
-            'surname' => 'Admin',
+            'surname' => 'Administrator',
             'email' => 'admin@admin.net',
             'password' => 'Admin123!',
             'role' => User::ROLE_ADMIN

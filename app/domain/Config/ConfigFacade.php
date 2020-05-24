@@ -3,51 +3,48 @@ declare(strict_types=1);
 
 namespace App\Domain\Config;
 
-use App\Domain\File\FileFacade;
 use App\Model\Database\Entity\Config;
 use App\Model\Database\EntityManager;
-use App\Model\File\DirectoryManager;
-use Nette\Http\FileUpload;
+use App\Model\File\FileTemporaryFactory;
+use App\UI\Form\Config\ConfigFormType;
 
 class ConfigFacade
 {
 
     private EntityManager $em;
 
-    private DirectoryManager $dm;
+    private FileTemporaryFactory $fileTemporaryFactory;
 
-    private FileFacade $fileFacade;
-
-    public function __construct(EntityManager $em, DirectoryManager $dm, FileFacade $fileFacade)
+    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
     {
         $this->em = $em;
-        $this->dm = $dm;
-        $this->fileFacade = $fileFacade;
+        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
-    public function update(Config $config, array $data): Config
+    public function get(): Config
     {
-        /** @var FileUpload $fileUpload */
-        $fileUpload = $data['condition'];
-        
-        if ($fileUpload->hasFile()) {
-            if ($config->hasCondition()) {
-                $file = $this->fileFacade->update($config->getCondition(), $fileUpload, Config::NAMESPACE);
-            } else {
-                $file = $this->fileFacade->createFromHttp($fileUpload, Config::NAMESPACE);
-            }
-            $config->setCondition($file);
+        return $this->em
+            ->getConfigRepository()
+            ->findOne();
+    }
+
+    public function update(Config $config, ConfigFormType $formType): Config
+    {
+        if ($formType->condition->isOk()) {
+            $config->changeCondition(
+                $this->fileTemporaryFactory->createFromUpload($formType->condition)
+            );
         }
 
-        $config->setName($data['name']);
-        $config->setSurname($data['surname']);
-        $config->setIco($data['ico']);
-        $config->setEmail($data['email']);
-        $config->setWebsite($data['website']);
-        $config->setFacebook($data['facebook']);
-        $config->setInstagram($data['instagram']);
-        $config->setYoutube($data['youtube']);
-        $config->setPromoVideo($data['promoVideo']);
+        $config->setName($formType->name);
+        $config->setSurname($formType->surname);
+        $config->setIco($formType->ico);
+        $config->setEmail($formType->email);
+        $config->setWebsite($formType->website);
+        $config->setFacebook($formType->facebook);
+        $config->setInstagram($formType->instagram);
+        $config->setYoutube($formType->youtube);
+        $config->setPromoVideo($formType->promoVideo);
 
         $this->em->flush();
 

@@ -1,41 +1,28 @@
 {block #heading}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
-            <li n:block="title" class="breadcrumb-item active" aria-current="page">Album</li>
-        </ol>
-    </nav>
+    <div class="row">
+        <div class="col-md-6 col-xs-12 mb-4">
+            <h1 n:block="title" class="h3 mb-0 text-gray-800">Album</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Album</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 col-xs-12 mb-4">
+            <div class="text-md-right pt-3">
+                <a n:href=":Admin:Album:album" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> New Album
+                </a>
+            </div>
+        </div>
+    </div>
 {/}
 
 {block #content}
-    <div class="d-sm-flex justify-content-end mb-3">
-        <a n:href=":Admin:Album:new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> New Album
-        </a>
-    </div>
-    <div n:snippet="albums" class="row">
-        <div n:foreach="$albums as $album" class="col-md-3">
-            <div class="card shadow mb-4">
-                <img class="card-img-top" src="{$basePath}{$album->hasImages() ? $album->getImageFirst()->getPath() : '/img/blank_album.png'}" alt="Image">
-                <div class="card-body">
-                    <div class="card-top">
-                        <span n:class="badge, $album->isActive() ? badge-primary : badge-danger, badge-md">
-                            <i n:class="fas, $album->isActive() ? fa-eye : fa-eye-slash"></i> {$album->isActive() ? 'Public' : 'Hidden'}
-                        </span>
-                    </div>
-                    <h5 class="text-gray-900 font-weight-bold">{$album->getTitle()}</h5>
-                    <p class="card-text">{$album->getText()}</p>
-                    <a n:href="toggleActive! $album->getId()" class="ajax btn btn-primary" title="{$album->isActive() ? 'Hide' : 'Show'}">
-                        <i n:class="fas, $album->isActive() ? fa-eye-slash : fa-eye"></i>
-                    </a>
-                    <a n:href=":Admin:Album:edit $album->getId()" class="btn btn-warning" title="Edit">
-                        <i class="fa fa-pencil-alt"></i>
-                    </a>
-                    <a n:href="delete! $album->getId()" class="ajax btn btn-danger" title="Delete">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </div>
-            </div>
+    <div class="card shadow mb-4">
+        <div class="card-body p-2">
+            {control albumGrid}
         </div>
     </div>
 {/}

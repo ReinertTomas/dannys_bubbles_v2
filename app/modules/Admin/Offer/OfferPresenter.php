@@ -8,14 +8,18 @@ use App\Model\App;
 use App\Model\Database\Entity\Offer;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Offer\OfferFormFactory;
+use App\UI\Form\Offer\OfferFormType;
+use App\UI\Grid\Offer\OfferGridFactory;
 use Nette\Application\UI\Form;
+use Ublaboo\DataGrid\DataGrid;
 
 final class OfferPresenter extends BaseAdminPresenter
 {
 
-    private int $id;
-
     private ?Offer $offer = null;
+
+    /** @inject */
+    public OfferGridFactory $offerGridFactory;
 
     /** @inject */
     public OfferFormFactory $offerFormFactory;
@@ -23,98 +27,87 @@ final class OfferPresenter extends BaseAdminPresenter
     /** @inject */
     public OfferFacade $offerFacade;
 
-    public function renderDefault(): void
+    public function actionOffer(?int $id): void
     {
-        $this->template->offers = $this->em->getOfferRepository()->findAll();
-    }
-
-    public function actionEdit(int $id): void
-    {
-        $this->id = $id;
-
-        $this->offer = $this->em->getOfferRepository()->find($this->id);
-        if (!$this->offer) {
-            $this->errorNotFoundEntity($this->id);
+        if ($id !== null) {
+            $this->offer = $this->em->getOfferRepository()->find($id);
+            if ($this->offer === null) {
+                $this->errorNotFoundEntity($id);
+            }
         }
-
-        /** @var Form $form */
-        $form = $this->getComponent('offerForm');
-        $this->offerFormFactory->setDefaults($form, $this->offer);
     }
 
-    public function renderEdit(int $id): void
+    public function actionDelete(int $id): void
     {
-        $this->template->offer = $this->offer;
-    }
-
-    public function handleDelete(int $id): void
-    {
-        $offer = $this->em->getOfferRepository()->find($id);
-        if (!$offer) {
+        $offer = $this->offerFacade->get($id);
+        if ($offer === null) {
             $this->errorNotFoundEntity($id);
         }
 
         $this->offerFacade->remove($offer);
-        $this->flashSuccess('_message.offer.removed');
+        $this->flashSuccess('messages.offer.remove');
 
         if ($this->isAjax()) {
             $this->redrawFlashes();
-            $this->redrawOffers();
+            $this->getOfferGrid()->reload();
             $this->setAjaxPostGet();
         } else {
-            $this->redirect('this');
+            $this->redirect(App::ADMIN_OFFER);
         }
     }
 
-    public function handleToggleActive(int $id): void
+    protected function beforeRender(): void
     {
-        $offer = $this->em->getOfferRepository()->find($id);
-        if (!$offer) {
-            $this->errorNotFoundEntity($id);
-        }
+        parent::beforeRender();
+        $this->template->offer = $this->offer;
+    }
 
-        $offer->toggleActive();
-        $this->em->flush();
+    protected function createComponentOfferGrid(string $name): DataGrid
+    {
+        return $this->offerGridFactory->create($this, $name, function ($id, $value): void {
+            $id = (int)$id;
+            $offer = $this->offerFacade->get($id);
+            if ($offer === null) {
+                $this->errorNotFoundEntity($id);
+            }
 
-        $this->flashSuccess(
-            sprintf('_message.offer.%s', $offer->isActive() ? 'show' : 'hide')
-        );
+            $this->offerFacade->changeActive($offer, (bool)$value);
+            $this->flashSuccess(
+                sprintf('messages.offer.%s', $offer->isActive() ? 'show' : 'hide')
+            );
 
-        if ($this->isAjax()) {
-            $this->redrawFlashes();
-            $this->redrawOffers();
-            $this->setAjaxPostGet();
-        } else {
-            $this->redirect('this');
-        }
+            if ($this->isAjax()) {
+                $this->redrawFlashes();
+                $this->getOfferGrid()
+                    ->reload();
+                $this->setAjaxPostGet();
+            } else {
+                $this->redirect('this');
+            }
+        });
     }
 
     protected function createComponentOfferForm(): Form
     {
-        $form = $this->offerFormFactory->create();
-
-        $form->onSuccess[] = function (Form $form): void {
-            $values = (array)$form->getValues();
-
-            if ($this->offer) {
-                $this->offerFacade->update($this->offer, $values['title'], $values['text'], $values['image']);
-
-                $this->flashSuccess('_message.offer.updated');
-                $this->redirect('this');
+        $form = $this->offerFormFactory->create($this->offer);
+        $form->onSuccess[] = function (Form $form, OfferFormType $formType): void {
+            if ($this->offer === null) {
+                $this->offer = $this->offerFacade->create($formType);
+                $this->flashSuccess('messages.offer.created');
             } else {
-                $this->offerFacade->create($values['title'], $values['text'], $values['image']);
-
-                $this->flashSuccess('_message.offer.created');
-                $this->redirect(App::ADMIN_OFFER);
+                $this->offerFacade->update($this->offer, $formType);
+                $this->flashSuccess('messages.offer.updated');
             }
+            $this->redirect('this', $this->offer->getId());
         };
-
         return $form;
     }
 
-    public function redrawOffers(): void
+    private function getOfferGrid(): DataGrid
     {
-        $this->redrawControl('offers');
+        /** @var DataGrid $grid */
+        $grid = $this['offerGrid'];
+        return $grid;
     }
 
 }

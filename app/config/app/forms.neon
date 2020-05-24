@@ -11,10 +11,11 @@ services:
 
     # Security
     - App\UI\Form\Security\PasswordFormFactory
+    - App\UI\Form\Security\RoleFormFactory
 
     # User
-    - App\UI\Form\User\NewUserFormFactory
-    - App\UI\Form\User\EditUserFormFactory
+    - App\UI\Form\User\RegisterFormFactory
+    - App\UI\Form\User\UserFormFactory
 
     # Offer
     - App\UI\Form\Offer\OfferFormFactory

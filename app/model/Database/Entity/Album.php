@@ -3,24 +3,26 @@ declare(strict_types=1);
 
 namespace App\Model\Database\Entity;
 
-
-use App\Model\Database\Entity\Attributes\IFile;
+use App\Model\Database\Entity\Attributes\INamespace;
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
+use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\AlbumRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Album extends AbstractEntity implements IFile
+class Album implements INamespace
 {
 
     public const NAMESPACE = 'album';
 
+    use TId;
     use TCreatedAt;
     use TUpdatedAt;
     use TActive;
@@ -31,17 +33,13 @@ class Album extends AbstractEntity implements IFile
     protected string $title;
 
     /**
-     * @ORM\Column(type="string", length=128)
+     * @ORM\Column(type="string", length=255)
      */
     protected string $text;
 
     /**
-     * @var Collection<int, File>
-     * @ORM\ManyToMany(targetEntity="File")
-     * @ORM\JoinTable(name="album_has_file",
-     *     joinColumns={@ORM\JoinColumn(name="album_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id")}
-     * )
+     * @var Collection<int, AlbumHasImage>
+     * @ORM\OneToMany(targetEntity="AlbumHasImage", mappedBy="album")
      */
     protected Collection $images;
 
@@ -51,6 +49,11 @@ class Album extends AbstractEntity implements IFile
         $this->text = $text;
         $this->active = false;
         $this->images = new ArrayCollection();
+    }
+
+    public static function create(string $title, string $text): Album
+    {
+        return new Album($title, $text);
     }
 
     public function getTitle(): string
@@ -74,19 +77,30 @@ class Album extends AbstractEntity implements IFile
     }
 
     /**
-     * @return Collection<int, File>
+     * @return AlbumHasImage[]
      */
-    public function getImages(): Collection
+    public function getImages(): array
     {
-        return $this->images;
+        return $this->images->toArray();
     }
 
-    public function addImage(File $image): void
+    public function getImageFirst(): ?AlbumHasImage
     {
-        $this->images[] = $image;
+        if ($this->images->isEmpty()) {
+            return null;
+        }
+        $image = $this->images
+            ->first();
+        return $image !== false
+            ? $image : null;
     }
 
-    public function removeImage(File $image): void
+    public function addImage(AlbumHasImage $image): void
+    {
+        $this->images->add($image);
+    }
+
+    public function removeImage(AlbumHasImage $image): void
     {
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
@@ -98,9 +112,20 @@ class Album extends AbstractEntity implements IFile
         return !$this->images->isEmpty();
     }
 
-    public function getImageFirst(): ?File
+    public function getCover(): ?AlbumHasImage
     {
-        return $this->images->isEmpty() ? null : $this->images->first();
+        if ($this->images->isEmpty()) {
+            return null;
+        }
+
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('cover', true));
+        $image = $this->images
+            ->matching($criteria)
+            ->first();
+
+        return $image !== false
+            ? $image : null;
     }
 
     public function getNamespace(): string

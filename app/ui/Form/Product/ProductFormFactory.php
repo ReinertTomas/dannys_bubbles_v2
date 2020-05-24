@@ -27,14 +27,14 @@ final class ProductFormFactory
         $form->addTextArea('description', 'Description')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Description (required)')
-            ->addRule(Form::MAX_LENGTH, '_message.form.maxLength %s', 255);
+            ->addRule(Form::MAX_LENGTH, 'messages.form.maxLength %s', 255);
         $form->addTextArea('text', 'Text')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Text (required)');
         $form->addUpload('image', 'Image')
             ->setRequired()
-            ->addRule(Form::IMAGE, '_message.form.only.image')
-            ->addRule(Form::MAX_FILE_SIZE, '_message.form.upload.max 4MB.', 4 * 1024 * 1024);
+            ->addRule(Form::IMAGE, 'messages.form.only.image')
+            ->addRule(Form::MAX_FILE_SIZE, 'messages.form.upload.max 4MB.', 4 * 1024 * 1024);
         $form->addSubmit('submit');
 
         return $form;

@@ -3,25 +3,28 @@ declare(strict_types=1);
 
 namespace App\Model\Database\Entity;
 
+use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
+use App\Model\File\FileInfoInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\ConfigRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Config extends AbstractEntity
+class Config
 {
 
     public const NAMESPACE = 'config';
 
+    use TId;
     use TUpdatedAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="File", cascade={"remove"})
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=TRUE)
      */
-    protected ?File $condition;
+    protected ?Document $condition;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -73,14 +76,18 @@ class Config extends AbstractEntity
      */
     protected string $promoImage;
 
-    public function getCondition(): ?File
+    public function getCondition(): ?Document
     {
         return $this->condition;
     }
 
-    public function setCondition(File $condition): void
+    public function changeCondition(FileInfoInterface $file): void
     {
-        $this->condition = $condition;
+        if ($this->condition === null) {
+            $this->condition = Document::create($file, self::NAMESPACE);
+        } else {
+            $this->condition->update($file);
+        }
     }
 
     public function hasCondition(): bool

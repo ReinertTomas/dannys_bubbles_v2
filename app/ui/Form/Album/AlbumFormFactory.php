@@ -17,28 +17,26 @@ final class AlbumFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(): Form
+    public function create(?Album $album): Form
     {
         $form = $this->formFactory->createSecured();
 
-        $form->addText('title', 'Title')
+        $form->addText('title', 'Title (required)')
+            ->setRequired();
+        $form->addTextArea('text', 'Text (required)')
             ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Title (required)');
-        $form->addTextArea('text', 'Text')
-            ->setRequired()
-            ->addRule(Form::MAX_LENGTH, '_message.form.maxLength %s', 128)
-            ->setHtmlAttribute('placeholder', 'Text (required)');
-        $form->addSubmit('submit');
+            ->addRule(Form::MAX_LENGTH, 'messages.form.maxLength %s', 255);
+        $form->addSubmit('submit', 'Save');
+        $form->setMappedType(AlbumFormType::class);
 
-        return $form;
-    }
-
-    public function setDefaults(Form $form, Album $album): void
-    {
-        $form->setDefaults([
+        if ($album !== null) {
+            $form->setDefaults([
                 'title' => $album->getTitle(),
                 'text' => $album->getText()
-        ]);
+            ]);
+        }
+
+        return $form;
     }
 
 }

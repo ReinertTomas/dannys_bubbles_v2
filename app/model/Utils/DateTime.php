@@ -11,4 +11,6 @@ use Contributte\Utils\DateTime as ContributteDateTime;
 final class DateTime extends ContributteDateTime
 {
 
+    public const FORMAT_USER = 'd.m.Y H:m';
+
 }

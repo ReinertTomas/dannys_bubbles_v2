@@ -18,7 +18,7 @@ class SignInFormFactory
 
     public function create(): Form
     {
-        $form = $this->formFactory->create();
+        $form = $this->formFactory->createUnsecured();
 
         $form->addEmail('email')
             ->setRequired();
@@ -26,6 +26,7 @@ class SignInFormFactory
         $form->addCheckbox('remember', 'Remember me')
             ->setDefaultValue(true);
         $form->addSubmit('submit', 'Sign in');
+        $form->setMappedType(SignInFormType::class);
 
         return $form;
     }

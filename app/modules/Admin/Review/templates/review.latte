@@ -1,0 +1,36 @@
+{block #heading}
+    <div class="mb-4">
+        <h1 n:block="title" class="h3 mb-0 text-gray-800">Review</h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+                <li class="breadcrumb-item"><a n:href=":Admin:Review:">Review</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{$review ? 'Edit' : 'New'}</li>
+            </ol>
+        </nav>
+    </div>
+{/}
+
+{block #content}
+    <div class="container p-0">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {form reviewForm}
+                    <div class="mb-3">
+                        {label title/}
+                        {input title 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label author/}
+                        {input author 'class' => 'form-control'}
+                    </div>
+                    <div class="mb-3">
+                        {label text/}
+                        {input text 'class' => 'form-control', 'rows' => '4'}
+                    </div>
+                    {input submit 'class' => 'btn btn-primary'}
+                {/form}
+            </div>
+        </div>
+    </div>
+{/}

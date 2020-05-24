@@ -1,49 +1,28 @@
 {block #heading}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
-            <li n:block="title" class="breadcrumb-item active" aria-current="page">Product</li>
-        </ol>
-    </nav>
+    <div class="row">
+        <div class="col-md-6 col-xs-12 mb-4">
+            <h1 n:block="title" class="h3 mb-0 text-gray-800">Product</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Product</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-6 col-xs-12 mb-4">
+            <div class="text-md-right pt-3">
+                <a n:href=":Admin:Product:new" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> New Product
+                </a>
+            </div>
+        </div>
+    </div>
 {/}
 
 {block #content}
-    <div class="d-sm-flex justify-content-end mb-3">
-        <a n:href=":Admin:Product:new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> New Product
-        </a>
-    </div>
-    <div n:snippet="products" class="row">
-        <div n:foreach="$products as $product" class="col-md-3">
-            <div class="card shadow mb-4">
-                <div class="card-body">
-                    <div class="card-top">
-                        <div n:class="badge, $product->isActive() ? badge-primary : badge-danger, badge-md, mb-2">
-                            <i n:class="fas, $product->isActive() ? fa-eye : fa-eye-slash"></i> {$product->isActive() ? 'Public' : 'Hidden'}
-                        </div>
-                        <div n:class="badge, $product->isHighlight() ? badge-warning : badge-secondary, badge-md, mb-2">
-                            <i n:class="fas, $product->isHighlight() ? fa-bell : fa-bell-slash"></i> {$product->isHighlight() ? 'Highlight' : 'Unhighlight'}
-                        </div>
-                    </div>
-                    <div class="text-center mb-4">
-                        <img class="shadow rounded-circle" src="{$basePath}{$product->getImage()->getPath()}" alt="Image" style="width: 150px">
-                    </div>
-                    <h5 class="text-gray-900 font-weight-bold">{$product->getTitle()}</h5>
-                    <p class="card-text">{$product->getDescription()}</p>
-                    <a n:href="toggleHighlight! $product->getId()" class="ajax btn btn-primary">
-                        <i n:class="fas, $product->isHighlight() ? fa-bell-slash : fa-bell" title="{$product->isHighlight() ? 'Unhighlight' : 'Highlight'}"></i>
-                    </a>
-                    <a n:href="toggleActive! $product->getId()" class="ajax btn btn-primary" title="{$product->isActive() ? 'Hide' : 'Show'}">
-                        <i n:class="fas, $product->isActive() ? fa-eye-slash : fa-eye"></i>
-                    </a>
-                    <a n:href=":Admin:Product:edit $product->getId()" class="btn btn-warning" title="Edit">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
-                    <a n:href="delete! $product->getId()" class="ajax btn btn-danger" title="Delete">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                </div>
-            </div>
+    <div class="card shadow mb-4">
+        <div class="card-body p-2">
+            {control productGrid}
         </div>
     </div>
 {/}

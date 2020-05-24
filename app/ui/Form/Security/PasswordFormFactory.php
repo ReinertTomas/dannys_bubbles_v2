@@ -17,7 +17,11 @@ class PasswordFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(): Form
+    /**
+     * @param callable(Form, PasswordFormType): void $onSuccess
+     * @return Form
+     */
+    public function create(callable $onSuccess): Form
     {
         $form = $this->formFactory->createSecured();
 
@@ -33,7 +37,9 @@ class PasswordFormFactory
             ->setRequired()
             ->setOmitted()
             ->addRule(Form::EQUAL, 'Passwords are different.', $form['passwordNew']);
-        $form->addSubmit('submit', 'Change Password');
+        $form->addSubmit('submit', 'Save');
+        $form->setMappedType(PasswordFormType::class);
+        $form->onSuccess[] = $onSuccess;
 
         return $form;
     }

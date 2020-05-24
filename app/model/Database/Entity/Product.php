@@ -3,32 +3,29 @@ declare(strict_types=1);
 
 namespace App\Model\Database\Entity;
 
-use App\Model\Database\Entity\Attributes\IFile;
+use App\Model\Database\Entity\Attributes\INamespace;
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
 use App\Model\Database\Entity\Attributes\THighlight;
+use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\ProductRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Product extends AbstractEntity implements IFile
+class Product implements INamespace
 {
 
     public const NAMESPACE = 'product';
 
+    use TId;
     use TCreatedAt;
     use TUpdatedAt;
     use TActive;
     use THighlight;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="File", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=FALSE)
-     */
-    protected File $image;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -45,9 +42,8 @@ class Product extends AbstractEntity implements IFile
      */
     protected string $text;
 
-    public function __construct(File $image, string $title, string $description, string $text)
+    public function __construct(string $title, string $description, string $text)
     {
-        $this->image = $image;
         $this->title = $title;
         $this->description = $description;
         $this->text = $text;
@@ -55,14 +51,9 @@ class Product extends AbstractEntity implements IFile
         $this->highlight = false;
     }
 
-    public function getImage(): File
+    public static function create(string $title, string $description, string $text): Product
     {
-        return $this->image;
-    }
-
-    public function setImage(File $image): void
-    {
-        $this->image = $image;
+        return new Product($title, $description, $text);
     }
 
     public function getTitle(): string

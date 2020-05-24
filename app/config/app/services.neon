@@ -19,12 +19,18 @@ services:
 
 
 	# Model ===================
-	- App\Model\File\DirectoryManager(%appDir%, %dir.upload%, %dir.files%)
 
+	## File
+	- App\Model\File\DirectoryManager(%appDir%)
+	- App\Model\File\FileTemporaryFactory(%tempDir%)
+	- App\Model\File\Image\ImageInitialCreator
+
+	## Element
+	- App\Model\Element\Active
 
 	# Control ===================
-	- App\UI\Control\Dropzone\DropzoneFactory
-
+	- App\UI\Control\Dropzone\IDropzoneFactory
+	- App\UI\Control\Album\IAlbumControlFactory
 
 	# Console ================
 	- {class: App\Model\Console\HelloCommand, tags: {console.command: hello}}
@@ -33,11 +39,10 @@ services:
 	# Domain =================
 	- App\Domain\Order\OrderLogSubscriber
 
-	## File
-	- App\Domain\File\FileFacade
-
 	## User
 	- App\Domain\User\UserFacade
+	- App\Domain\User\Element\States
+	- App\Domain\User\Element\Roles
 
 	## Offer
 	- App\Domain\Offer\OfferFacade

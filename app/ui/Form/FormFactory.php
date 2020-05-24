@@ -8,14 +8,14 @@ use Nette\Application\UI\Form;
 class FormFactory
 {
 
-    public function create(): Form
+    public function createUnsecured(): Form
     {
         return new Form();
     }
 
     public function createSecured(): Form
     {
-        $form = $this->create();
+        $form = $this->createUnsecured();
         $form->addProtection();
 
         return $form;

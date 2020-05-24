@@ -20,6 +20,7 @@ abstract class BaseErrorPresenter extends UnsecuredPresenter
 
     public function __construct(ILogger $logger)
     {
+        parent::__construct();
         $this->logger = $logger;
     }
 
@@ -47,7 +48,7 @@ abstract class BaseErrorPresenter extends UnsecuredPresenter
 
         return new CallbackResponse(function (IRequest $httpRequest, IResponse $httpResponse): void {
             $header = $httpResponse->getHeader('Content-Type');
-            if ($header !== null && preg_match('#^text/html(?:;|$)#', $header)) {
+            if ($header !== null && preg_match('#^text/html(?:;|$)#', $header) !== false) {
                 require __DIR__ . '/templates/500.phtml';
             }
         });

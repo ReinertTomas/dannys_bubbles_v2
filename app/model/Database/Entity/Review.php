@@ -5,15 +5,17 @@ namespace App\Model\Database\Entity;
 
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
+use App\Model\Database\Entity\Attributes\TId;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\ReviewRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Review extends AbstractEntity
+class Review
 {
 
+    use TId;
     use TCreatedAt;
     use TActive;
 
@@ -32,12 +34,17 @@ class Review extends AbstractEntity
      */
     protected ?string $author;
 
-    public function __construct(string $title, string $text, ?string $author = null)
+    public function __construct(string $title, string $text, ?string $author)
     {
         $this->title = $title;
         $this->text = $text;
         $this->author = $author;
         $this->active = false;
+    }
+
+    public static function create(string $title, string $text, ?string $author = null): Review
+    {
+        return new Review($title, $text, $author);
     }
 
     public function getTitle(): string

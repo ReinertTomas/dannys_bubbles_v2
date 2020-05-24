@@ -1,10 +1,11 @@
 {block #heading}
-    <nav aria-label="breadcrumb">
+    <div class="mb-4">
+        <h1 n:block="title" class="h3 mb-0 text-gray-800">Config</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
-            <li n:block="title" class="breadcrumb-item active" aria-current="page">Config</li>
+            <li class="breadcrumb-item active" aria-current="page">Config</li>
         </ol>
-    </nav>
+    </div>
 {/}
 
 {block #content}
@@ -52,7 +53,7 @@
                     <div class="mb-3">
                         {label condition/}
                         {input condition 'class' => 'form-control border-0 mb-3'}
-                        <a n:href="downloadCondition!">Download</a>
+                        <a n:if="$config->hasCondition()" n:href="downloadCondition!">Download</a>
                     </div>
                     <h5 class="h5 text-gray-900 font-weight-bold">Others</h5>
                     <div class="mb-3">

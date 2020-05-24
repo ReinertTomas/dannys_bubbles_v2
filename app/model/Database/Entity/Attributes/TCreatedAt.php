@@ -22,10 +22,8 @@ trait TCreatedAt
     }
 
     /**
-     * Doctrine annotation
-     *
-     * @ORM\PrePersist
      * @internal
+     * @ORM\PrePersist
      */
     public function setCreatedAt(): void
     {

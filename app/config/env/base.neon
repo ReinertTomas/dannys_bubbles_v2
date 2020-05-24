@@ -17,6 +17,7 @@ php:
 session:
     expiration: 14 days
     cookieSamesite: Lax
+    savePath: "%tempDir%/sessions"
 
 application:
 	catchExceptions: %productionMode%

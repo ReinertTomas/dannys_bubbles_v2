@@ -6,6 +6,7 @@ namespace App\Modules\Admin\Sign;
 use App\Model\App;
 use App\Modules\Base\UnsecuredPresenter;
 use App\UI\Form\Security\SignInFormFactory;
+use App\UI\Form\Security\SignInFormType;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
 
@@ -34,21 +35,16 @@ class SignPresenter extends UnsecuredPresenter
     protected function createComponentSignInForm(): Form
     {
         $form = $this->signInFormFactory->create();
-
-        $form->onSuccess[] = function (Form $form): void {
-            $values = $form->getValues();
-
+        $form->onSuccess[] = function (Form $form, SignInFormType $formType): void {
             try {
-                $this->user->setExpiration($values->remember ? '14 days' : '30 minutes');
-                $this->user->login($values->email, $values->password);
+                $this->user->setExpiration($formType->remember ? '14 days' : '30 minutes');
+                $this->user->login($formType->email, $formType->password);
             } catch (AuthenticationException $e) {
-                $form->addError('Invalid email or password');
+                $form->addError('messages.credential.invalid');
                 return;
             }
-
             $this->redirect(App::DESTINATION_AFTER_SIGN_IN);
         };
-
         return $form;
     }
 

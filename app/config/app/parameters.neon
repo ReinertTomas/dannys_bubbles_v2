@@ -12,11 +12,6 @@ parameters:
 	project:
 		rev: "1.0.0"
 
-	# File
-	dir:
-	    upload: /upload
-	    files: /files
-
 	# Mailing
 	mailing:
 		from: test@localhost

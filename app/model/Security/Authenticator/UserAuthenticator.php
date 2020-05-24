@@ -24,7 +24,7 @@ final class UserAuthenticator implements IAuthenticator
     }
 
     /**
-     * @param array<string> $credentials
+     * @param array<mixed> $credentials
      * @return IIdentity
      * @throws AuthenticationException
      */
@@ -33,12 +33,12 @@ final class UserAuthenticator implements IAuthenticator
         [$email, $password] = $credentials;
 
         $user = $this->em->getUserRepository()->findOneByEmail($email);
-        if (!$user) {
-            throw new AuthenticationException('The email is incorrect.', self::IDENTITY_NOT_FOUND);
+        if ($user === null) {
+            throw new AuthenticationException('messages.credential.invalid', self::IDENTITY_NOT_FOUND);
         } elseif (!$user->isActivated()) {
-            throw new AuthenticationException('The user is not active.', self::INVALID_CREDENTIAL);
+            throw new AuthenticationException('messages.user.notActivated', self::INVALID_CREDENTIAL);
         } elseif (!$this->passwords->verify($password, $user->getPassword())) {
-            throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
+            throw new AuthenticationException('messages.credential.invalid', self::INVALID_CREDENTIAL);
         }
 
         return $this->createIdentity($user);

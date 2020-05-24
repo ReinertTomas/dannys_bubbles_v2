@@ -1,5 +1,6 @@
 import 'summernote/dist/summernote-bs4.css'
 import summernote from 'summernote';
+import lightbox2 from 'lightbox2';
 
 (function ($) {
     "use strict"; // Start of use strict
@@ -87,4 +88,4 @@ import summernote from 'summernote';
         $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
     });
 
-})(jQuery, summernote); // End of use strict
+})(jQuery, summernote, lightbox2); // End of use strict

@@ -14,7 +14,7 @@ trait TError
 
     public function errorNotFoundEntity(int $id): void
     {
-        $this->error(sprintf('_message.entity.notfound "%d"', $id), IResponse::S404_NOT_FOUND);
+        $this->error(sprintf('messages.entity.notfound "%d"', $id), IResponse::S404_NOT_FOUND);
     }
 
 }

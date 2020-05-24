@@ -36,9 +36,29 @@
     flex-direction: column;
 }
 
-.img-thumb {
+.img-thumb-xs {
+    width: 32px;
+    height: 32px;
+}
+
+.img-thumb-sm {
+    width: 64px;
+    height: 64px;
+}
+
+.img-thumb-md {
+    width: 96px;
+    height: 96px;
+}
+
+.img-thumb-lg {
     width: 150px;
     height: 150px;
+}
+
+.img-thumb-xl {
+    width: 200px;
+    height: 200px;
 }
 
 .img-circle {
@@ -51,4 +71,47 @@
 
 .img-input img[data-image] {
     cursor: pointer;
+}
+
+.img-container {
+    position: relative;
+}
+
+.img-container .img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.5s ease;
+}
+
+.img-container:hover .img-overlay {
+    display: block;
+    background: rgba(0, 0, 0, .3);
+}
+
+.img-container .img-group-btn {
+    position: absolute;
+    width: 100%;
+    left:0;
+    top: 37%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity .35s ease;
+}
+
+.img-container .img-group-btn a {
+    z-index: 1;
+}
+
+.img-container:hover .img-group-btn {
+    opacity: 1;
+}
+
+.breadcrumb {
+    margin: 0;
+    padding: 0 0 0 0.1rem;
+    background-color: transparent;
 }

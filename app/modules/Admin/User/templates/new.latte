@@ -1,74 +1,62 @@
 {block #heading}
-    <nav aria-label="breadcrumb">
+    <div class="mb-4">
+        <h1 n:block="title" class="h3 mb-0 text-gray-800">User</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
-            <li n:block="title" class="breadcrumb-item"><a n:href=":Admin:User:">User</a></li>
+            <li class="breadcrumb-item"><a n:href=":Admin:User:">User</a></li>
             <li class="breadcrumb-item active" aria-current="page">New</li>
         </ol>
-    </nav>
+    </div>
 {/}
 
 {block #content}
-    <div class="container">
-        {form newUserForm}
-            <h4 class="mb-3">Profile</h4>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    {label name}
-                    {input name 'class' => 'form-control'}
-                    <div class="invalid-feedback">
-                        Valid name is required.
+    <div class="container px-0">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {form registerForm}
+                    <div class="mb-3">
+                        {label name /}
+                        {input name 'class' => 'form-control'}
+                        <div class="invalid-feedback">
+                            Valid name is required.
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    {label surname}
-                    {input surname 'class' => 'form-control'}
-                    <div class="invalid-feedback">
-                        Valid surname is required.
+                    <div class="mb-3">
+                        {label surname /}
+                        {input surname 'class' => 'form-control'}
+                        <div class="invalid-feedback">
+                            Valid surname is required.
+                        </div>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        {label email /}
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            {input email 'class' => 'form-control'}
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {label password /}
+                        {input password 'class' => 'form-control'}
+                        <div class="invalid-feedback">
+                            Valid password is required.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {label passwordConfirm /}
+                        {input passwordConfirm 'class' => 'form-control'}
+                        <div class="invalid-feedback">
+                            Valid password confirm is required.
+                        </div>
+                    </div>
+                    {input submit 'class' => 'btn btn-primary'}
+                {/form}
             </div>
-            <div class="mb-3">
-                {label email}
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">@</span>
-                    </div>
-                    {input email 'class' => 'form-control'}
-                    <div class="invalid-feedback" style="width: 100%;">
-                        Please enter a valid email address.
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 mb-3">
-                    {label role}
-                    {input role 'class' => 'custom-select d-block w-100'}
-                    <div class="invalid-feedback">
-                        Please select a valid role.
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4">
-            <h4 class="mb-3">Password</h4>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    {label password}
-                    {input password 'class' => 'form-control'}
-                    <div class="invalid-feedback">
-                        Valid password is required.
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    {label passwordConfirm}
-                    {input passwordConfirm 'class' => 'form-control'}
-                    <div class="invalid-feedback">
-                        Valid password confirm is required.
-                    </div>
-                </div>
-            </div>
-            <hr class="mb-4">
-            {input submit 'class' => 'btn btn-primary'}
-        {/form}
+        </div>
     </div>
 {/}

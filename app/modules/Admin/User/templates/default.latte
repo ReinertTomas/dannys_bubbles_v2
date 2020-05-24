@@ -1,23 +1,26 @@
 {block #heading}
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
-            <li n:block="title" class="breadcrumb-item active" aria-current="page">User</li>
-        </ol>
-    </nav>
-    <div class="d-sm-flex justify-content-end mb-3">
-        <a n:href=":Admin:User:new" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-            <i class="fas fa-user-plus fa-sm text-white-50"></i> New User
-        </a>
+    <div class="row">
+        <div class="col-md-6 col-xs-12 mb-4">
+            <h1 n:block="title" class="h3 mb-0 text-gray-800">User</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">User</li>
+            </ol>
+        </div>
+        <div class="col-md-6 col-xs-12 mb-4">
+            <div class="text-md-right pt-3">
+                <a n:href=":Admin:User:new" class="btn btn-sm btn-primary shadow-sm">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> New User
+                </a>
+            </div>
+        </div>
     </div>
 {/}
 
 {block #content}
     <div class="card shadow mb-4">
-        <div class="card-body">
-            <div class="table-responsive">
-                {control usersGrid}
-            </div>
+        <div class="card-body p-2">
+            {control userGrid}
         </div>
     </div>
 {/}

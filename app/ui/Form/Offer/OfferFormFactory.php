@@ -18,7 +18,7 @@ final class OfferFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(): Form
+    public function create(?Offer $offer): Form
     {
         $form = $this->formFactory->createSecured();
 
@@ -26,25 +26,22 @@ final class OfferFormFactory
             ->setRequired();
         $form->addTextArea('text', 'Text')
             ->setRequired();
-        $form->addUpload('image', 'Image')
+        $image = $form
+            ->addUpload('image', 'Image')
             ->setRequired()
             ->addRule(Form::IMAGE, 'Select only images');
-
         $form->addSubmit('submit');
+        $form->setMappedType(OfferFormType::class);
+
+        if ($offer !== null) {
+            $image->setRequired(false);
+            $form->setDefaults([
+                'title' => $offer->getTitle(),
+                'text' => $offer->getText()
+            ]);
+        }
 
         return $form;
-    }
-
-    public function setDefaults(Form $form, Offer $offer): void
-    {
-        /** @var UploadControl $uploadControl */
-        $uploadControl = $form->getComponent('image');
-        $uploadControl->setRequired(false);
-
-        $form->setDefaults([
-            'title' => $offer->getTitle(),
-            'text' => $offer->getText()
-        ]);
     }
 
 }

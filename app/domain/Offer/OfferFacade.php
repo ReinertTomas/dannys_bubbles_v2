@@ -3,41 +3,45 @@ declare(strict_types=1);
 
 namespace App\Domain\Offer;
 
-use App\Domain\File\FileFacade;
+use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\EntityManager;
-use App\Model\Exception\Runtime\FileUploadException;
-use App\Model\File\DirectoryManager;
-use Nette\Http\FileUpload;
+use App\Model\Exception\Runtime\UploadException;
+use App\Model\File\FileTemporaryFactory;
+use App\UI\Form\Offer\OfferFormType;
 
 final class OfferFacade
 {
 
     private EntityManager $em;
 
-    private DirectoryManager $dm;
+    private FileTemporaryFactory $fileTemporaryFactory;
 
-    private FileFacade $fileFacade;
-
-    public function __construct(EntityManager $em, DirectoryManager $dm, FileFacade $fileFacade)
+    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
     {
         $this->em = $em;
-        $this->dm = $dm;
-        $this->fileFacade = $fileFacade;
+        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
-    public function create(string $title, string $text, FileUpload $fileUpload): Offer
+    public function get(int $id): ?Offer
     {
-        if (!$fileUpload->isOk()) {
-            throw FileUploadException::create();
+        return $this->em->getOfferRepository()
+            ->find($id);
+    }
+
+    public function create(OfferFormType $formType): Offer
+    {
+        if (!$formType->image->isOk()) {
+            throw UploadException::create()
+                ->withMessage('File upload failed.');
         }
 
-        $file = $this->fileFacade->createFromHttp($fileUpload, Offer::NAMESPACE);
+        $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
 
-        $offer = new Offer(
-            $file,
-            $title,
-            $text
+        $offer = Offer::create(
+            Image::create($file, Offer::NAMESPACE),
+            $formType->title,
+            $formType->text
         );
 
         $this->em->persist($offer);
@@ -46,14 +50,16 @@ final class OfferFacade
         return $offer;
     }
 
-    public function update(Offer $offer, string $title, string $text, FileUpload $fileUpload): Offer
+    public function update(Offer $offer, OfferFormType $formType): Offer
     {
-        if ($fileUpload->hasFile()) {
-            $this->fileFacade->update($offer->getImage(), $fileUpload, $offer->getNamespace());
+        if ($formType->image->isOk()) {
+            $offer->changeImage(
+                $this->fileTemporaryFactory->createFromUpload($formType->image)
+            );
         }
 
-        $offer->setTitle($title);
-        $offer->setText($text);
+        $offer->changeTitle($formType->title);
+        $offer->changeText($formType->text);
         $this->em->flush();
 
         return $offer;
@@ -61,10 +67,20 @@ final class OfferFacade
 
     public function remove(Offer $offer): void
     {
-        $this->fileFacade->purge($offer->getImage());
-
         $this->em->remove($offer);
         $this->em->flush();
+    }
+
+    public function changeActive(Offer $offer, bool $active): Offer
+    {
+        if ($active) {
+            $offer->enabled();
+        } else {
+            $offer->disabled();
+        }
+        $this->em->flush();
+
+        return $offer;
     }
 
 }

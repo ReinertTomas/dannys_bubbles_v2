@@ -35,6 +35,14 @@ dbal:
             datetime:
                 class: App\Model\Database\Entity\Types\DateTimeType
                 commented: false
+            uuid:
+                class: Ramsey\Uuid\Doctrine\UuidType
+                commented: false
+            uuid_binary_ordered_time:
+                class: Ramsey\Uuid\Doctrine\UuidBinaryOrderedTimeType
+                commented: false
+        typesMapping:
+            uuid_binary_ordered_time: binary
 
 orm:
     entityManagerDecoratorClass: App\Model\Database\EntityManager

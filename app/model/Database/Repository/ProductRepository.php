@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\Model\Database\Repository;
 
 use App\Model\Database\Entity\Product;
-use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Product|NULL find($id, ?int $lockMode = NULL, ?int $lockVersion = NULL)

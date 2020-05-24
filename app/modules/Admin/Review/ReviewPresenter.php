@@ -8,14 +8,18 @@ use App\Model\App;
 use App\Model\Database\Entity\Review;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Review\ReviewFormFactory;
+use App\UI\Form\Review\ReviewFormType;
+use App\UI\Grid\Review\ReviewGridFactory;
 use Nette\Application\UI\Form;
+use Ublaboo\DataGrid\DataGrid;
 
 final class ReviewPresenter extends BaseAdminPresenter
 {
 
-    private int $id;
-
     private ?Review $review = null;
+
+    /** @inject */
+    public ReviewGridFactory $reviewGridFactory;
 
     /** @inject */
     public ReviewFormFactory $reviewFormFactory;
@@ -23,89 +27,89 @@ final class ReviewPresenter extends BaseAdminPresenter
     /** @inject */
     public ReviewFacade $reviewFacade;
 
-    public function renderDefault(): void
+    public function actionReview(?int $id): void
     {
-        $this->template->reviews = $this->em->getReviewRepository()->findAll();
-    }
-
-    public function actionEdit(int $id): void
-    {
-        $this->id = $id;
-
-        $this->review = $this->em->getReviewRepository()->find($this->id);
-        if (!$this->review) {
-            $this->errorNotFoundEntity($id);
+        if ($id !== null) {
+            $this->review = $this->reviewFacade->get($id);
+            if ($this->review === null) {
+                $this->errorNotFoundEntity($id);
+            }
         }
-
-        /** @var Form $form */
-        $form = $this->getComponent('reviewForm');
-        $this->reviewFormFactory->setDefaults($form, $this->review);
     }
 
-    public function handleDelete(int $id): void
+    public function actionDelete(int $id): void
     {
-        $review = $this->em->getReviewRepository()->find($id);
-        if (!$review) {
+        $review = $this->reviewFacade->get($id);
+        if ($review === null) {
             $this->errorNotFoundEntity($id);
         }
 
         $this->reviewFacade->remove($review);
-        $this->flashSuccess('_message.review.removed');
+        $this->flashSuccess('messages.review.remove');
 
         if ($this->isAjax()) {
             $this->redrawFlashes();
-            $this->redrawReviews();
+            $this->getReviewGrid()->reload();
             $this->setAjaxPostGet();
         } else {
-            $this->redirect('this');
+            $this->redirect(App::ADMIN_REVIEW);
         }
     }
 
-    public function handleToggleActive(int $id): void
+    protected function beforeRender(): void
     {
-        $review = $this->em->getReviewRepository()->find($id);
-        if (!$review) {
-            $this->errorNotFoundEntity($id);
-        }
+        parent::beforeRender();
 
-        $review->toggleActive();
-        $this->em->flush();
+        $this->template->review = $this->review;
+    }
 
-        $this->flashSuccess(
-            sprintf('_message.review.%s', $review->isActive() ? 'show' : 'hide')
-        );
+    protected function createComponentReviewGrid(string $name): DataGrid
+    {
+        return $this->reviewGridFactory->create($this, $name, function ($id, $value): void {
+            $id = (int)$id;
+            $review = $this->reviewFacade->get($id);
+            if ($review === null) {
+                $this->errorNotFoundEntity($id);
+            }
 
-        if ($this->isAjax()) {
-            $this->redrawFlashes();
-            $this->redrawReviews();
-            $this->setAjaxPostGet();
-        } else {
-            $this->redirect('this');
-        }
+            $this->reviewFacade->changeActive($review, (bool) $value);
+
+            $this->flashSuccess(
+                sprintf('messages.review.%s', $review->isActive() ? 'show' : 'hide')
+            );
+
+            if ($this->isAjax()) {
+                $this->redrawFlashes();
+                $this->getReviewGrid()
+                    ->reload();
+                $this->setAjaxPostGet();
+            } else {
+                $this->redirect('this');
+            }
+        });
     }
 
     protected function createComponentReviewForm(): Form
     {
-        $form = $this->reviewFormFactory->create();
-        $form->onSuccess[] = function (Form $form): void {
-            $values = (array)$form->getValues();
-
-            if ($this->review) {
-                $this->reviewFacade->update($this->review, $values['title'], $values['text'], $values['author']);
-                $this->flashSuccess('_message.review.updated');
-                $this->redirect('this');
+        $form = $this->reviewFormFactory->create($this->review);
+        $form->onSuccess[] = function (Form $form, ReviewFormType $formType): void {
+            if ($this->review === null) {
+                $this->review = $this->reviewFacade->create($formType);
+                $this->flashSuccess('messages.review.created');
             } else {
-                $this->reviewFacade->create($values['title'], $values['text'], $values['author']);
-                $this->flashSuccess('_message.review.created');
-                $this->redirect(App::ADMIN_REVIEW);
+                $this->review = $this->reviewFacade->update($this->review, $formType);
+                $this->flashSuccess('messages.review.updated');
             }
+            $this->redirect('this', $this->review->getId());
         };
         return $form;
     }
 
-    public function redrawReviews(): void 
+    public function getReviewGrid(): DataGrid
     {
-        $this->redrawControl('reviews');
+        /** @var DataGrid $grid */
+        $grid = $this['reviewGrid'];
+        return $grid;
     }
 
 }

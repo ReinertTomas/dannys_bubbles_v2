@@ -18,19 +18,14 @@ trait TActive
         return $this->active;
     }
 
-    public function show(): void
+    public function enabled(): void
     {
         $this->active = true;
     }
 
-    public function hide(): void
+    public function disabled(): void
     {
         $this->active = false;
-    }
-
-    public function toggleActive(): void
-    {
-        $this->active = !$this->active;
     }
 
 }

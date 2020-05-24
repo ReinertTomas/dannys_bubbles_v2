@@ -8,14 +8,14 @@ parameters:
         host: localhost
         user: root
         password: Admin123!
-        dbname: db_test
+        dbname: bubbles
         driver: mysqli
 
 services:
     # Security ================
     nette.userStorage:
         setup:
-            - setNamespace('nette-bundle')
+            - setNamespace('bubbles')
 
     # Mailer ==================
     nette.mailer:

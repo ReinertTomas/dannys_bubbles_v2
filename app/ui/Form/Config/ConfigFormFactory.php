@@ -17,57 +17,53 @@ final class ConfigFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(): Form
+    /**
+     * @param Config|null $config
+     * @param callable(Form, ConfigFormType): void $onSuccess
+     * @return Form
+     */
+    public function create(?Config $config, callable $onSuccess): Form
     {
         $form = $this->formFactory->createSecured();
 
-        $form->addText('name', 'Name')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Name (required)');
-        $form->addText('surname', 'Surname')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Surname (required)');
-        $form->addText('ico', 'ICO')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'ICO (required)');
-        $form->addEmail('email', 'Email')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Email (required)');
-        $form->addText('website', 'Website')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Website (required)');
-        $form->addText('facebook', 'Facebook')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Facebook (required)');
-        $form->addText('instagram', 'Instagram')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Instagram (required)');
-        $form->addText('youtube', 'Youtube')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Youtube (required)');
-        $form->addUpload('condition', 'Terms and Conditions')
+        $form->addText('name', 'Name (required)')
             ->setRequired();
-        $form->addText('promoVideo', 'Promo Video')
-            ->setRequired()
-            ->setHtmlAttribute('placeholder', 'Promo Video (required)');
+        $form->addText('surname', 'Surname (required)')
+            ->setRequired();
+        $form->addText('ico', 'ICO (required)')
+            ->setRequired();
+        $form->addEmail('email', 'Email (required)')
+            ->setRequired();
+        $form->addText('website', 'Website (required)')
+            ->setRequired();
+        $form->addText('facebook', 'Facebook (required)')
+            ->setRequired();
+        $form->addText('instagram', 'Instagram (required)')
+            ->setRequired();
+        $form->addText('youtube', 'Youtube (required)')
+            ->setRequired();
+        $form->addUpload('condition', 'Terms and Conditions');
+        $form->addText('promoVideo', 'Promo Video');
         $form->addSubmit('submit', 'Save');
+        $form->setMappedType(ConfigFormType::class);
+
+        $form->onSuccess[] = $onSuccess;
+
+        if ($config !== null) {
+            $form->setDefaults([
+                'name' => $config->getName(),
+                'surname' => $config->getSurname(),
+                'ico' => $config->getIco(),
+                'email' => $config->getEmail(),
+                'website' => $config->getWebsite(),
+                'facebook' => $config->getFacebook(),
+                'instagram' => $config->getInstagram(),
+                'youtube' => $config->getYoutube(),
+                'promoVideo' => $config->getPromoVideo()
+            ]);
+        }
 
         return $form;
-    }
-
-    public function setDefaults(Form $form, Config $config): void
-    {
-        $form->setDefaults([
-            'name' => $config->getName(),
-            'surname' => $config->getSurname(),
-            'ico' => $config->getIco(),
-            'email' => $config->getEmail(),
-            'website' => $config->getWebsite(),
-            'facebook' => $config->getFacebook(),
-            'instagram' => $config->getInstagram(),
-            'youtube' => $config->getYoutube(),
-            'promoVideo' => $config->getPromoVideo()
-        ]);
     }
 
 }

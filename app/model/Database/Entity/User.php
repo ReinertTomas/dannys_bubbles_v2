@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace App\Model\Database\Entity;
 
 use App\Model\Database\Entity\Attributes\TCreatedAt;
+use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
 use App\Model\Exception\Logic\InvalidArgumentException;
+use App\Model\File\FileInfoInterface;
 use App\Model\Security\Identity;
 use App\Model\Utils\DateTime;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,8 +16,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class User extends AbstractEntity
+class User
 {
+
+    public const NAMESPACE = '/user';
 
     public const ROLE_ADMIN = 'admin';
     public const ROLE_USER = 'user';
@@ -35,8 +39,15 @@ class User extends AbstractEntity
         self::STATE_BLOCKED => 'BLOCKED'
     ];
 
+    use TId;
     use TCreatedAt;
     use TUpdatedAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=FALSE)
+     */
+    protected Image $image;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -73,8 +84,9 @@ class User extends AbstractEntity
      */
     protected ?DateTime $lastLoggedAt;
 
-    public function __construct(string $name, string $surname, string $email, string $password)
+    public function __construct(Image $image, string $name, string $surname, string $email, string $password)
     {
+        $this->image = $image;
         $this->name = $name;
         $this->surname = $surname;
         $this->email = $email;
@@ -84,106 +96,91 @@ class User extends AbstractEntity
         $this->state = self::STATE_FRESH;
     }
 
-    /**
-     * @return string
-     */
+    public static function create(Image $image, string $name, string $surname, string $email, string $password): User
+    {
+        return new User($image, $name, $surname, $email, $password);
+    }
+
+    public function getImage(): Image
+    {
+        return $this->image;
+    }
+
+    public function changeImage(FileInfoInterface $file): void
+    {
+        $this->image->update($file);
+    }
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function changeName(string $name): void
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getSurname(): string
     {
         return $this->surname;
     }
 
-    /**
-     * @param string $surname
-     */
-    public function setSurname(string $surname): void
+    public function changeSurname(string $surname): void
     {
         $this->surname = $surname;
     }
 
     public function getFullname(): string
     {
-        return "{$this->name} {$this->surname}";
+        return $this->name . ' ' . $this->surname;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
+    public function changeEmail(string $email): void
     {
         $this->email = $email;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
+    public function changePassword(string $password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
     public function getRole(): string
     {
         return $this->role;
     }
 
-    /**
-     * @param string $role
-     */
-    public function setRole(string $role): void
+    public function changeRole(string $role): void
     {
         if (!array_key_exists($role, self::ROLES)) {
-            throw new InvalidArgumentException(sprintf('Unsupported role %s', $role));
+            throw InvalidArgumentException::create()
+                ->withMessage('Unsupported role ' . $role);
         }
         $this->role = $role;
     }
 
-    /**
-     * @return int
-     */
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
     public function getState(): int
     {
         return $this->state;
     }
 
-    /**
-     * @param int $state
-     */
-    public function setState(int $state): void
+    public function changeState(int $state): void
     {
         if (!array_key_exists($state, self::STATES)) {
             throw new InvalidArgumentException(sprintf('Unsupported state %s', $state));

@@ -4,15 +4,17 @@ declare(strict_types=1);
 namespace App\Model\Database;
 
 use App\Model\Database\Entity\Album;
+use App\Model\Database\Entity\AlbumHasImage;
 use App\Model\Database\Entity\Config;
-use App\Model\Database\Entity\File;
+use App\Model\Database\Entity\Document;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\Entity\Product;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\Entity\User;
+use App\Model\Database\Repository\AlbumHasImageRepository;
 use App\Model\Database\Repository\AlbumRepository;
 use App\Model\Database\Repository\ConfigRepository;
-use App\Model\Database\Repository\FileRepository;
+use App\Model\Database\Repository\DocumentRepository;
 use App\Model\Database\Repository\OfferRepository;
 use App\Model\Database\Repository\ProductRepository;
 use App\Model\Database\Repository\ReviewRepository;
@@ -29,9 +31,9 @@ trait TRepositories
         return $this->getRepository(User::class);
     }
 
-    public function getFileRepository(): FileRepository
+    public function getFileRepository(): DocumentRepository
     {
-        return $this->getRepository(File::class);
+        return $this->getRepository(Document::class);
     }
 
     public function getOfferRepository(): OfferRepository
@@ -47,6 +49,11 @@ trait TRepositories
     public function getAlbumRepository(): AlbumRepository
     {
         return $this->getRepository(Album::class);
+    }
+
+    public function getAlbumHasImageRepository(): AlbumHasImageRepository
+    {
+        return $this->getRepository(AlbumHasImage::class);
     }
 
     public function getProductRepository(): ProductRepository

@@ -3,27 +3,32 @@ declare(strict_types=1);
 
 namespace App\Domain\Album;
 
-use App\Domain\File\FileFacade;
 use App\Model\Database\Entity\Album;
-use App\Model\Database\Entity\File;
+use App\Model\Database\Entity\AlbumHasImage;
+use App\Model\Database\Entity\Image;
 use App\Model\Database\EntityManager;
+use App\Model\File\FileInfoInterface;
+use App\UI\Form\Album\AlbumFormType;
 
 class AlbumFacade
 {
 
     private EntityManager $em;
 
-    private FileFacade $fileFacade;
-
-    public function __construct(EntityManager $em, FileFacade $fileFacade)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->fileFacade = $fileFacade;
     }
 
-    public function create(string $title, string $text): Album
+    public function get(int $id): ?Album
     {
-        $album = new Album($title, $text);
+        return $this->em->getAlbumRepository()
+            ->find($id);
+    }
+
+    public function create(AlbumFormType $formType): Album
+    {
+        $album = Album::create($formType->title, $formType->text);
 
         $this->em->persist($album);
         $this->em->flush();
@@ -31,10 +36,10 @@ class AlbumFacade
         return $album;
     }
 
-    public function update(Album $album, string $title, string $text)
+    public function update(Album $album, AlbumFormType $formType): Album
     {
-        $album->setTitle($title);
-        $album->setText($text);
+        $album->setTitle($formType->title);
+        $album->setText($formType->text);
         $this->em->flush();
 
         return $album;
@@ -48,20 +53,64 @@ class AlbumFacade
         $this->em->flush();
     }
 
-    public function addImages(Album $album, string $json): void
+    public function changeActive(Album $album, bool $active): Album
     {
-        $images = $this->fileFacade->createFromDropzone($json, $album->getNamespace());
-        foreach ($images as $image) {
-            $album->addImage($image);
+        if ($active) {
+            $album->enabled();
+        } else {
+            $album->disabled();
         }
+        $this->em->flush();
+
+        return $album;
+    }
+
+    public function getAlbumHasImage(int $id): ?AlbumHasImage
+    {
+        return $this->em
+            ->getAlbumHasImageRepository()
+            ->find($id);
+    }
+
+    public function addAlbumHasImage(Album $album, FileInfoInterface $file): void
+    {
+        $hasImages = $album->hasImages();
+
+        $image = Image::create($file, $album->getNamespace());
+        $albumHasImage = AlbumHasImage::create($album, $image);
+
+        $album->addImage($albumHasImage);
+
+        $this->em->persist($image);
+        $this->em->persist($albumHasImage);
+        $this->em->flush();
+
+        if (!$hasImages) {
+            $this->changeCover($album, $albumHasImage);
+        }
+    }
+
+    public function removeAlbumHasImage(Album $album, AlbumHasImage $albumHasImage): void
+    {
+        $album->removeImage($albumHasImage);
+
+        if ($albumHasImage->isCover() && $album->hasImages()) {
+            $album
+                ->getImageFirst()
+                ->setCover();
+        }
+
+        $this->em->remove($albumHasImage);
+        $this->em->remove($albumHasImage->getImage());
         $this->em->flush();
     }
 
-    public function removeImage(Album $album, File $image): void
+    public function changeCover(Album $album, AlbumHasImage $cover): void
     {
-        // Purge image
-        $this->fileFacade->purge($image);
-        $album->removeImage($image);
+        foreach ($album->getImages() as $albumHasImage) {
+            $albumHasImage->setUncover();
+        }
+        $cover->setCover();
         $this->em->flush();
     }
 

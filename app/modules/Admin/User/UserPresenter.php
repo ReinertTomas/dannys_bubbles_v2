@@ -4,11 +4,18 @@ declare(strict_types=1);
 namespace App\Modules\Admin\User;
 
 use App\Domain\User\UserFacade;
+use App\Model\App;
+use App\Model\Database\Entity\User;
 use App\Model\Exception\Logic\InvalidArgumentException;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Security\PasswordFormFactory;
-use App\UI\Form\User\EditUserFormFactory;
-use App\UI\Form\User\NewUserFormFactory;
+use App\UI\Form\Security\PasswordFormType;
+use App\UI\Form\Security\RoleFormFactory;
+use App\UI\Form\Security\RoleFormType;
+use App\UI\Form\User\RegisterFormFactory;
+use App\UI\Form\User\RegisterFormType;
+use App\UI\Form\User\UserFormFactory;
+use App\UI\Form\User\UserFormType;
 use App\UI\Grid\User\UserGridFactory;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\UI\Form;
@@ -17,16 +24,19 @@ use Ublaboo\DataGrid\DataGrid;
 class UserPresenter extends BaseAdminPresenter
 {
 
-    private int $id;
+    private ?User $userSelected = null;
 
     /** @inject */
     public UserGridFactory $userGridFactory;
 
     /** @inject */
-    public NewUserFormFactory $newUserFormFactory;
+    public RegisterFormFactory $registerFormFactory;
 
     /** @inject */
-    public EditUserFormFactory $editUserFormFactory;
+    public UserFormFactory $userFormFactory;
+
+    /** @inject */
+    public RoleFormFactory $roleFormFactory;
 
     /** @inject */
     public PasswordFormFactory $passwordFormFactory;
@@ -36,93 +46,108 @@ class UserPresenter extends BaseAdminPresenter
 
     public function actionEdit(int $id): void
     {
-        $this->id = $id;
+        $this->userSelected = $this->userFacade->get($id);
+        if ($this->userSelected === null) {
+            $this->errorNotFoundEntity($id);
+        }
+    }
 
-        $user = $this->em->getUserRepository()->find($id);
-        if (!$user) {
-            $this->error(sprintf('User id "%d" not found.', $id));
+    public function actionDelete(int $id): void
+    {
+        $user = $this->userFacade->get($id);
+        if ($user === null) {
+            $this->errorNotFoundEntity($id);
         }
 
-        /** @var Form $form */
-        $form = $this->getComponent('editUserForm');
-        $this->editUserFormFactory->setDefaults($form, $user);
+        $this->userFacade->remove($user);
+
+        $this->flashSuccess('messages.user.remove');
+        $this->redirect(App::ADMIN_USER);
     }
 
-    public function renderEdit(): void
+    protected function beforeRender(): void
     {
-        $this->template->isOwnProfile = $this->user->getId() === $this->id;
+        parent::beforeRender();
+        $this->template->userSelected = $this->userSelected;
     }
 
-    protected function createComponentUsersGrid(string $name): DataGrid
+    protected function createComponentUserGrid(string $name): DataGrid
     {
-        return $this->userGridFactory->create($this, $name);
-    }
-
-    protected function createComponentNewUserForm(): Form
-    {
-        $form = $this->newUserFormFactory->create();
-
-        $form->onSuccess[] = function (Form $form): void {
-            $values = (array) $form->getValues();
-
-            try {
-                $user = $this->userFacade->create($values);
-            } catch (UniqueConstraintViolationException $e) {
-                $this->flashError(sprintf('Email "%s" is already used.', $values['email']));
-                return;
+        return $this->userGridFactory->create($this, $name, function ($id, $value): void {
+            $id = (int)$id;
+            $user = $this->userFacade->get($id);
+            if ($user === null) {
+                $this->errorNotFoundEntity($id);
             }
 
-            $this->flashSuccess(sprintf('User "%s" created.', $user->getEmail()));
-            $this->redirect(':Admin:User:');
-        };
+            $this->userFacade->changeState($user, (int)$value);
 
-        return $form;
+            if ($this->isAjax()) {
+                $this['userGrid']->reload();
+            } else {
+                $this->redirect('this');
+            }
+        });
     }
 
-    protected function createComponentEditUserForm(): Form
+    protected function createComponentRegisterForm(): Form
     {
-        $form = $this->editUserFormFactory->create();
-
-        $form->onSuccess[] = function (Form $form): void {
-            $values = (array) $form->getValues();
-
-            $user = $this->em->getUserRepository()->find($this->id);
-
+        return $this->registerFormFactory->create(function (Form $form, RegisterFormType $formType): void {
             try {
-                $this->userFacade->update($user, $values);
+                $this->userSelected = $this->userFacade->create($formType);
             } catch (UniqueConstraintViolationException $e) {
-                $this->flashError(sprintf('Email "%s" is already used.', $user->getEmail()));
+                $this->flashError('messages.user.unique ' . $formType->email);
                 return;
             }
-
-            $this->flashSuccess(sprintf('User "%s" updated.', $user->getEmail()));
-            $this->redirect('this');
-        };
-
-        return $form;
+            $this->flashSuccess('messages.user.create');
+            $this->redirect(App::ADMIN_USER);
+        });
     }
 
-    protected function createComponentChangePasswordForm(): Form
+    protected function createComponentUserForm(): Form
     {
-        $form = $this->passwordFormFactory->create();
+        return $this->userFormFactory->create(
+            $this->userSelected,
+            function (Form $form, UserFormType $formType): void {
+                try {
+                    $this->userSelected = $this->userFacade->update($this->userSelected, $formType);
+                } catch (UniqueConstraintViolationException $e) {
+                    $this->flashError('messages.user.unique ' . $formType->email);
+                    return;
+                }
 
-        $form->onSuccess[] = function (Form $form): void {
-            $values = (array) $form->getValues();
+                $this->flashSuccess('messages.user.update');
+                $this->redirect('this');
+            }
+        );
+    }
 
-            $user = $this->em->getUserRepository()->find($this->user->getId());
+    protected function createComponentRoleForm(): Form
+    {
+        return $this->roleFormFactory->create(
+            $this->userSelected,
+            function (Form $form, RoleFormType $formType): void {
+                $this->userFacade->changeRole($this->userSelected, $formType);
 
+                $this->flashSuccess('messages.user.change.role');
+                $this->redirect('this');
+            }
+        );
+    }
+
+    protected function createComponentPasswordForm(): Form
+    {
+        return $this->passwordFormFactory->create(function (Form $form, PasswordFormType $formType): void {
             try {
-                $this->userFacade->changePassword($user, $values['passwordOld'], $values['passwordNew']);
+                $this->userFacade->changePassword($this->userSelected, $formType);
             } catch (InvalidArgumentException $e) {
                 $this->flashError($e->getMessage());
                 return;
             }
 
-            $this->flashSuccess('User password was changed.');
+            $this->flashSuccess('messages.user.change.password');
             $this->redirect('this');
-        };
-
-        return $form;
+        });
     }
 
 }

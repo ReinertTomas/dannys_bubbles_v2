@@ -1,48 +1,7 @@
-<div id="dz-container" class="dropzone"></div>
-
-<script src="{$basePath}/assets/js/dropzone.min.js"></script>
-<script>
-    Dropzone.autoDiscover = false;
-    let url = {link post!};
-    let buttons = {$buttons};
-    let hidden = {$hidden};
-    let acceptedFiles = {$acceptedFiles};
-    let files = [];
-    // Dropzone class:
-    let myDropzone = new Dropzone("#dz-container", {
-        url: url,
-        maxFilesize: 4, // 2MB
-        acceptedFiles: acceptedFiles,
-        dictDefaultMessage: "Click or drop files here",
-        renameFile: function (file) {
-            return new Date().getTime().toString() + Math.random().toString(36).substring(7) + '_' + file.name;
-        }
-    });
-    myDropzone.on("sending", function (file) {
-        toggleButtons(true);
-    });
-    myDropzone.on('success', function (file) {
-        files.push({
-            name: file.name,
-            filename: file.upload.filename
-        });
-    });
-    myDropzone.on('queuecomplete', function () {
-        if (hidden) {
-            const element = document.getElementById(hidden);
-            element.value = JSON.stringify(files);
-        }
-        toggleButtons(false);
-    });
-
-    function toggleButtons(disabled) {
-        for (let i = 0; i < buttons.length; i++) {
-            let button = document.getElementById(buttons[i]);
-            if (disabled) {
-                button.setAttribute('disabled', 'disabled');
-            } else {
-                button.removeAttribute('disabled');
-            }
-        }
-    }
-</script>
+<div id="dz-container"
+     class="dropzone"
+     data-upload="{link upload!}"
+     data-success="{link success!}"
+     data-accepted-files="{$acceptedFiles}"
+></div>
+<script src="{$basePath}/dist/dropzone.bundle.js"></script>

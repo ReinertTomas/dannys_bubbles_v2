@@ -22,11 +22,10 @@ class DateTimeType extends DoctrineDateTimeType
 
         $val = DateTime::createFromFormat($platform->getDateTimeFormatString(), $value);
 
-        if (!$val) {
+        if ($val === false) {
             $val = date_create($value);
         }
-
-        if (!$val) {
+        if ($val === false) {
             throw ConversionException::conversionFailedFormat($value, $this->getName(), $platform->getDateTimeFormatString());
         }
 

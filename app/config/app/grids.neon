@@ -3,4 +3,18 @@
 services:
 
     - App\UI\Grid\GridFactory
+
+    # User
     - App\UI\Grid\User\UserGridFactory
+
+    # Offer
+    - App\UI\Grid\Offer\OfferGridFactory
+
+    # Review
+    - App\UI\Grid\Review\ReviewGridFactory
+
+    # Album
+    - App\UI\Grid\Album\AlbumGridFactory
+
+    # Product
+    - App\UI\Grid\Product\ProductGridFactory
