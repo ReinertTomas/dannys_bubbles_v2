@@ -10,6 +10,7 @@ use App\Model\Database\Entity\Attributes\THighlight;
 use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,13 @@ class Product implements INamespace
      * @ORM\Column(type="text")
      */
     protected string $text;
+
+    /**
+     * @var Collection<int, ProductHasImage>|ProductHasImage[]
+     * @ORM\OneToMany(targetEntity="ProductHasImage", mappedBy="product")
+     * @ORM\OrderBy({"sort" = "ASC"})
+     */
+    protected Collection $images;
 
     public function __construct(string $title, string $description, string $text)
     {
@@ -84,6 +92,64 @@ class Product implements INamespace
     public function setText(string $text): void
     {
         $this->text = $text;
+    }
+
+    /**
+     * @return ProductHasImage[]
+     */
+    public function getImages(): array
+    {
+        return $this->images->toArray();
+    }
+
+    public function getImageFirst(): ?ProductHasImage
+    {
+        if ($this->images->isEmpty()) {
+            return null;
+        }
+        $image = $this->images->first();
+        return $image !== false
+            ? $image : null;
+    }
+
+    public function addImage(ProductHasImage $image): void
+    {
+        $this->images->add($image);
+    }
+
+    public function removeImage(ProductHasImage $image): void
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+        }
+    }
+
+    public function hasImages(): bool
+    {
+        return !$this->images->isEmpty();
+    }
+
+    public function getCover(): ?ProductHasImage
+    {
+        if ($this->images->isEmpty()) {
+            return null;
+        }
+
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->eq('cover', true));
+        $image = $this->images
+            ->matching($criteria)
+            ->first();
+
+        return $image !== false
+            ? $image : null;
+    }
+
+    public function resetCover(): void
+    {
+        foreach ($this->images as $productHasImage) {
+            $productHasImage->setUncover();
+        }
     }
 
     public function getNamespace(): string

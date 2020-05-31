@@ -16,6 +16,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Image extends AbstractFile
 {
 
+    public const BLANK_150x150 = '/img/blank_150x150.png';
+    public const BLANK_200x200 = '/img/blank_200x200.png';
+
     protected bool $makeThumb;
 
     public function __construct(FileInfoInterface $file, string $namespace, bool $makeThumb)

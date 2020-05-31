@@ -22,7 +22,8 @@ class AlbumFacade
 
     public function get(int $id): ?Album
     {
-        return $this->em->getAlbumRepository()
+        return $this->em
+            ->getAlbumRepository()
             ->find($id);
     }
 
@@ -47,8 +48,10 @@ class AlbumFacade
 
     public function remove(Album $album): void
     {
-        // TODO - purge images
-
+        foreach ($album->getImages() as $albumHasImage) {
+            $this->em->remove($albumHasImage);
+            $this->em->remove($albumHasImage->getImage());
+        }
         $this->em->remove($album);
         $this->em->flush();
     }
@@ -93,10 +96,8 @@ class AlbumFacade
     public function removeAlbumHasImage(Album $album, AlbumHasImage $albumHasImage): void
     {
         $album->removeImage($albumHasImage);
-
         if ($albumHasImage->isCover() && $album->hasImages()) {
-            $album
-                ->getImageFirst()
+            $album->getImageFirst()
                 ->setCover();
         }
 
@@ -107,9 +108,7 @@ class AlbumFacade
 
     public function changeCover(Album $album, AlbumHasImage $cover): void
     {
-        foreach ($album->getImages() as $albumHasImage) {
-            $albumHasImage->setUncover();
-        }
+        $album->resetCover();
         $cover->setCover();
         $this->em->flush();
     }

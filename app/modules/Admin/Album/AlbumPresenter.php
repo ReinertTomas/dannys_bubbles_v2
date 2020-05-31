@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Album;
 
 use App\Domain\Album\AlbumFacade;
+use App\Model\App;
 use App\Model\Database\Entity\Album;
 use App\Model\File\FileInfoInterface;
 use App\Modules\Admin\BaseAdminPresenter;
@@ -65,7 +66,7 @@ final class AlbumPresenter extends BaseAdminPresenter
             $this->getAlbumGrid()->reload();
             $this->setAjaxPostGet();
         } else {
-            $this->redirect('this');
+            $this->redirect(App::ADMIN_ALBUM);
         }
     }
 

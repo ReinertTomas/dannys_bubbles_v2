@@ -5,6 +5,7 @@ namespace App\UI\Grid\Album;
 
 use App\Model\Database\Entity\Album;
 use App\Model\Database\Entity\Document;
+use App\Model\Database\Entity\Image;
 use App\Model\Database\EntityManager;
 use App\Model\Element\Active;
 use App\Model\Utils\Html;
@@ -49,7 +50,7 @@ final class AlbumGridFactory
                         ->getImage()
                         ->getThumbWeb();
                 } else {
-                    $path = '/img/blank_offer.png';
+                    $path = Image::BLANK_150x150;
                 }
 
                 return Html::el('img')

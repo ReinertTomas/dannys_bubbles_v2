@@ -38,7 +38,7 @@ class Album implements INamespace
     protected string $text;
 
     /**
-     * @var Collection<int, AlbumHasImage>
+     * @var Collection<int, AlbumHasImage>|AlbumHasImage[]
      * @ORM\OneToMany(targetEntity="AlbumHasImage", mappedBy="album")
      */
     protected Collection $images;
@@ -89,8 +89,7 @@ class Album implements INamespace
         if ($this->images->isEmpty()) {
             return null;
         }
-        $image = $this->images
-            ->first();
+        $image = $this->images->first();
         return $image !== false
             ? $image : null;
     }
@@ -126,6 +125,13 @@ class Album implements INamespace
 
         return $image !== false
             ? $image : null;
+    }
+
+    public function resetCover(): void
+    {
+        foreach ($this->images as $albumHasImage) {
+            $albumHasImage->setUncover();
+        }
     }
 
     public function getNamespace(): string

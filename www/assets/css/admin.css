@@ -106,6 +106,14 @@
     z-index: 1;
 }
 
+.img-container .fa-bookmark {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 45px;
+    box-shadow: none;
+}
+
 .img-container:hover .img-group-btn {
     opacity: 1;
 }

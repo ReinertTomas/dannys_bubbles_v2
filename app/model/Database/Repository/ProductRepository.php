@@ -22,17 +22,22 @@ class ProductRepository extends AbstractRepository
     public function findByActivated(bool $highlight = false): array
     {
         $qb = $this->createQueryBuilder('p1');
-        $qb->andWhere($qb->expr()->eq('p1.active', ':active'))
-            ->setParameter('active', true);
+        $qb->andWhere(
+            $qb->expr()->eq('p1.active', ':active')
+        );
+        $qb->setParameter('active', true);
 
         if ($highlight) {
-            $qb->andWhere($qb->expr()->eq('p1.highlight', ':highlight'))
-                ->setParameter('highlight', true)
-                ->setMaxResults(4);
+            $qb->andWhere(
+                $qb->expr()->eq('p1.highlight', ':highlight')
+            );
+            $qb->setParameter('highlight', true);
+            $qb->setMaxResults(4);
         }
 
         $qb->orderBy('p1.id');
-        return $qb->getQuery()
+        return $qb
+            ->getQuery()
             ->getResult();
     }
 
@@ -42,11 +47,28 @@ class ProductRepository extends AbstractRepository
     public function findByHighlighted(): array
     {
         $qb = $this->createQueryBuilder('p1');
-        $qb->where($qb->expr()->eq('p1.highlight', ':highlight'))
-            ->setParameter('highlight', true);
+        $qb->where(
+            $qb->expr()->eq('p1.highlight', ':highlight')
+        );
+        $qb->setParameter('highlight', true);
 
-        return $qb->getQuery()
+        return $qb
+            ->getQuery()
             ->getResult();
+    }
+
+    public function getCountHighlighted(): int
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select($qb->expr()->count('p.id'));
+        $qb->where(
+            $qb->expr()->eq('p.highlight', ':highlight')
+        );
+        $qb->setParameter('highlight', true);
+
+        return (int)$qb
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 
 }

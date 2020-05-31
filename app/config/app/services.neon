@@ -27,6 +27,7 @@ services:
 
 	## Element
 	- App\Model\Element\Active
+	- App\Model\Element\Highlight
 
 	# Control ===================
 	- App\UI\Control\Dropzone\IDropzoneFactory

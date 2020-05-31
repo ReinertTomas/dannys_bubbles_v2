@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Model\Database\Entity\Attributes;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait THighlight
 {
 
@@ -16,12 +18,12 @@ trait THighlight
         return $this->highlight;
     }
 
-    public function highlight(): void
+    public function onHighlight(): void
     {
         $this->highlight = true;
     }
 
-    public function unhighlight(): void
+    public function offHighlight(): void
     {
         $this->highlight = false;
     }

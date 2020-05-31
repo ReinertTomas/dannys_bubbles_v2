@@ -9,9 +9,9 @@ use App\Model\Database\Entity\Attributes\TSort;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Model\Database\Repository\AlbumHasImageRepository")
+ * @ORM\Entity(repositoryClass="App\Model\Database\Repository\ProductHasImageRepository")
  */
-class AlbumHasImage
+class ProductHasImage
 {
 
     use TId;
@@ -19,31 +19,31 @@ class AlbumHasImage
     use TCover;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Album", inversedBy="images")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="images")
      */
-    protected Album $album;
+    protected Product $product;
 
     /**
      * @ORM\ManyToOne(targetEntity="Image")
      */
     protected Image $image;
 
-    public function __construct(Album $album, Image $image, int $sort)
+    public function __construct(Product $product, Image $image, int $sort)
     {
-        $this->album = $album;
+        $this->product = $product;
         $this->image = $image;
         $this->sort = $sort;
         $this->cover = false;
     }
 
-    public static function create(Album $album, Image $image, int $sort = 0): AlbumHasImage
+    public static function create(Product $product, Image $image, int $sort = 0): ProductHasImage
     {
-        return new AlbumHasImage($album, $image, $sort);
+        return new ProductHasImage($product, $image, $sort);
     }
 
-    public function getAlbum(): Album
+    public function getProduct(): Product
     {
-        return $this->album;
+        return $this->product;
     }
 
     public function getImage(): Image

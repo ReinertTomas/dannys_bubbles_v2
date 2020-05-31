@@ -17,7 +17,7 @@ final class ProductFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(): Form
+    public function create(?Product $product): Form
     {
         $form = $this->formFactory->createSecured();
 
@@ -31,11 +31,16 @@ final class ProductFormFactory
         $form->addTextArea('text', 'Text')
             ->setRequired()
             ->setHtmlAttribute('placeholder', 'Text (required)');
-        $form->addUpload('image', 'Image')
-            ->setRequired()
-            ->addRule(Form::IMAGE, 'messages.form.only.image')
-            ->addRule(Form::MAX_FILE_SIZE, 'messages.form.upload.max 4MB.', 4 * 1024 * 1024);
-        $form->addSubmit('submit');
+        $form->addSubmit('submit', 'Save');
+        $form->setMappedType(ProductFormType::class);
+
+        if ($product !== null) {
+            $form->setDefaults([
+                'title' => $product->getTitle(),
+                'description' => $product->getDescription(),
+                'text' => $product->getText()
+            ]);
+        }
 
         return $form;
     }

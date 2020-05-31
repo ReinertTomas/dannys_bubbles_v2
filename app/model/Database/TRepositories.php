@@ -9,6 +9,7 @@ use App\Model\Database\Entity\Config;
 use App\Model\Database\Entity\Document;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\Entity\Product;
+use App\Model\Database\Entity\ProductHasImage;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\Entity\User;
 use App\Model\Database\Repository\AlbumHasImageRepository;
@@ -16,6 +17,7 @@ use App\Model\Database\Repository\AlbumRepository;
 use App\Model\Database\Repository\ConfigRepository;
 use App\Model\Database\Repository\DocumentRepository;
 use App\Model\Database\Repository\OfferRepository;
+use App\Model\Database\Repository\ProductHasImageRepository;
 use App\Model\Database\Repository\ProductRepository;
 use App\Model\Database\Repository\ReviewRepository;
 use App\Model\Database\Repository\UserRepository;
@@ -59,6 +61,11 @@ trait TRepositories
     public function getProductRepository(): ProductRepository
     {
         return $this->getRepository(Product::class);
+    }
+
+    public function getProductHasImageRepository(): ProductHasImageRepository
+    {
+        return $this->getRepository(ProductHasImage::class);
     }
 
     public function getConfigRepository(): ConfigRepository

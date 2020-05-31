@@ -19,7 +19,7 @@
                             {input image 'data-image' => ''}
                             <img class="img-thumb-xl shadow"
                                  data-image
-                                 src="{$basePath}{$offer ? $offer->getImage()->getThumbWeb() : '/img/blank_offer.png'}"
+                                 src="{$basePath}{$offer ? $offer->getImage()->getThumbWeb() : $blank_200x200}"
                                  alt="Image">
                         </div>
                     </div>
