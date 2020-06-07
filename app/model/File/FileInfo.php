@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace App\Model\File;
 
+use App\Model\Utils\FileSystem;
 use App\Model\Utils\Strings;
 use SplFileInfo;
 
 final class FileInfo extends SplFileInfo implements FileInfoInterface
 {
+
+    public const IMAGE_MIME_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/webp'];
 
     private string $name;
 
@@ -50,6 +53,16 @@ final class FileInfo extends SplFileInfo implements FileInfoInterface
     public function getSize(): int
     {
         return parent::getSize();
+    }
+
+    public function getMime(): string
+    {
+        return FileSystem::mime($this->getPathname());
+    }
+
+    public function isImage(): bool
+    {
+        return in_array($this->getMime(), self::IMAGE_MIME_TYPES, true);
     }
 
 }

@@ -45,7 +45,7 @@ final class UserGridFactory
         $grid->addColumnText('image', 'Image')
             ->setRenderer(function (User $user): NetteHtml {
                 return Html::el('img')
-                    ->class('img-thumb-xs rounded-circle')
+                    ->class('img-thumb-xxs rounded-circle')
                     ->src($user->getImage()->getPathWeb())
                     ->alt('Image');
             });

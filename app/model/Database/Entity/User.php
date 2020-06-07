@@ -109,6 +109,7 @@ class User
     public function changeImage(FileInfoInterface $file): void
     {
         $this->image->update($file);
+        $this->image->resize(96, 96);
     }
 
     public function getName(): string

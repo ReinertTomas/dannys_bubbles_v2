@@ -6,6 +6,7 @@ namespace App\Domain\User;
 use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\User;
 use App\Model\Database\EntityManager;
+use App\Model\Database\Repository\UserRepository;
 use App\Model\Exception\Logic\InvalidArgumentException;
 use App\Model\File\FileTemporaryFactory;
 use App\Model\File\Image\ImageInitialCreator;
@@ -20,6 +21,8 @@ class UserFacade
 
     private EntityManager $em;
 
+    private UserRepository $userRepository;
+
     private Passwords $passwords;
 
     private ImageInitialCreator $imageInitialCreator;
@@ -29,6 +32,7 @@ class UserFacade
     public function __construct(EntityManager $em, Passwords $passwords, ImageInitialCreator $imageInitialCreator, FileTemporaryFactory $fileTemporaryFactory)
     {
         $this->em = $em;
+        $this->userRepository = $em->getUserRepository();
         $this->passwords = $passwords;
         $this->imageInitialCreator = $imageInitialCreator;
         $this->fileTemporaryFactory = $fileTemporaryFactory;
@@ -36,9 +40,7 @@ class UserFacade
 
     public function get(int $id): ?User
     {
-        return $this->em
-            ->getUserRepository()
-            ->find($id);
+        return $this->userRepository->find($id);
     }
 
     public function create(RegisterFormType $formType): User

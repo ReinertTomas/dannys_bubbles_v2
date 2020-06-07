@@ -42,4 +42,15 @@ interface FileInfoInterface
      */
     public function getSize(): int;
 
+    /**
+     * Returns the MIME content type of an uploaded file.
+     * @return string
+     */
+    public function getMime(): string;
+
+    /**
+     * @return bool
+     */
+    public function isImage(): bool;
+
 }

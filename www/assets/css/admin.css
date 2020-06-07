@@ -36,9 +36,14 @@
     flex-direction: column;
 }
 
-.img-thumb-xs {
+.img-thumb-xxs {
     width: 32px;
     height: 32px;
+}
+
+.img-thumb-xs {
+    width: 48px;
+    height: 48px;
 }
 
 .img-thumb-sm {

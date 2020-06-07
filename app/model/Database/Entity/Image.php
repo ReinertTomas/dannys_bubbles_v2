@@ -21,6 +21,9 @@ class Image extends AbstractFile
 
     protected bool $makeThumb;
 
+    /** @var array<int, int> */
+    protected array $resize = [];
+
     public function __construct(FileInfoInterface $file, string $namespace, bool $makeThumb)
     {
         parent::__construct($file, $namespace);
@@ -39,6 +42,11 @@ class Image extends AbstractFile
         if (realpath($this->getThumbAbsolute()) !== false) {
             $this->createThumb();
         }
+    }
+
+    public function resize(int $width, int $height): void
+    {
+        $this->resize = [$width, $height];
     }
 
     public function getThumbAbsolute(): string
@@ -70,6 +78,15 @@ class Image extends AbstractFile
         $image->save($this->getThumbAbsolute(), 80);
     }
 
+    protected function makeResize(): void
+    {
+        list($width, $height) = $this->resize;
+        $image = ImageUtils::fromFile($this->getPathAbsolute());
+        $image->resize($width, $height, ImageUtils::EXACT);
+        $image->sharpen();
+        $image->save($this->getPathAbsolute(), 80);
+    }
+
     /**
      * @internal
      * @ORM\PostPersist()
@@ -84,6 +101,10 @@ class Image extends AbstractFile
             if ($this->makeThumb) {
                 $this->createThumb();
             }
+        }
+        // Resize
+        if ($this->resize !== []) {
+            $this->makeResize();
         }
         $this->file = null;
     }

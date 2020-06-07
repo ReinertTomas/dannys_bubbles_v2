@@ -52,12 +52,21 @@ abstract class AbstractFile
 
     public function update(FileInfoInterface $file): void
     {
+        $oldPath = null;
+        if ($file->getExtension() !== $this->extension) {
+            $oldPath = $this->getPathAbsolute();
+            $this->path = str_replace('.' . $this->extension, '.' . $file->getExtension(), $this->path);
+        }
         $this->name = $file->getName();
         $this->extension = $file->getExtension();
         $this->size = $file->getSize();
         $this->file = null;
-        // Overwrite image
+        // Overwrite file
         FileSystem::rename($file->getPathname(), $this->getPathAbsolute());
+        // Remove file when extension change
+        if ($oldPath !== null) {
+            FileSystem::delete($oldPath);
+        }
     }
 
     public function getName(): string
