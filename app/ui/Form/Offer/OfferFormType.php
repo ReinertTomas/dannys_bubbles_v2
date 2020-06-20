@@ -12,6 +12,8 @@ final class OfferFormType
 
     public string $title;
 
+    public string $description;
+
     public string $text;
 
 }

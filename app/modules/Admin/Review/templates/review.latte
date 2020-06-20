@@ -16,6 +16,15 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 {form reviewForm}
+                    <div class="text-center mb-3">
+                        <div class="img-input">
+                            {input image 'data-image' => ''}
+                            <img class="img-thumb-lg rounded-circle shadow"
+                                 data-image
+                                 src="{$basePath}{$review ? $review->getImage()->getThumbWeb() : $blank_150x150}"
+                                 alt="Image">
+                        </div>
+                    </div>
                     <div class="mb-3">
                         {label title/}
                         {input title 'class' => 'form-control'}

@@ -1,237 +1,100 @@
 {block #content}
-    <div class="shap_big_2 d-none d-lg-block">
-        <img src="{$basePath}/assets/front/img/ilstrator/body_shap_2.png" alt=""/>
-    </div>
-    <!-- slider_area_start -->
-    <div class="slider_area">
-        <div class="shap_img_1 d-none d-lg-block">
-            <img src="{$basePath}/assets/front/img/ilstrator/body_shap_1.png" alt=""/>
-        </div>
-        <div class="single_slider  d-flex align-items-center slider_bg_1">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-xl-10 offset-xl-1">
-                        <div class="slider_text text-center">
-                            <div class="text">
-                                <h1>Danny's Bubbles
-                                    <p>Bublinové představení pro malé i velké</p>
-                                </h1>
-                            </div>
-                            <div class="ilstrator_thumb">
-                                <img class="shadow" src="{$basePath}/assets/front/img/bubble/front.jpg" alt=""/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- slider_area_end -->
+    {varType App\Model\Database\Entity\Offer $offer}
+    {varType App\Model\Database\Entity\Product $product}
 
-    <!-- features_area  -->
-    <div class="case_study_area white_case_study">
+    <div class="page-header theme-bg-dark py-5 text-center position-relative">
+        <div class="theme-bg-shapes-right"></div>
+        <div class="theme-bg-shapes-left"></div>
         <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="section_title text-center">
-                        <h3 class="m-b-3">Produkty</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_study text-center white_single_study m-b-1">
-                        <div class="thumb">
-                            <a href="Case_details.html">
-                                <img src="{$basePath}/assets/front/img/bubble/portfolio4.jpg" alt=""/>
-                            </a>
-                        </div>
-                        <div class="subheading white_subheading">
-                            <h4><a href="#">Product Design</a></h4>
-                            <p>UI/UX, Design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_study text-center white_single_study m-b-1">
-                        <div class="thumb">
-                            <a href="Case_details.html">
-                                <img src="{$basePath}/assets/front/img/bubble/portfolio5.jpg" alt=""/>
-                            </a>
-                        </div>
-                        <div class="subheading white_subheading">
-                            <h4>
-                                <a href="Case_details.html">Custom Website</a>
-                            </h4>
-                            <p>UI/UX, Design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_study text-center white_single_study m-b-1">
-                        <div class="thumb">
-                            <a href="Case_details.html">
-                                <img src="{$basePath}/assets/front/img/bubble/portfolio6.jpg" alt=""/>
-                            </a>
-                        </div>
-                        <div class="subheading white_subheading">
-                            <h4>
-                                <a href="Case_details.html">Digital Marketing</a>
-                            </h4>
-                            <p>UI/UX, Design</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="load_more text-center">
-                        <a class="load-more-btn" href="#">Load More</a>
-                    </div>
-                </div>
-            </div>
+            <h1 class="page-heading single-col-max mx-auto">Danny's Bubbles</h1>
+            <div class="page-intro single-col-max mx-auto">Bublinové představení pro malé i velké</div>
         </div>
     </div>
-    <!--/ features_area  -->
 
-    <!-- features_area  -->
-    <div class="case_study_area white_case_study">
+    <section class="py-3 py-md-5">
         <div class="container">
+            <h3 class="text-center">Nabídka</h3>
+            <div class="mb-5 text-center section-intro">From Web Developers to App Developers</div>
             <div class="row">
-                <div class="col-xl-12">
-                    <div class="section_title text-center">
-                        <h3 class="m-b-3">Produkty</h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_study text-center white_single_study m-b-1">
+                <div n:foreach="$offers as $offer" class="col-lg-4 col-md-6">
+                    <div class="box">
                         <div class="thumb">
-                            <a href="Case_details.html">
-                                <img src="{$basePath}/assets/front/img/bubble/portfolio4.jpg" alt=""/>
+                            <a n:href=":Front:Offer:detail $offer->getId()">
+                                <img class="img-scale" src="{$basePath}{$offer->getImage()->getPathWeb()}" alt="Image">
                             </a>
                         </div>
-                        <div class="subheading white_subheading">
-                            <h4><a href="#">Product Design</a></h4>
-                            <p>UI/UX, Design</p>
+                        <div class="box-body">
+                            <h5 class="mb-3">{$offer->getTitle()}</h5>
+                            <div>{$offer->getDescription()|truncate:128, '...'}</div>
+                            <div class="mt-2">
+                                <a n:href=":Front:Offer:detail $offer->getId()">Více →</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_study text-center white_single_study m-b-1">
-                        <div class="thumb">
-                            <a href="Case_details.html">
-                                <img src="{$basePath}/assets/front/img/bubble/portfolio5.jpg" alt=""/>
-                            </a>
-                        </div>
-                        <div class="subheading white_subheading">
-                            <h4>
-                                <a href="Case_details.html">Custom Website</a>
-                            </h4>
-                            <p>UI/UX, Design</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_study text-center white_single_study m-b-1">
-                        <div class="thumb">
-                            <a href="Case_details.html">
-                                <img src="{$basePath}/assets/front/img/bubble/portfolio6.jpg" alt=""/>
-                            </a>
-                        </div>
-                        <div class="subheading white_subheading">
-                            <h4>
-                                <a href="Case_details.html">Digital Marketing</a>
-                            </h4>
-                            <p>UI/UX, Design</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="load_more text-center">
-                        <a class="load-more-btn" href="#">Load More</a>
-                    </div>
-                </div>
+            </div><!--//row-->
+            <div class="pt-3 text-center">
+                <a class="btn btn-light" href="features.html">Všechny nabídky<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
             </div>
         </div>
-    </div>
-    <!--/ features_area  -->
+    </section><!--//benefits-section-->
 
-    <!-- testimonial_area  -->
-    <div class="testimonial_area">
+    <section class="py-3 py-md-5">
         <div class="container">
+            <h3 class="text-center">Produkty</h3>
+            <div class="mb-5 text-center section-intro">From Web Developers to App Developers</div>
             <div class="row">
-                <div class="col-xl-12">
-                    <div class="testmonial_active owl-carousel">
-                        <div class="single_carousel">
-                            <div class="single_testmonial text-center">
-                                <div class="quote">
-                                    <img src="{$basePath}/assets/front/img/testmonial/quote.svg" alt=""/>
-                                </div>
-                                <p>
-                                    Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor
-                                    <br/>
-                                    sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
-                                    <br/>
-                                    Fusce ac mattis nulla. Morbi eget ornare dui.
-                                </p>
-                                <div class="testmonial_author">
-                                    <div class="thumb">
-                                        <img src="{$basePath}/assets/front/img/testmonial/thumb.png" alt=""/>
-                                    </div>
-                                    <h3>Robert Thomson</h3>
-                                    <span>Business Owner</span>
-                                </div>
-                            </div>
+                <div n:foreach="$products as $product" class="col-lg-4 col-md-6">
+                    <div class="box">
+                        <div class="thumb">
+                            <a n:href=":Front:Product:detail $product->getId()">
+                                <img class="img-scale" src="{$product->getCover()->getImage()->getPathWeb()}" alt="Image">
+                            </a>
                         </div>
-                        <div class="single_carousel">
-                            <div class="single_testmonial text-center">
-                                <div class="quote">
-                                    <img src="{$basePath}/assets/front/img/testmonial/quote.svg" alt=""/>
-                                </div>
-                                <p>
-                                    Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor
-                                    <br/>
-                                    sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
-                                    <br/>
-                                    Fusce ac mattis nulla. Morbi eget ornare dui.
-                                </p>
-                                <div class="testmonial_author">
-                                    <div class="thumb">
-                                        <img src="{$basePath}/assets/front/img/testmonial/thumb.png" alt=""/>
-                                    </div>
-                                    <h3>Robert Thomson</h3>
-                                    <span>Business Owner</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="single_carousel">
-                            <div class="single_testmonial text-center">
-                                <div class="quote">
-                                    <img src="{$basePath}/assets/front/img/testmonial/quote.svg" alt=""/>
-                                </div>
-                                <p>
-                                    Donec imperdiet congue orci consequat mattis. Donec rutrum porttitor
-                                    <br/>
-                                    sollicitudin. Pellentesque id dolor tempor sapien feugiat ultrices nec sed neque.
-                                    <br/>
-                                    Fusce ac mattis nulla. Morbi eget ornare dui.
-                                </p>
-                                <div class="testmonial_author">
-                                    <div class="thumb">
-                                        <img src="{$basePath}/assets/front/img/testmonial/thumb.png" alt=""/>
-                                    </div>
-                                    <h3>Robert Thomson</h3>
-                                    <span>Business Owner</span>
-                                </div>
-                            </div>
+                        <div class="box-body text-center">
+                            <h5 class="mb-2">{$product->getTitle()}</h5>
+                            <p class="mb-0">UI/UX, Design</p>
                         </div>
                     </div>
                 </div>
+            </div><!--//row-->
+            <div class="pt-3 text-center">
+                <a class="btn btn-light" n:href=":Front:Product:default">Všechny produkty<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
             </div>
         </div>
-    </div>
+    </section><!--//benefits-section-->
+
+    <section class="testimonial-cards-section py-5 theme-bg-light">
+        <div class="container">
+            <h3 class="text-center">Doporučuje</h3>
+            <div class="mb-5 text-center section-intro">Join 500,000+ users around the world lorem ipsum dolor sit amet</div>
+
+            <div class="testimonial-carousel owl-carousel owl-theme">
+{*                {varType App\Model\Database\Entity\Review $review}*}
+                <div n:foreach="$reviews as $review" class="item">
+                    <div class="item-inner rounded shadow-sm bg-white">
+                        <div class="media source-holder">
+                            <img src="assets/images/users/user-1.jpg" class="source-profile mr-3" alt="">
+                            <div class="media-body source-meta align-self-center ">
+                                <div class="name">{$review->getTitle()}</div>
+                                <div n:if="$review->getAuthor()" class="info">{$review->getAuthor()}</div>
+                            </div>
+                            <div class="source-icon text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div><!--//media-->
+
+                        <div class="quote-holder">
+                            <blockquote class="quote-content mb-0">{$review->getText()}</blockquote>
+                        </div><!--//quote-holder-->
+                    </div><!--//item-inner-->
+                </div><!--//item-->
+            </div><!--//testimonial-carousel-->
+            <div class="pt-5 text-center">
+                <a class="btn btn-primary" href="pricing.html">Všechny doporučení<i class="fas fa-arrow-alt-circle-right ml-2"></i></a>
+            </div>
+        </div><!--//container-->
+    </section><!--//testiomonial-section-->
 {/}

@@ -1,0 +1,40 @@
+{block #content}
+    {varType App\Model\Database\Entity\Product $product}
+
+    <div class="page-header theme-bg-dark py-5 text-center position-relative">
+        <div class="theme-bg-shapes-right"></div>
+        <div class="theme-bg-shapes-left"></div>
+        <div class="container">
+            <h1 n:block="title" class="page-heading single-col-max mx-auto">Produkty</h1>
+            <div class="page-intro single-col-max mx-auto">Bublinové představení pro malé i velké</div>
+        </div>
+    </div>
+
+    <div class="page-content py-5">
+        <div class="container">
+            <nav class="mb-5" aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a n:href=":Front:Home:">Domů</a></li>
+                    <li class="breadcrumb-item active">Produkty</li>
+                </ol>
+            </nav>
+            <div n:foreach="$products as $product" class="box">
+                <div class="box-body">
+                    <!-- Custom content-->
+                    <div class="media align-items-lg-center flex-column flex-lg-row">
+                        <div class="media-body">
+                            <h5 class="mt-0 font-weight-bold mb-2">{$product->getTitle()}</h5>
+                            <p class="mb-3">{$product->getDescription()}</p>
+                            <div class="mt-0">
+                                <a n:href=":Front:Product:detail $product->getId()">Více →</a>
+                            </div>
+                        </div>
+                        <a n:href=":Front:Product:detail $product->getId()">
+                            <img class="ml-lg-5 order-1 order-lg-2" src="{$basePath}{$product->getCover()->getImage()->getThumbWeb()}" alt="">
+                        </a>
+                    </div> <!-- End -->
+                </div>
+            </div>
+        </div>
+    </div>
+{/}

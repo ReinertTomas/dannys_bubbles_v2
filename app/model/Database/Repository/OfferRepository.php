@@ -16,16 +16,12 @@ class OfferRepository extends AbstractRepository
 {
 
     /**
+     * @param int|null $limit
      * @return Offer[]
      */
-    public function findByActivated(): array
+    public function findByActive(?int $limit = null): array
     {
-        $qb = $this->createQueryBuilder('o1');
-        $qb->where($qb->expr()->eq('o1.active', ':active'))
-            ->setParameter('active', true);
-
-        return $qb->getQuery()
-            ->getResult();
+        return $this->findBy(['active' => true], ['id' => 'ASC'], $limit);
     }
     
 }

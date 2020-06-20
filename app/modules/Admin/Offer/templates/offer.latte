@@ -28,8 +28,12 @@
                         {input title 'class' => 'form-control'}
                     </div>
                     <div class="mb-3">
+                        {label description/}
+                        {input description 'class' => 'form-control', 'rows' => '4'}
+                    </div>
+                    <div class="mb-3">
                         {label text/}
-                        {input text 'class' => 'form-control', 'rows' => '4'}
+                        {input text 'class' => 'summernote'}
                     </div>
                     {input submit 'class' => 'btn btn-primary', 'value' => 'Save'}
                 {/form}

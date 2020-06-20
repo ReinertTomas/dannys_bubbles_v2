@@ -33,19 +33,25 @@ class Offer
     /**
      * @ORM\Column(type="string", length=255)
      */
+    protected string $description;
+
+    /**
+     * @ORM\Column(type="text")
+     */
     protected string $text;
 
-    public function __construct(Image $image, string $title, string $text)
+    public function __construct(Image $image, string $title, string $description, string $text)
     {
         $this->image = $image;
         $this->title = $title;
+        $this->description = $description;
         $this->text = $text;
         $this->active = false;
     }
 
-    public static function create(Image $image, string $title, string $text): Offer
+    public static function create(Image $image, string $title, string $description, string $text): Offer
     {
-        return new Offer($image, $title, $text);
+        return new Offer($image, $title, $description, $text);
     }
 
     public function getImage(): Image
@@ -66,6 +72,16 @@ class Offer
     public function changeTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function changeDescription(string $description): void
+    {
+        $this->description = $description;
     }
 
     public function getText(): string

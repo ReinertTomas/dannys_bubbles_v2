@@ -77,10 +77,16 @@ class Album implements INamespace
     }
 
     /**
+     * @param bool $all
      * @return AlbumHasImage[]
      */
-    public function getImages(): array
+    public function getImages(bool $all = true): array
     {
+        if (!$all) {
+            return $this->images->filter(function (AlbumHasImage $albumHasImage): bool {
+                return !$albumHasImage->isCover();
+            })->toArray();
+        }
         return $this->images->toArray();
     }
 

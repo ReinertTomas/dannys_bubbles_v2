@@ -15,4 +15,12 @@ use App\Model\Database\Entity\Album;
 class AlbumRepository extends AbstractRepository
 {
 
+    /**
+     * @return Album[]
+     */
+    public function findManyByActive(): array
+    {
+        return $this->findBy(['active' => true], ['createdAt' => 'ASC']);
+    }
+
 }

@@ -18,7 +18,7 @@ class ReviewRepository extends AbstractRepository
     /**
      * @return Review[]
      */
-    public function findByActivated(): array
+    public function findByActive(): array
     {
         $qb = $this->createQueryBuilder('r1');
         $qb->where($qb->expr()->eq('r1.active', ':active'))

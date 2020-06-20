@@ -3,12 +3,15 @@ declare(strict_types=1);
 
 namespace App\UI\Grid\Review;
 
+use App\Model\Database\Entity\Review;
 use App\Model\Database\EntityManager;
 use App\Model\Element\Active;
 use App\Model\Utils\DateTime;
+use App\Model\Utils\Html;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
 use Nette\ComponentModel\IContainer;
+use Nette\Utils\Html as NetteHtml;
 use Ublaboo\DataGrid\DataGrid;
 
 final class ReviewGridFactory
@@ -38,9 +41,16 @@ final class ReviewGridFactory
         );
 
         $grid->addColumnText('id', 'Id');
+        $grid->addColumnText('image', 'Image')
+            ->setRenderer(function (Review $review): NetteHtml {
+                return Html::el('img')
+                    ->class('img-thumb-xxs rounded-circle')
+                    ->src($review->getImage()->getPathWeb())
+                    ->alt('Image');
+            });
         $grid->addColumnText('title', 'Title');
-        $grid->addColumnText('text', 'Text');
         $grid->addColumnText('author', 'Author');
+        $grid->addColumnText('text', 'Text');
         $grid->addColumnDateTime('created_at', 'Created At')
             ->setFormat(DateTime::FORMAT_USER);
         $grid->addColumnStatus('active', 'Active')

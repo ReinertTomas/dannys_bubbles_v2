@@ -95,10 +95,16 @@ class Product implements INamespace
     }
 
     /**
+     * @param bool $all
      * @return ProductHasImage[]
      */
-    public function getImages(): array
+    public function getImages(bool $all = true): array
     {
+        if (!$all) {
+            return $this->images->filter(function (ProductHasImage $productHasImage): bool {
+                return !$productHasImage->isCover();
+            })->toArray();
+        }
         return $this->images->toArray();
     }
 

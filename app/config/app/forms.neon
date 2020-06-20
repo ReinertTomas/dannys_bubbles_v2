@@ -31,3 +31,6 @@ services:
 
     # Config
     - App\UI\Form\Config\ConfigFormFactory
+
+    # Contact
+    - App\UI\Form\Contact\ContactFormFactory

@@ -48,7 +48,7 @@ final class OfferGridFactory
                     ->alt('Image');
             });
         $grid->addColumnText('title', 'Title');
-        $grid->addColumnText('text', 'Text');
+        $grid->addColumnText('description', 'Description');
         $grid->addColumnStatus('active', 'Active')
             ->setCaret(false)
             ->addOption(false, $disabled->getText())

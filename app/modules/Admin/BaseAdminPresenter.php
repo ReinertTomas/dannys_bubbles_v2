@@ -13,6 +13,7 @@ abstract class BaseAdminPresenter extends SecuredPresenter
     {
         parent::beforeRender();
 
+        $this->template->blank_50x50 = Image::BLANK_50x50;
         $this->template->blank_150x150 = Image::BLANK_150x150;
         $this->template->blank_200x200 = Image::BLANK_200x200;
     }

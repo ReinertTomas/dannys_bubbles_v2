@@ -1,0 +1,33 @@
+{block #content}
+    <div class="page-header theme-bg-dark py-5 text-center position-relative">
+        <div class="theme-bg-shapes-right"></div>
+        <div class="theme-bg-shapes-left"></div>
+        <div class="container">
+            <h1 n:block="title" class="page-heading single-col-max mx-auto">Kontakt</h1>
+            <div class="page-intro single-col-max mx-auto">Bublinové představení pro malé i velké</div>
+        </div>
+    </div>
+
+    <div class="page-content py-5">
+        <div class="container">
+            {form contactForm 'class' => 'contact-form p-5 col-lg-9 mx-lg-auto theme-bg-light shadow'}
+                <h3 class="text-center">Zeptejte se</h3>
+                <div class="mb-3 text-center">For pre-sale and general questions, please use the form below.</div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {input name 'class' => 'form-control'}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {input email 'class' => 'form-control'}
+                    </div>
+                    <div class="form-group col-12">
+                        {input message 'class' => 'form-control', 'rows' => 10}
+                    </div>
+                    <div class="form-group col-12">
+                        {input submit 'class' => 'btn btn-block btn-primary py-2'}
+                    </div>
+                </div><!--//form-row-->
+            {/form}
+        </div>
+    </div>
+{/}

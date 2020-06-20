@@ -6,6 +6,7 @@ namespace App\Model\Database\Entity;
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
 use App\Model\Database\Entity\Attributes\TId;
+use App\Model\File\FileInfoInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,9 +16,17 @@ use Doctrine\ORM\Mapping as ORM;
 class Review
 {
 
+    public const NAMESPACE = '/review';
+
     use TId;
     use TCreatedAt;
     use TActive;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=FALSE)
+     */
+    protected Image $image;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -34,17 +43,31 @@ class Review
      */
     protected ?string $author;
 
-    public function __construct(string $title, string $text, ?string $author)
+    public function __construct(Image $image, string $title, string $text, ?string $author)
     {
+        $this->image = $image;
         $this->title = $title;
         $this->text = $text;
         $this->author = $author;
         $this->active = false;
+
+        $this->image->resize(400, 400);
     }
 
-    public static function create(string $title, string $text, ?string $author = null): Review
+    public static function create(Image $image, string $title, string $text, ?string $author = null): Review
     {
-        return new Review($title, $text, $author);
+        return new Review($image, $title, $text, $author);
+    }
+
+    public function getImage(): Image
+    {
+        return $this->image;
+    }
+
+    public function changeImage(FileInfoInterface $file): void
+    {
+        $this->image->update($file);
+        $this->image->resize(400, 400);
     }
 
     public function getTitle(): string
@@ -52,7 +75,7 @@ class Review
         return $this->title;
     }
 
-    public function setTitle(string $title): void
+    public function changeTitle(string $title): void
     {
         $this->title = $title;
     }
@@ -62,7 +85,7 @@ class Review
         return $this->text;
     }
 
-    public function setText(string $text): void
+    public function changeText(string $text): void
     {
         $this->text = $text;
     }
@@ -72,7 +95,7 @@ class Review
         return $this->author;
     }
 
-    public function setAuthor(?string $author): void
+    public function changeAuthor(?string $author): void
     {
         $this->author = $author;
     }

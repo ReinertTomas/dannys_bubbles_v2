@@ -1,85 +1,45 @@
-<header>
-    <div class="header-area ">
-        <div id="sticky-header" class="main-header-area">
-            <div class="container-fluid">
-                <div class="row align-items-center">
-                    <div class="col-xl-3 col-lg-2">
-                        <div class="logo">
-                            <a href="index.html">
-                                <img src="img/bt_text.png" alt="" style="height: 40px;"/>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-xl-6 col-lg-7">
-                        <div class="main-menu  d-none d-lg-block">
-                            <nav>
-                                <ul id="navigation">
-                                    <li>
-                                        <a href="index.html">home</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">pages<i class="ti-angle-down"></i></a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="Case_details.html">Case details</a>
-                                            </li>
-                                            <li>
-                                                <a href="about.html">about</a>
-                                            </li>
-                                            <li>
-                                                <a href="elements.html">elements</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="services.html">Services</a>
-                                    </li>
-                                    <li>
-                                        <a href="Case_Study.html">Case Study</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">blog<i class="ti-angle-down"></i></a>
-                                        <ul class="submenu">
-                                            <li>
-                                                <a href="blog.html">blog</a>
-                                            </li>
-                                            <li>
-                                                <a href="single-blog.html">single-blog</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="contact.html">Contact</a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                        <ul class="social-list list-inline">
-                            <li class="list-inline-item">
-                                <a href="https://www.facebook.com/Dannysbubbles/" title="Facebook" target="_blank">
-                                    <i class="fa fa-facebook-official fa-fw"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.instagram.com/dannysbubbles/" title="Instagram" target="_blank">
-                                    <i class="fa fa-instagram fa-fw"></i>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="https://www.youtube.com/channel/UC86z1vsm8LW0IqFA9TdQ7OQ?view_as=subscriber"
-                                   title="Youtube" target="_blank">
-                                    <i class="fa fa-youtube-play fa-fw"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-12">
-                        <div class="mobile_menu d-block d-lg-none"></div>
-                    </div>
+<header class="header fixed-top">
+    <div class="branding">
+        <div class="container-fluid position-relative">
+            <nav class="navbar navbar-expand-lg" >
+                <div class="site-logo">
+                    <a class="navbar-brand" n:href=":Front:Home:">
+                        <img class="logo-icon mr-2" src="{$basePath}/assets/images/bt_text.png" alt="logo" style="height: 40px;">
+                    </a></div>
+
+                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                    <span> </span>
+                    <span> </span>
+                    <span> </span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="social-list list-inline mt-3 mt-lg-0 mb-lg-0 d-flex ml-lg-5 mr-lg-5">
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-github fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-slack fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fab fa-product-hunt fa-fw"></i></a></li>
+                    </ul><!--//social-list-->
+                    <ul class="navbar-nav ml-lg-auto">
+                        <li class="nav-item mr-lg-4">
+                            <a class="nav-link" n:href=":Front:Offer:">Nabídka</a>
+                        </li>
+                        <li class="nav-item mr-lg-4">
+                            <a class="nav-link" n:href=":Front:Product:">Produkty</a>
+                        </li>
+                        <li class="nav-item mr-lg-4">
+                            <a class="nav-link" n:href=":Front:Album:">Fotky</a>
+                        </li>
+                        <li class="nav-item mr-lg-4">
+                            <a class="nav-link" n:href=":Front:Price:">Ceník</a>
+                        </li>
+                        <li class="nav-item mr-lg-0">
+                            <a class="nav-link" n:href=":Front:Contact:">Kontakt</a>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-</header>
+            </nav>
+
+        </div><!--//container-->
+    </div><!--//branding-->
+</header><!--//header-->

@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace App\Domain\Review;
 
+use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\EntityManager;
+use App\Model\Database\Repository\ReviewRepository;
+use App\Model\Exception\Runtime\UploadException;
+use App\Model\File\FileTemporaryFactory;
 use App\UI\Form\Review\ReviewFormType;
 
 class ReviewFacade
@@ -12,20 +16,32 @@ class ReviewFacade
 
     private EntityManager $em;
 
-    public function __construct(EntityManager $em)
+    private ReviewRepository $reviewRepository;
+
+    private FileTemporaryFactory $fileTemporaryFactory;
+
+    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
     {
         $this->em = $em;
+        $this->reviewRepository = $em->getReviewRepository();
+        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
     public function get(int $id): ?Review
     {
-        return $this->em->getReviewRepository()
-            ->find($id);
+        return $this->reviewRepository->find($id);
     }
 
     public function create(ReviewFormType $formType): Review
     {
-        $review = Review::create($formType->title, $formType->text, $formType->author);
+        $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
+
+        $review = Review::create(
+            Image::create($file, Review::NAMESPACE),
+            $formType->title,
+            $formType->text,
+            $formType->author
+        );
 
         $this->em->persist($review);
         $this->em->flush();
@@ -35,9 +51,12 @@ class ReviewFacade
 
     public function update(Review $review, ReviewFormType $formType): Review
     {
-        $review->setTitle($formType->title);
-        $review->setText($formType->text);
-        $review->setAuthor($formType->author);
+        $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
+
+        $review->changeImage($file);
+        $review->changeTitle($formType->title);
+        $review->changeText($formType->text);
+        $review->changeAuthor($formType->author);
         $this->em->flush();
 
         return $review;

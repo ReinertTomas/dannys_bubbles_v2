@@ -72,7 +72,7 @@ final class ReviewPresenter extends BaseAdminPresenter
                 $this->errorNotFoundEntity($id);
             }
 
-            $this->reviewFacade->changeActive($review, (bool) $value);
+            $this->reviewFacade->changeActive($review, (bool)$value);
 
             $this->flashSuccess(
                 sprintf('messages.review.%s', $review->isActive() ? 'show' : 'hide')
@@ -91,18 +91,16 @@ final class ReviewPresenter extends BaseAdminPresenter
 
     protected function createComponentReviewForm(): Form
     {
-        $form = $this->reviewFormFactory->create($this->review);
-        $form->onSuccess[] = function (Form $form, ReviewFormType $formType): void {
+        return $this->reviewFormFactory->create($this->review, function (Form $form, ReviewFormType $formType): void {
             if ($this->review === null) {
                 $this->review = $this->reviewFacade->create($formType);
-                $this->flashSuccess('messages.review.created');
+                $this->flashSuccess('messages.review.create');
             } else {
                 $this->review = $this->reviewFacade->update($this->review, $formType);
-                $this->flashSuccess('messages.review.updated');
+                $this->flashSuccess('messages.review.update');
             }
             $this->redirect('this', $this->review->getId());
-        };
-        return $form;
+        });
     }
 
     public function getReviewGrid(): DataGrid

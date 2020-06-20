@@ -22,12 +22,12 @@ final class HomePresenter extends BaseFrontPresenter
 
     public function actionDefault(): void
     {
-        $this->products = $this->em->getProductRepository()
-            ->findByActivated(true);
         $this->offers = $this->em->getOfferRepository()
-            ->findByActivated();
+            ->findByActive(3);
+        $this->products = $this->em->getProductRepository()
+            ->findManyByHighlight();
         $this->reviews = $this->em->getReviewRepository()
-            ->findByActivated();
+            ->findByActive();
     }
 
     public function renderDefault(): void

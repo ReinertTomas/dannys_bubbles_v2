@@ -16,6 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Image extends AbstractFile
 {
 
+    public const BLANK_50x50 = '/img/blank_50x50.png';
     public const BLANK_150x150 = '/img/blank_150x150.png';
     public const BLANK_200x200 = '/img/blank_200x200.png';
 

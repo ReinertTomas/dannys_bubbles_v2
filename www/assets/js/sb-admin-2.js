@@ -7,7 +7,7 @@ import lightbox2 from 'lightbox2';
 
     // init summernote
     $("textarea.summernote").summernote({
-        placeholder: '* Your text',
+        placeholder: '* Text',
         toolbar: [
             ['style', ['bold', 'italic', 'underline', 'clear']],
             ['font', ['strikethrough', 'superscript', 'subscript']],

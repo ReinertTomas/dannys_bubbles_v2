@@ -24,6 +24,8 @@ final class OfferFormFactory
 
         $form->addText('title', 'Title')
             ->setRequired();
+        $form->addTextArea('description', 'Description')
+            ->setRequired();
         $form->addTextArea('text', 'Text')
             ->setRequired();
         $image = $form
@@ -37,6 +39,7 @@ final class OfferFormFactory
             $image->setRequired(false);
             $form->setDefaults([
                 'title' => $offer->getTitle(),
+                'description' => $offer->getDescription(),
                 'text' => $offer->getText()
             ]);
         }

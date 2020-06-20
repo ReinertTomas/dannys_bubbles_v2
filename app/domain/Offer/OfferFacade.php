@@ -41,6 +41,7 @@ final class OfferFacade
         $offer = Offer::create(
             Image::create($file, Offer::NAMESPACE),
             $formType->title,
+            $formType->description,
             $formType->text
         );
 
@@ -59,6 +60,7 @@ final class OfferFacade
         }
 
         $offer->changeTitle($formType->title);
+        $offer->changeDescription($formType->description);
         $offer->changeText($formType->text);
         $this->em->flush();
 

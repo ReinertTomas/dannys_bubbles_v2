@@ -1,0 +1,413 @@
+{block #content}
+    {varType App\Model\Database\Entity\Review $review}
+
+    <div class="page-header theme-bg-dark py-5 text-center position-relative">
+        <div class="theme-bg-shapes-right"></div>
+        <div class="theme-bg-shapes-left"></div>
+        <div class="container">
+            <h1 n:block="title" class="page-heading single-col-max mx-auto">Ceník</h1>
+            <div class="page-intro single-col-max mx-auto">Bublinové představení pro malé i velké</div>
+        </div>
+    </div>
+
+    <div class="page-content py-5">
+        <section class="plans-section mb-5 pb-5">
+            <div class="container">
+                <div class="plan-items row justify-content-center" id="plan-items">
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="item shadow rounded">
+                            <div class="plan-header text-center">
+                                <h3 class="plan-title">Personal</h3>
+                                <div class="plan-cost">
+                                    <div class="plan-cost-monthly" style="">
+                                        <span class="currency">$</span>
+                                        <span class="number">0</span>
+                                        <span class="unit">/month</span>
+                                    </div>
+                                    <div class="plan-cost-yearly" style="display: none;">
+                                        <span class="currency">$</span>
+                                        <span class="number">0</span>
+                                        <span class="unit">/year</span>
+                                    </div>
+                                </div><!--//plan-cost-->
+                                <div class="plan-cta">
+                                    <a class="btn-primary btn" href="#">Get Started</a>
+                                </div>
+                            </div><!--//plan-header-->
+
+                            <div class="plan-content">
+                                <div class="plan-intro">Extra plan info goes here lorem ipsum dolor sit amet.</div>
+                                <ul class="plan-desc list-unstyled">
+                                    <li>Feature Lorem<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                        data-toggle="popover"
+                                                        data-content="You can use popover to give more info about the feature."
+                                                        data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature tempus</li>
+                                    <li>Feature ipsum</li>
+                                </ul>
+                            </div><!--//plan-content-->
+                        </div><!--//item-->
+                    </div><!--//col-->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="item shadow rounded">
+                            <div class="plan-header text-center">
+                                <h3 class="plan-title">Pro</h3>
+                                <div class="plan-cost">
+                                    <div class="plan-cost-monthly" style="">
+                                        <span class="currency">$</span>
+                                        <span class="number">9</span>
+                                        <span class="unit">/month</span>
+                                    </div>
+                                    <div class="plan-cost-yearly" style="display: none;">
+                                        <span class="currency">$</span>
+                                        <span class="number">99</span>
+                                        <span class="unit">/year</span>
+                                    </div>
+                                </div><!--//plan-cost-->
+                                <div class="plan-cta">
+                                    <a class="btn-primary btn" href="#">Get Started</a>
+                                </div>
+                            </div><!--//plan-header-->
+
+                            <div class="plan-content">
+                                <div class="plan-intro">Extra plan info goes here lorem ipsum dolor sit amet.</div>
+                                <ul class="plan-desc list-unstyled">
+                                    <li>Feature Lorem <a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                         data-toggle="popover"
+                                                         data-content="You can use popover to give more info about the feature."
+                                                         data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+
+                                    <li>Feature tempus <a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                          data-toggle="popover"
+                                                          data-content="You can use popover to give more info about the feature."
+                                                          data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature consectetur<a tabindex="0"
+                                                              class="theme-icon-holder info-popover-trigger"
+                                                              data-toggle="popover"
+                                                              data-content="You can use popover to give more info about the feature."
+                                                              data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature nulla nunc<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                             data-toggle="popover"
+                                                             data-content="You can use popover to give more info about the feature."
+                                                             data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature vitae leo<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                            data-toggle="popover"
+                                                            data-content="You can use popover to give more info about the feature."
+                                                            data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                </ul>
+                            </div><!--//plan-content-->
+                        </div><!--//item-->
+                    </div><!--//col-->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="item shadow rounded">
+                            <div class="plan-header text-center">
+                                <h3 class="plan-title">Team</h3>
+                                <div class="plan-cost">
+                                    <div class="plan-cost-monthly" style="">
+                                        <span class="currency">$</span>
+                                        <span class="number">99</span>
+                                        <span class="unit">/month</span>
+                                    </div>
+                                    <div class="plan-cost-yearly" style="display: none;">
+                                        <span class="currency">$</span>
+                                        <span class="number">800</span>
+                                        <span class="unit">/year</span>
+                                    </div>
+                                </div><!--//plan-cost-->
+                                <div class="plan-cta">
+                                    <a class="btn-primary btn" href="#">Get Started</a>
+                                </div>
+                            </div><!--//plan-header-->
+
+                            <div class="plan-content">
+                                <div class="plan-intro">Extra plan info goes here lorem ipsum dolor sit amet.</div>
+                                <ul class="plan-desc list-unstyled">
+                                    <li>Feature Lorem <a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                         data-toggle="popover"
+                                                         data-content="You can use popover to give more info about the feature."
+                                                         data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature tempus<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                         data-toggle="popover"
+                                                         data-content="You can use popover to give more info about the feature."
+                                                         data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature Ipsum<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                        data-toggle="popover"
+                                                        data-content="You can use popover to give more info about the feature."
+                                                        data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature consectetur<a tabindex="0"
+                                                              class="theme-icon-holder info-popover-trigger"
+                                                              data-toggle="popover"
+                                                              data-content="You can use popover to give more info about the feature."
+                                                              data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature nulla nunc<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                             data-toggle="popover"
+                                                             data-content="You can use popover to give more info about the feature."
+                                                             data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature vitae leo<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                            data-toggle="popover"
+                                                            data-content="You can use popover to give more info about the feature."
+                                                            data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature sit amet<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                           data-toggle="popover"
+                                                           data-content="You can use popover to give more info about the feature."
+                                                           data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+
+                                </ul>
+                            </div><!--//plan-content-->
+                        </div><!--//item-->
+                    </div><!--//col-->
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="item shadow rounded">
+                            <div class="plan-header text-center">
+                                <h3 class="plan-title">Enterprise</h3>
+                                <div class="plan-cost">
+
+                                    <span class="number"><svg class="svg-inline--fa fa-building fa-w-14"
+                                                              aria-hidden="true" focusable="false" data-prefix="far"
+                                                              data-icon="building" role="img"
+                                                              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+                                                              data-fa-i2svg=""><path fill="currentColor"
+                                                                                     d="M128 148v-40c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12zm140 12h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm-128 96h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm128 0h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm-76 84v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12zm76 12h40c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12zm180 124v36H0v-36c0-6.6 5.4-12 12-12h19.5V24c0-13.3 10.7-24 24-24h337c13.3 0 24 10.7 24 24v440H436c6.6 0 12 5.4 12 12zM79.5 463H192v-67c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v67h112.5V49L80 48l-.5 415z"></path></svg>
+                                        <!-- <i class="far fa-building"></i> --></span>
+
+                                </div><!--//plan-cost-->
+                                <div class="plan-cta">
+                                    <a class="btn-primary btn" href="#">Contact Us</a>
+                                </div>
+                            </div><!--//plan-header-->
+
+                            <div class="plan-content">
+                                <div class="plan-intro">Extra plan info goes here lorem ipsum dolor sit amet.</div>
+                                <ul class="plan-desc list-unstyled">
+                                    <li>Feature Lorem <a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                         data-toggle="popover"
+                                                         data-content="You can use popover to give more info about the feature."
+                                                         data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature tempus<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                         data-toggle="popover"
+                                                         data-content="You can use popover to give more info about the feature."
+                                                         data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature Ipsum<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                        data-toggle="popover"
+                                                        data-content="You can use popover to give more info about the feature."
+                                                        data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature consectetur<a tabindex="0"
+                                                              class="theme-icon-holder info-popover-trigger"
+                                                              data-toggle="popover"
+                                                              data-content="You can use popover to give more info about the feature."
+                                                              data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature nulla nunc<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                             data-toggle="popover"
+                                                             data-content="You can use popover to give more info about the feature."
+                                                             data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature vitae leo<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                            data-toggle="popover"
+                                                            data-content="You can use popover to give more info about the feature."
+                                                            data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature sit amet<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                           data-toggle="popover"
+                                                           data-content="You can use popover to give more info about the feature."
+                                                           data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature adipiscing<a tabindex="0" class="theme-icon-holder info-popover-trigger"
+                                                             data-toggle="popover"
+                                                             data-content="You can use popover to give more info about the feature."
+                                                             data-trigger="hover" data-original-title="" title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                    <li>Feature aptent taciti sociosqu<a tabindex="0"
+                                                                         class="theme-icon-holder info-popover-trigger"
+                                                                         data-toggle="popover"
+                                                                         data-content="You can use popover to give more info about the feature."
+                                                                         data-trigger="hover" data-original-title=""
+                                                                         title="">
+                                            <svg class="svg-inline--fa fa-info fa-w-6" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="info" role="img"
+                                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M20 424.229h20V279.771H20c-11.046 0-20-8.954-20-20V212c0-11.046 8.954-20 20-20h112c11.046 0 20 8.954 20 20v212.229h20c11.046 0 20 8.954 20 20V492c0 11.046-8.954 20-20 20H20c-11.046 0-20-8.954-20-20v-47.771c0-11.046 8.954-20 20-20zM96 0C56.235 0 24 32.235 24 72s32.235 72 72 72 72-32.235 72-72S135.764 0 96 0z"></path>
+                                            </svg><!-- <i class="fas fa-info"></i> --></a></li>
+                                </ul>
+                            </div><!--//plan-content-->
+                        </div><!--//item-->
+                    </div><!--//col-->
+
+                </div>
+            </div>
+        </section>
+        <section class="testimonial-cards-section py-5 theme-bg-light">
+            <div class="container">
+                <h3 class="text-center mb-2">Doporučuje</h3>
+                <div class="section-intro text-center mb-5">Don’t take our word for it. See what our users are
+                    saying...
+                </div>
+                <div class="testimonial-card-columns card-columns">
+                    <div n:foreach="$reviews as $review" class="card shadow-sm">
+                        <div class="card-body rounded">
+                            <div class="media source-holder">
+                                <img src="{$basePath}{$review->getImage()->getThumbWeb()}" class="source-profile mr-3" alt="">
+                                <div class="media-body source-meta align-self-center ">
+                                    <div class="name">{$review->getTitle()}</div>
+                                    <div class="info">{$review->getAuthor()}</div>
+                                </div>
+                                <div class="source-icon text-warning">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div><!--//media-->
+                            <div class="quote-holder">
+                                <blockquote class="quote-content mb-0">{$review->getText()}</blockquote>
+                            </div><!--//quote-holder-->
+                        </div><!--//card-body-->
+                    </div><!--//card-->
+                </div><!--//testimonial-card-columns-->
+            </div><!--//container-->
+        </section>
+    </div>
+{/}

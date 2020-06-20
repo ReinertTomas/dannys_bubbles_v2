@@ -17,7 +17,12 @@ final class ReviewFormFactory
         $this->formFactory = $formFactory;
     }
 
-    public function create(?Review $review): Form
+    /**
+     * @param Review|null $review
+     * @param callable(Form, ReviewFormType): void $onSuccess
+     * @return Form
+     */
+    public function create(?Review $review, callable $onSuccess): Form
     {
         $form = $this->formFactory->createSecured();
 
@@ -27,10 +32,17 @@ final class ReviewFormFactory
             ->setNullable();
         $form->addTextArea('text', 'Text (required)')
             ->setRequired();
+        $image = $form
+            ->addUpload('image', 'Image')
+            ->setRequired()
+            ->addRule(Form::IMAGE, 'Select only images');
         $form->addSubmit('submit', 'Save');
         $form->setMappedType(ReviewFormType::class);
 
+        $form->onSuccess[] = $onSuccess;
+
         if ($review !== null) {
+            $image->setRequired(false);
             $form->setDefaults([
                 'title' => $review->getTitle(),
                 'author' => $review->getAuthor(),

@@ -16,45 +16,19 @@ class ProductRepository extends AbstractRepository
 {
 
     /**
-     * @param bool $highlight
      * @return Product[]
      */
-    public function findByActivated(bool $highlight = false): array
+    public function findManyByActive(): array
     {
-        $qb = $this->createQueryBuilder('p1');
-        $qb->andWhere(
-            $qb->expr()->eq('p1.active', ':active')
-        );
-        $qb->setParameter('active', true);
-
-        if ($highlight) {
-            $qb->andWhere(
-                $qb->expr()->eq('p1.highlight', ':highlight')
-            );
-            $qb->setParameter('highlight', true);
-            $qb->setMaxResults(4);
-        }
-
-        $qb->orderBy('p1.id');
-        return $qb
-            ->getQuery()
-            ->getResult();
+        return $this->findBy(['active' => true], ['createdAt' => 'ASC']);
     }
 
     /**
      * @return Product[]
      */
-    public function findByHighlighted(): array
+    public function findManyByHighlight(): array
     {
-        $qb = $this->createQueryBuilder('p1');
-        $qb->where(
-            $qb->expr()->eq('p1.highlight', ':highlight')
-        );
-        $qb->setParameter('highlight', true);
-
-        return $qb
-            ->getQuery()
-            ->getResult();
+        return $this->findBy(['active' => true, 'highlight' => true], ['createdAt' => 'ASC'], 4);
     }
 
     public function getCountHighlighted(): int
