@@ -5,7 +5,7 @@ includes:
 
 parameters:
     database:
-        host: localhost
+        host: md45.wedos.net
         user: w218554_bubbles
         password: j5keNaSB
         dbname: d218554_bubbles
