@@ -1,0 +1,23 @@
+# config PRODUCTION
+#
+includes:
+    - base.neon
+
+parameters:
+    database:
+        host: localhost
+        user: w218554_bubbles
+        password: j5keNaSB
+        dbname: d218554_bubbles
+        driver: mysqli
+
+services:
+    # Security ================
+    nette.userStorage:
+        setup:
+            - setNamespace('bubbles')
+
+    # Mailer ==================
+    nette.mailer:
+        class: Nette\Mail\IMailer
+        factory: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
