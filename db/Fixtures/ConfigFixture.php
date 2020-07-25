@@ -47,7 +47,7 @@ class ConfigFixture extends AbstractFixture
         $config->facebook = 'https://www.facebook.com/Dannysbubbles';
         $config->instagram = 'https://www.instagram.com/dannysbubbles';
         $config->youtube = 'https://www.youtube.com/channel/UC86z1vsm8LW0IqFA9TdQ7OQ';
-        $config->promoVideo = 'xxx';
+        $config->promoVideo = 'https://www.youtube.com/embed/8dkdey6rdto';
         $config->promoImage = 'xxx';
 
         return $config;

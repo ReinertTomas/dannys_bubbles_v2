@@ -47,6 +47,7 @@ final class ConfigFormFactory
         $form->addText('youtube', 'Youtube (required)')
             ->setRequired();
         $form->addText('promoVideo', 'Promo Video');
+        $form->addTextArea('aboutMe', 'About Me');
         $form->addSubmit('submit', 'Save');
         $form->setMappedType(ConfigFormType::class);
 
@@ -60,6 +61,7 @@ final class ConfigFormFactory
             $config->setInstagram($formType->instagram);
             $config->setYoutube($formType->youtube);
             $config->setPromoVideo($formType->promoVideo);
+            $config->setAboutMe($formType->aboutMe);
             $this->em->flush();
 
             ($onSuccess)();
@@ -75,7 +77,8 @@ final class ConfigFormFactory
                 'facebook' => $config->getFacebook(),
                 'instagram' => $config->getInstagram(),
                 'youtube' => $config->getYoutube(),
-                'promoVideo' => $config->getPromoVideo()
+                'promoVideo' => $config->getPromoVideo(),
+                'aboutMe' => $config->getAboutMe()
             ]);
         }
 

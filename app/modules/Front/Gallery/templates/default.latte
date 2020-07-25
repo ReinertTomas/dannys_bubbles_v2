@@ -20,11 +20,15 @@
             </nav>
             <div n:snippet="images" class="container p-0">
                 <div class="row text-center text-lg-left">
-                    <div n:foreach="$galleries as $gallery" class="col-lg-3 col-md-4 col-6 mb-4">
-                        <a href="{$basePath}{$gallery->getPathWeb()}"
-                            title="{$gallery->getName()}"
-                            data-lightbox="images"><img class="img-fluid img-scale" src="{$basePath}{$gallery->getPathWeb()}" alt="Image">
-                        </a>
+                    <div n:foreach="$galleries as $gallery" class="col-lg-3 col-md-4 col-6">
+                        <div class="box">
+                            <div class="thumb rounded-0">
+                                <a href="{$basePath}{$gallery->getPathWeb()}"
+                                    title="{$gallery->getName()}"
+                                    data-lightbox="images"><img class="img-fluid img-scale" src="{$basePath}{$gallery->getPathWeb()}" alt="Image">
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

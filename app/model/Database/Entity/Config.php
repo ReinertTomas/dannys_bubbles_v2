@@ -88,6 +88,11 @@ class Config
      */
     protected string $promoImage;
 
+    /**
+     * @ORM\Column(type="text", nullable=TRUE)
+     */
+    protected ?string $aboutMe;
+
     public function getDocumentShow(): ?Document
     {
         return $this->documentShow;
@@ -248,6 +253,16 @@ class Config
     public function setPromoImage(string $promoImage): void
     {
         $this->promoImage = $promoImage;
+    }
+
+    public function getAboutMe(): ?string
+    {
+        return $this->aboutMe;
+    }
+
+    public function setAboutMe(string $aboutMe): void
+    {
+        $this->aboutMe = $aboutMe;
     }
 
 }

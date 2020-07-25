@@ -8,8 +8,6 @@ use Nette\Http\FileUpload;
 final class ConfigFormType
 {
 
-    public FileUpload $condition;
-
     public string $name;
 
     public string $surname;
@@ -29,5 +27,7 @@ final class ConfigFormType
     public ?string $promoVideo;
 
     public ?string $promoImage;
+
+    public string $aboutMe;
 
 }
