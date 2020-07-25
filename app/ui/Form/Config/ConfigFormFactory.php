@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\UI\Form\Config;
 
 use App\Model\Database\Entity\Config;
+use App\Model\Database\EntityManager;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
 
@@ -12,14 +13,17 @@ final class ConfigFormFactory
 
     private FormFactory $formFactory;
 
-    public function __construct(FormFactory $formFactory)
+    private EntityManager $em;
+
+    public function __construct(FormFactory $formFactory, EntityManager $em)
     {
         $this->formFactory = $formFactory;
+        $this->em = $em;
     }
 
     /**
      * @param Config|null $config
-     * @param callable(Form, ConfigFormType): void $onSuccess
+     * @param callable(): void $onSuccess
      * @return Form
      */
     public function create(?Config $config, callable $onSuccess): Form
@@ -42,12 +46,24 @@ final class ConfigFormFactory
             ->setRequired();
         $form->addText('youtube', 'Youtube (required)')
             ->setRequired();
-        $form->addUpload('condition', 'Terms and Conditions');
         $form->addText('promoVideo', 'Promo Video');
         $form->addSubmit('submit', 'Save');
         $form->setMappedType(ConfigFormType::class);
 
-        $form->onSuccess[] = $onSuccess;
+        $form->onSuccess[] = function (Form $form, ConfigFormType $formType) use ($config, $onSuccess): void {
+            $config->setName($formType->name);
+            $config->setSurname($formType->surname);
+            $config->setIco($formType->ico);
+            $config->setEmail($formType->email);
+            $config->setWebsite($formType->website);
+            $config->setFacebook($formType->facebook);
+            $config->setInstagram($formType->instagram);
+            $config->setYoutube($formType->youtube);
+            $config->setPromoVideo($formType->promoVideo);
+            $this->em->flush();
+
+            ($onSuccess)();
+        };
 
         if ($config !== null) {
             $form->setDefaults([

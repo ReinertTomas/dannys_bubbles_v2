@@ -1,3 +1,5 @@
+{varType App\Model\Database\Entity\Config $config}
+
 <header class="header fixed-top">
     <div class="branding">
         <div class="container-fluid position-relative">
@@ -15,10 +17,15 @@
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <ul class="social-list list-inline mt-3 mt-lg-0 mb-lg-0 d-flex ml-lg-5 mr-lg-5">
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-github fa-fw"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-slack fa-fw"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fab fa-product-hunt fa-fw"></i></a></li>
+                        <li class="list-inline-item">
+                            <a href="{$config->getFacebook()}" target="_blank" title="Facebook"><i class="fab fa-facebook-f fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="{$config->getInstagram()}" target="_blank" title="Instagram"><i class="fab fa-instagram fa-fw"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="{$config->getYoutube()}" target="_blank" title="Youtube"><i class="fab fa-youtube fa-fw"></i></a>
+                        </li>
                     </ul><!--//social-list-->
                     <ul class="navbar-nav ml-lg-auto">
                         <li class="nav-item mr-lg-4">
@@ -28,7 +35,7 @@
                             <a class="nav-link" n:href=":Front:Product:">Produkty</a>
                         </li>
                         <li class="nav-item mr-lg-4">
-                            <a class="nav-link" n:href=":Front:Album:">Fotky</a>
+                            <a class="nav-link" n:href=":Front:Gallery:">Fotky</a>
                         </li>
                         <li class="nav-item mr-lg-4">
                             <a class="nav-link" n:href=":Front:Price:">Ceník</a>

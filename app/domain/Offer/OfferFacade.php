@@ -39,7 +39,7 @@ final class OfferFacade
         $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
 
         $offer = Offer::create(
-            Image::create($file, Offer::NAMESPACE),
+            new Image($file, Offer::NAMESPACE),
             $formType->title,
             $formType->description,
             $formType->text

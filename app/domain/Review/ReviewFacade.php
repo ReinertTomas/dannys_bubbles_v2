@@ -10,6 +10,7 @@ use App\Model\Database\Repository\ReviewRepository;
 use App\Model\Exception\Runtime\UploadException;
 use App\Model\File\FileTemporaryFactory;
 use App\UI\Form\Review\ReviewFormType;
+use Nette\Http\FileUpload;
 
 class ReviewFacade
 {
@@ -32,15 +33,15 @@ class ReviewFacade
         return $this->reviewRepository->find($id);
     }
 
-    public function create(ReviewFormType $formType): Review
+    public function create(FileUpload $image, string $title, ?string $author, string $text): Review
     {
-        $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
+        $file = $this->fileTemporaryFactory->createFromUpload($image);
 
-        $review = Review::create(
-            Image::create($file, Review::NAMESPACE),
-            $formType->title,
-            $formType->text,
-            $formType->author
+        $review = new Review(
+            new Image($file, Review::NAMESPACE),
+            $title,
+            $text,
+            $author
         );
 
         $this->em->persist($review);
@@ -49,17 +50,17 @@ class ReviewFacade
         return $review;
     }
 
-    public function update(Review $review, ReviewFormType $formType): Review
+    public function update(Review $review, FileUpload $image, string $title, ?string $author, string $text): void
     {
-        $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
-
-        $review->changeImage($file);
-        $review->changeTitle($formType->title);
-        $review->changeText($formType->text);
-        $review->changeAuthor($formType->author);
+        if ($image->isOk()) {
+            $review->changeImage(
+                $this->fileTemporaryFactory->createFromUpload($image)
+            );
+        }
+        $review->changeTitle($title);
+        $review->changeText($text);
+        $review->changeAuthor($author);
         $this->em->flush();
-
-        return $review;
     }
 
     public function remove(Review $review): void
@@ -68,7 +69,7 @@ class ReviewFacade
         $this->em->flush();
     }
 
-    public function changeActive(Review $review, bool $active): Review
+    public function changeActive(Review $review, bool $active): void
     {
         if ($active) {
             $review->enabled();
@@ -76,8 +77,6 @@ class ReviewFacade
             $review->disabled();
         }
         $this->em->flush();
-
-        return $review;
     }
 
 }

@@ -27,8 +27,8 @@ class UserFixture extends AbstractFixture
         foreach ($this->getUsers() as $user) {
             $fileInfo = $imageService->create($user['name'], $user['surname']);
 
-            $entity = User::create(
-                Image::create($fileInfo, User::NAMESPACE, false),
+            $entity = new User(
+                new Image($fileInfo, User::NAMESPACE, false),
                 $user['name'],
                 $user['surname'],
                 $user['email'],
@@ -50,13 +50,6 @@ class UserFixture extends AbstractFixture
             'email' => 'admin@admin.net',
             'password' => 'Admin123!',
             'role' => User::ROLE_ADMIN
-        ];
-        yield [
-            'name' => 'Test',
-            'surname' => 'Tester',
-            'email' => 'test@test.net',
-            'password' => 'Test123!',
-            'role' => User::ROLE_USER
         ];
     }
 

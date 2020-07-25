@@ -47,8 +47,8 @@ class UserFacade
     {
         $fileInfo = $this->imageInitialCreator->create($formType->name, $formType->surname);
 
-        $user = User::create(
-            Image::create($fileInfo, User::NAMESPACE, false),
+        $user = new User(
+            new Image($fileInfo, User::NAMESPACE, false),
             $formType->name,
             $formType->surname,
             $formType->email,

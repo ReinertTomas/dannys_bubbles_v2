@@ -1,13 +1,28 @@
+{varType App\Model\Database\Entity\Config $config}
 <footer class="footer">
     <div class="footer-bottom text-center py-3 py-md-5">
+        <ul class="list-unstyled">
+            <li class="list-inline-item">
+                <a n:href="downloadDocument! $config->getDocumentShow()->getId()">Podmínky představení</a>
+            </li>
+            <li class="list-inline-item">
+                <a n:href="downloadDocument! $config->getDocumentBusiness()->getId()">Obchodní podmínky</a>
+            </li>
+            <li class="list-inline-item">
+                <a n:href="downloadDocument! $config->getDocumentPersonal()->getId()">Ochrana osobních údajů</a>
+            </li>
+        </ul>
         <small class="copyright">Template Copyright &copy; <a href="https://themes.3rdwavemedia.com/" target="_blank">3rd Wave Media</a></small>
         <ul class="social-list list-unstyled pt-4 mb-0">
-            <li class="list-inline-item"><a href="#"><i class="fab fa-github fa-fw"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-twitter fa-fw"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-slack fa-fw"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-product-hunt fa-fw"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-facebook-f fa-fw"></i></a></li>
-            <li class="list-inline-item"><a href="#"><i class="fab fa-instagram fa-fw"></i></a></li>
+            <li class="list-inline-item">
+                <a href="{$config->getFacebook()}" target="_blank" title="Facebook"><i class="fab fa-facebook-f fa-fw"></i></a>
+            </li>
+            <li class="list-inline-item">
+                <a href="{$config->getInstagram()}" target="_blank" title="Instagram"><i class="fab fa-instagram fa-fw"></i></a>
+            </li>
+            <li class="list-inline-item">
+                <a href="{$config->getYoutube()}" target="_blank" title="Youtube"><i class="fab fa-youtube fa-fw"></i></a>
+            </li>
         </ul><!--//social-list-->
     </div>
 </footer>

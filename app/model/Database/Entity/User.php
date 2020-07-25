@@ -96,11 +96,6 @@ class User
         $this->state = self::STATE_FRESH;
     }
 
-    public static function create(Image $image, string $name, string $surname, string $email, string $password): User
-    {
-        return new User($image, $name, $surname, $email, $password);
-    }
-
     public function getImage(): Image
     {
         return $this->image;

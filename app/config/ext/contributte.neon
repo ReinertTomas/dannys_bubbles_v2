@@ -8,6 +8,7 @@ extensions:
     cache.factory: Contributte\Cache\DI\CacheFactoryExtension
     version: Contributte\Latte\DI\VersionExtension
     post: Contributte\Mail\DI\MailExtension
+    recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
 
 console:
 	url: http://localhost/
@@ -19,3 +20,7 @@ version:
 post:
     debug: %debugMode%
     mailer: Contributte\Mail\Mailer\FileMailer(%tempDir%/mails)
+
+recaptcha:
+    secretKey: %recaptcha.secret%
+    siteKey: %recaptcha.site%

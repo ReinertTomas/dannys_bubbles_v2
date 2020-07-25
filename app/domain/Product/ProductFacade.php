@@ -24,14 +24,11 @@ class ProductFacade
 
     private ProductHasImageRepository $productHasImageRepository;
 
-    private FileTemporaryFactory $fileTemporaryFactory;
-
-    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
         $this->productRepository = $em->getProductRepository();
         $this->productHasImageRepository = $em->getProductHasImageRepository();
-        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
     public function get(int $id): ?Product
@@ -80,7 +77,7 @@ class ProductFacade
 
     public function addImage(Product $product, FileInfoInterface $file): void
     {
-        $image = Image::create($file, $product->getNamespace());
+        $image = new Image($file, $product->getNamespace());
         $productHasImage = ProductHasImage::create($product, $image);
 
         if (!$product->hasImages()) {

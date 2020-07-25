@@ -79,7 +79,7 @@ class AlbumFacade
     {
         $hasImages = $album->hasImages();
 
-        $image = Image::create($file, $album->getNamespace());
+        $image = new Image($file, $album->getNamespace());
         $albumHasImage = AlbumHasImage::create($album, $image);
 
         $album->addImage($albumHasImage);

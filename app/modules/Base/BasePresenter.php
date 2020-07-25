@@ -6,6 +6,7 @@ namespace App\Modules\Base;
 use App\Model\Database\EntityManager;
 use App\Model\File\DirectoryManager;
 use App\Model\Latte\TemplateProperty;
+use App\UI\Control\TDocument;
 use App\UI\Control\TError;
 use App\UI\Control\TFlashMessage;
 use App\UI\Control\TModal;
@@ -24,6 +25,7 @@ abstract class BasePresenter extends Presenter
     use TModal;
     use TPayload;
     use TError;
+    use TDocument;
 
     /** @inject */
     public EntityManager $em;

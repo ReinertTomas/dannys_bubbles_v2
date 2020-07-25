@@ -8,6 +8,7 @@ use App\Model\Database\EntityManager;
 use App\Model\Element\Active;
 use App\Model\Utils\DateTime;
 use App\Model\Utils\Html;
+use App\Model\Utils\Strings;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
 use Nette\ComponentModel\IContainer;
@@ -50,7 +51,10 @@ final class ReviewGridFactory
             });
         $grid->addColumnText('title', 'Title');
         $grid->addColumnText('author', 'Author');
-        $grid->addColumnText('text', 'Text');
+        $grid->addColumnText('text', 'Text')
+            ->setRenderer(function (Review $review): string {
+                return Strings::truncate($review->getText(), 100);
+            });
         $grid->addColumnDateTime('created_at', 'Created At')
             ->setFormat(DateTime::FORMAT_USER);
         $grid->addColumnStatus('active', 'Active')

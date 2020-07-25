@@ -20,7 +20,6 @@ class ConfigFixture extends AbstractFixture
         $config = $this->getConfig();
 
         $entity = new Config();
-
         $entity->setName($config->name);
         $entity->setSurname($config->surname);
         $entity->setIco($config->ico);
@@ -40,14 +39,14 @@ class ConfigFixture extends AbstractFixture
     {
         $config = new ConfigFormType();
 
-        $config->name = 'Name';
-        $config->surname = 'Surname';
-        $config->ico = '0011223344';
-        $config->email = 'test@test.net';
-        $config->website = 'www.test.net';
-        $config->facebook = 'xxx';
-        $config->instagram = 'xxx';
-        $config->youtube = 'xxx';
+        $config->name = 'Daniel';
+        $config->surname = 'Kunášek';
+        $config->ico = '07365551';
+        $config->email = 'dannysbubbles@gmail.com';
+        $config->website = 'www.dannysbubbles.com';
+        $config->facebook = 'https://www.facebook.com/Dannysbubbles';
+        $config->instagram = 'https://www.instagram.com/dannysbubbles';
+        $config->youtube = 'https://www.youtube.com/channel/UC86z1vsm8LW0IqFA9TdQ7OQ';
         $config->promoVideo = 'xxx';
         $config->promoImage = 'xxx';
 

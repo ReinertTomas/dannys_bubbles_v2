@@ -24,7 +24,19 @@ class Config
      * @ORM\OneToOne(targetEntity="Document", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=TRUE)
      */
-    protected ?Document $condition;
+    protected ?Document $documentShow;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=TRUE)
+     */
+    protected ?Document $documentBusiness;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Document", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=TRUE)
+     */
+    protected ?Document $documentPersonal;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -76,23 +88,61 @@ class Config
      */
     protected string $promoImage;
 
-    public function getCondition(): ?Document
+    public function getDocumentShow(): ?Document
     {
-        return $this->condition;
+        return $this->documentShow;
     }
 
-    public function changeCondition(FileInfoInterface $file): void
+    public function changeDocumentShow(FileInfoInterface $file): void
     {
-        if ($this->condition === null) {
-            $this->condition = Document::create($file, self::NAMESPACE);
+        if ($this->documentShow === null) {
+            $this->documentShow = new Document($file, self::NAMESPACE);
         } else {
-            $this->condition->update($file);
+            $this->documentShow->update($file);
         }
     }
 
-    public function hasCondition(): bool
+    public function hasDocumentShow(): bool
     {
-        return $this->condition !== null;
+        return $this->documentShow !== null;
+    }
+
+    public function getDocumentBusiness(): ?Document
+    {
+        return $this->documentBusiness;
+    }
+
+    public function changeDocumentBusiness(FileInfoInterface $file): void
+    {
+        if ($this->documentBusiness === null) {
+            $this->documentBusiness = new Document($file, self::NAMESPACE);
+        } else {
+            $this->documentBusiness->update($file);
+        }
+    }
+
+    public function hasDocumentBusiness(): bool
+    {
+        return $this->documentShow !== null;
+    }
+
+    public function getDocumentPersonal(): ?Document
+    {
+        return $this->documentPersonal;
+    }
+
+    public function changeDocumentPersonal(FileInfoInterface $file): void
+    {
+        if ($this->documentPersonal === null) {
+            $this->documentPersonal = new Document($file, self::NAMESPACE);
+        } else {
+            $this->documentPersonal->update($file);
+        }
+    }
+
+    public function hasDocumentPersonal(): bool
+    {
+        return $this->documentShow !== null;
     }
 
     public function getName(): string
@@ -113,6 +163,11 @@ class Config
     public function setSurname(string $surname): void
     {
         $this->surname = $surname;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->name . ' ' . $this->surname;
     }
 
     public function getIco(): string

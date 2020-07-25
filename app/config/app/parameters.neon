@@ -22,3 +22,8 @@ parameters:
 		host: localhost
 		username: fake
 		password: fake
+
+	# Recaptcha
+	recaptcha:
+		secret: 6LegFrYZAAAAAA4hKCl_fJ1RVXT-P_SwXTzQ5WlY
+		site: 6LegFrYZAAAAAAj9GawotN4RFf-F2r6FDVa1s5vA

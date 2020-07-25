@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace App\UI\Form\User;
 
 use App\Model\Database\Entity\User;
-use App\Model\Security\SecurityUser;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
 
@@ -13,12 +12,9 @@ final class UserFormFactory
 
     private FormFactory $formFactory;
 
-    private SecurityUser $securityUser;
-
-    public function __construct(FormFactory $formFactory, SecurityUser $securityUser)
+    public function __construct(FormFactory $formFactory)
     {
         $this->formFactory = $formFactory;
-        $this->securityUser = $securityUser;
     }
 
     /**

@@ -1,12 +1,15 @@
 export default class ModalExtension {
-    constructor(naja, selector) {
+    constructor(selector) {
         this.selector = selector;
+    }
+
+    initialize(naja) {
         naja.addEventListener('success', this.showModal.bind(this));
     }
 
-    showModal(event) {
-        if (event.detail.payload.snippets) {
-            if (event.detail.payload.snippets['snippet--modal']) {
+    showModal({detail}) {
+        if (detail.payload.snippets) {
+            if (detail.payload.snippets['snippet--modal']) {
                 $(this.selector).modal('show');
             }
         }

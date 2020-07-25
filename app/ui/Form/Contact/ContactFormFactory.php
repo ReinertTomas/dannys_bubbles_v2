@@ -26,13 +26,16 @@ final class ContactFormFactory
 
         $form->addText('name', 'Jméno')
             ->setRequired('Zadejte jméno')
-            ->setHtmlAttribute('placeholder', 'Jméno');
+            ->setHtmlAttribute('placeholder', '* Jméno');
         $form->addEmail('email', 'Email')
             ->setRequired('Zadejte email')
-            ->setHtmlAttribute('placeholder', 'Email');
-        $form->addTextArea('message')
+            ->setHtmlAttribute('placeholder', '* Email');
+        $form->addTextArea('message', 'Zpráva')
             ->setRequired('Vaše zpráva je prázdná')
-            ->setHtmlAttribute('placeholder', 'Vaše zpráva');
+            ->setHtmlAttribute('placeholder', '* Vaše zpráva');
+        /** @phpstan-ignore-next-line */
+        $form->addReCaptcha('recaptcha', 'Captcha')
+            ->setMessage('Are you a bot?');
         $form->addSubmit('submit', 'Odeslat');
         $form->setMappedType(ContactFormType::class);
 

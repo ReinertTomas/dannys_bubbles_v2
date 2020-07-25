@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\UI\Form\Review;
 
+use App\Domain\Review\ReviewFacade;
 use App\Model\Database\Entity\Review;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
@@ -12,14 +13,17 @@ final class ReviewFormFactory
 
     private FormFactory $formFactory;
 
-    public function __construct(FormFactory $formFactory)
+    private ReviewFacade $reviewFacade;
+
+    public function __construct(FormFactory $formFactory, ReviewFacade $reviewFacade)
     {
         $this->formFactory = $formFactory;
+        $this->reviewFacade = $reviewFacade;
     }
 
     /**
      * @param Review|null $review
-     * @param callable(Form, ReviewFormType): void $onSuccess
+     * @param callable(Review): void $onSuccess
      * @return Form
      */
     public function create(?Review $review, callable $onSuccess): Form
@@ -27,19 +31,26 @@ final class ReviewFormFactory
         $form = $this->formFactory->createSecured();
 
         $form->addText('title', 'Title (required)')
-            ->setRequired();
+            ->setRequired('Vyplň název');
         $form->addText('author', 'Author')
             ->setNullable();
         $form->addTextArea('text', 'Text (required)')
-            ->setRequired();
+            ->setRequired('Vyplň text');
         $image = $form
             ->addUpload('image', 'Image')
-            ->setRequired()
+            ->setRequired('Vyber obrázek')
             ->addRule(Form::IMAGE, 'Select only images');
         $form->addSubmit('submit', 'Save');
         $form->setMappedType(ReviewFormType::class);
 
-        $form->onSuccess[] = $onSuccess;
+        $form->onSuccess[] = function (Form $form, ReviewFormType $formType) use ($review, $onSuccess): void {
+            if ($review === null) {
+                $review = $this->reviewFacade->create($formType->image, $formType->title, $formType->author, $formType->text);
+            } else {
+                $this->reviewFacade->update($review, $formType->image, $formType->title, $formType->author, $formType->text);
+            }
+            ($onSuccess)($review);
+        };
 
         if ($review !== null) {
             $image->setRequired(false);

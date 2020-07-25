@@ -7,6 +7,7 @@ use App\Model\Database\Entity\Album;
 use App\Model\Database\Entity\AlbumHasImage;
 use App\Model\Database\Entity\Config;
 use App\Model\Database\Entity\Document;
+use App\Model\Database\Entity\Gallery;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\Entity\Product;
 use App\Model\Database\Entity\ProductHasImage;
@@ -16,6 +17,7 @@ use App\Model\Database\Repository\AlbumHasImageRepository;
 use App\Model\Database\Repository\AlbumRepository;
 use App\Model\Database\Repository\ConfigRepository;
 use App\Model\Database\Repository\DocumentRepository;
+use App\Model\Database\Repository\GalleryRepository;
 use App\Model\Database\Repository\OfferRepository;
 use App\Model\Database\Repository\ProductHasImageRepository;
 use App\Model\Database\Repository\ProductRepository;
@@ -33,7 +35,7 @@ trait TRepositories
         return $this->getRepository(User::class);
     }
 
-    public function getFileRepository(): DocumentRepository
+    public function getDocumentRepository(): DocumentRepository
     {
         return $this->getRepository(Document::class);
     }
@@ -71,6 +73,11 @@ trait TRepositories
     public function getConfigRepository(): ConfigRepository
     {
         return $this->getRepository(Config::class);
+    }
+
+    public function getGalleryRepository(): GalleryRepository
+    {
+        return $this->getRepository(Gallery::class);
     }
 
 }

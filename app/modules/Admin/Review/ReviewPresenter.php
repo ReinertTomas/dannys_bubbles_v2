@@ -91,15 +91,13 @@ final class ReviewPresenter extends BaseAdminPresenter
 
     protected function createComponentReviewForm(): Form
     {
-        return $this->reviewFormFactory->create($this->review, function (Form $form, ReviewFormType $formType): void {
+        return $this->reviewFormFactory->create($this->review, function (Review $review): void {
             if ($this->review === null) {
-                $this->review = $this->reviewFacade->create($formType);
                 $this->flashSuccess('messages.review.create');
             } else {
-                $this->review = $this->reviewFacade->update($this->review, $formType);
                 $this->flashSuccess('messages.review.update');
             }
-            $this->redirect('this', $this->review->getId());
+            $this->redirect('this', $review->getId());
         });
     }
 

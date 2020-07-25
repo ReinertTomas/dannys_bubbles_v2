@@ -1,6 +1,5 @@
 {block #content}
-    {varType App\Model\Database\Entity\Album $album}
-    {varType App\Model\Database\Entity\AlbumHasImage $albumHasImage}
+    {varType App\Model\Database\Entity\Gallery $gallery}
 
     <div class="page-header theme-bg-dark py-5 text-center position-relative">
         <div class="theme-bg-shapes-right"></div>
@@ -16,15 +15,17 @@
             <nav class="mb-5" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a n:href=":Front:Home:">Domů</a></li>
-                    <li class="breadcrumb-item"><a n:href=":Front:Album:">Fotky</a></li>
-                    <li class="breadcrumb-item" aria-current="page">{$album->getTitle()}</li>
+                    <li class="breadcrumb-item active" aria-current="page">Fotky</li>
                 </ol>
             </nav>
-            <h3 class="heading">{$album->getTitle()}</h3>
-            <p class="mb-5">{$album->getText()}</p>
-            <div class="row no-gutters align-items-start">
-                <div n:foreach="$album->getImages() as $albumHasImage" class="d-block col-4 p-1">
-                    <img class="img-fluid" src="{$basePath}{$albumHasImage->getImage()->getPathWeb()}" alt="">
+            <div n:snippet="images" class="container p-0">
+                <div class="row text-center text-lg-left">
+                    <div n:foreach="$galleries as $gallery" class="col-lg-3 col-md-4 col-6 mb-4">
+                        <a href="{$basePath}{$gallery->getPathWeb()}"
+                            title="{$gallery->getName()}"
+                            data-lightbox="images"><img class="img-fluid img-scale" src="{$basePath}{$gallery->getPathWeb()}" alt="Image">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

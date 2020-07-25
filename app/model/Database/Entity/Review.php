@@ -34,7 +34,7 @@ class Review
     protected string $title;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     protected string $text;
 
@@ -51,12 +51,7 @@ class Review
         $this->author = $author;
         $this->active = false;
 
-        $this->image->resize(400, 400);
-    }
-
-    public static function create(Image $image, string $title, string $text, ?string $author = null): Review
-    {
-        return new Review($image, $title, $text, $author);
+        $this->resizeImage();
     }
 
     public function getImage(): Image
@@ -67,7 +62,12 @@ class Review
     public function changeImage(FileInfoInterface $file): void
     {
         $this->image->update($file);
-        $this->image->resize(400, 400);
+        $this->resizeImage();
+    }
+
+    private function resizeImage(): void
+    {
+        $this->image->resize(200, 200);
     }
 
     public function getTitle(): string

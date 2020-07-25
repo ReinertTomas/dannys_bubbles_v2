@@ -48,7 +48,8 @@
         "nettrine/migrations": "^0.6.1",
         "nettrine/fixtures": "^0.5.1",
         "ramsey/uuid-doctrine": "^1.6",
-        "lasserafn/php-initial-avatar-generator": "^4.1"
+        "lasserafn/php-initial-avatar-generator": "^4.1",
+        "contributte/recaptcha": "^3.3"
     },
     "require-dev": {
         "nette/tester": "^2.0",
