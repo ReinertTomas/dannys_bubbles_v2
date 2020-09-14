@@ -3,66 +3,26 @@ declare(strict_types=1);
 
 namespace App\Model\File;
 
-use App\Model\Utils\FileSystem;
-use App\Model\Utils\Strings;
-use SplFileInfo;
+use App\Model\File\Exception\FileNotFoundException;
 
-final class FileInfo extends SplFileInfo implements FileInfoInterface
+class FileInfo extends \SplFileInfo
 {
 
-    public const IMAGE_MIME_TYPES = ['image/gif', 'image/png', 'image/jpeg', 'image/webp'];
+    protected string $originalName;
 
-    private string $name;
-
-    public function __construct(string $file, ?string $name = null)
+    public function __construct(string $path, string $originalName, bool $checkPath = true)
     {
-        parent::__construct($file);
-        $this->name = $name !== null ? Strings::lower($name) : parent::getFilename();
+        if ($checkPath && !is_file($path)) {
+            throw new FileNotFoundException($path);
+        }
+
+        parent::__construct($path);
+        $this->originalName = $originalName;
     }
 
-    public static function create(string $file, ?string $name = null): FileInfoInterface
+    public function getOriginalName(): string
     {
-        return new static($file, $name);
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getFilename(): string
-    {
-        return parent::getFilename();
-    }
-
-    public function getPath(): string
-    {
-        return parent::getPath();
-    }
-
-    public function getPathname(): string
-    {
-        return parent::getPathname();
-    }
-
-    public function getExtension(): string
-    {
-        return parent::getExtension();
-    }
-
-    public function getSize(): int
-    {
-        return parent::getSize();
-    }
-
-    public function getMime(): string
-    {
-        return FileSystem::mime($this->getPathname());
-    }
-
-    public function isImage(): bool
-    {
-        return in_array($this->getMime(), self::IMAGE_MIME_TYPES, true);
+        return $this->originalName;
     }
 
 }

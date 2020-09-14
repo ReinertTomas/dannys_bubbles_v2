@@ -7,10 +7,7 @@ use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\EntityManager;
 use App\Model\Database\Repository\ReviewRepository;
-use App\Model\Exception\Runtime\UploadException;
-use App\Model\File\FileTemporaryFactory;
-use App\UI\Form\Review\ReviewFormType;
-use Nette\Http\FileUpload;
+use App\Model\File\FileInfo;
 
 class ReviewFacade
 {
@@ -19,13 +16,10 @@ class ReviewFacade
 
     private ReviewRepository $reviewRepository;
 
-    private FileTemporaryFactory $fileTemporaryFactory;
-
-    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
         $this->reviewRepository = $em->getReviewRepository();
-        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
     public function get(int $id): ?Review
@@ -33,10 +27,8 @@ class ReviewFacade
         return $this->reviewRepository->find($id);
     }
 
-    public function create(FileUpload $image, string $title, ?string $author, string $text): Review
+    public function create(FileInfo $file, string $title, ?string $author, string $text): Review
     {
-        $file = $this->fileTemporaryFactory->createFromUpload($image);
-
         $review = new Review(
             new Image($file, Review::NAMESPACE),
             $title,
@@ -50,12 +42,10 @@ class ReviewFacade
         return $review;
     }
 
-    public function update(Review $review, FileUpload $image, string $title, ?string $author, string $text): void
+    public function update(Review $review, ?FileInfo $file, string $title, ?string $author, string $text): void
     {
-        if ($image->isOk()) {
-            $review->changeImage(
-                $this->fileTemporaryFactory->createFromUpload($image)
-            );
+        if ($file !== null) {
+            $review->changeImage($file);
         }
         $review->changeTitle($title);
         $review->changeText($text);

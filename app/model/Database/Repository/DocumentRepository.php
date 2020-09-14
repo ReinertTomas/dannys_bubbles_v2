@@ -14,5 +14,4 @@ use App\Model\Database\Entity\Document;
  */
 class DocumentRepository extends AbstractRepository
 {
-
 }

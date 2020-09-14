@@ -5,7 +5,7 @@ namespace App\Model\Database\Entity;
 
 use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\FileInfo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,8 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Config
 {
-
-    public const NAMESPACE = '/config';
 
     use TId;
     use TUpdatedAt;
@@ -98,10 +96,10 @@ class Config
         return $this->documentShow;
     }
 
-    public function changeDocumentShow(FileInfoInterface $file): void
+    public function changeDocumentShow(FileInfo $file): void
     {
         if ($this->documentShow === null) {
-            $this->documentShow = new Document($file, self::NAMESPACE);
+            $this->documentShow = new Document($file, Document::TYPE_CONFIG);
         } else {
             $this->documentShow->update($file);
         }
@@ -117,10 +115,10 @@ class Config
         return $this->documentBusiness;
     }
 
-    public function changeDocumentBusiness(FileInfoInterface $file): void
+    public function changeDocumentBusiness(FileInfo $file): void
     {
         if ($this->documentBusiness === null) {
-            $this->documentBusiness = new Document($file, self::NAMESPACE);
+            $this->documentBusiness = new Document($file, Document::TYPE_CONFIG);
         } else {
             $this->documentBusiness->update($file);
         }
@@ -136,10 +134,10 @@ class Config
         return $this->documentPersonal;
     }
 
-    public function changeDocumentPersonal(FileInfoInterface $file): void
+    public function changeDocumentPersonal(FileInfo $file): void
     {
         if ($this->documentPersonal === null) {
-            $this->documentPersonal = new Document($file, self::NAMESPACE);
+            $this->documentPersonal = new Document($file, Document::TYPE_CONFIG);
         } else {
             $this->documentPersonal->update($file);
         }

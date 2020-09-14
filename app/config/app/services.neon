@@ -22,12 +22,15 @@ services:
 
 	## File
 	- App\Model\File\DirectoryManager(%appDir%)
-	- App\Model\File\FileTemporaryFactory(%tempDir%)
-	- App\Model\File\Image\ImageInitialCreator
+	- App\Model\File\FileUploader(%dir.temp.files%)
+	- App\Model\File\FileInfoFactory
+	- App\UI\Control\File\FileUploadFactory
+
+	## Image
+	- App\Model\File\Image\ImageFactory
+	- App\Model\File\Image\ImageInitialFactory(%dir.temp.files%)
 
 	## Element
-	- App\Model\Element\Active
-	- App\Model\Element\Highlight
 
 	# Control ===================
 	- App\UI\Control\Dropzone\IDropzoneFactory
@@ -40,10 +43,15 @@ services:
 	# Domain =================
 	- App\Domain\Order\OrderLogSubscriber
 
+	## Config
+	- App\Model\Config\ConfigFactory
+	- App\Model\Config\ConfigFacade
+
 	## User
-	- App\Domain\User\UserFacade
-	- App\Domain\User\Element\States
-	- App\Domain\User\Element\Roles
+	- App\Model\User\UserFactory
+	- App\Model\User\UserFacade
+	- App\Model\User\Role\Roles
+	- App\Model\User\State\States
 
 	## Offer
 	- App\Domain\Offer\OfferFacade

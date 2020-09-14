@@ -18,7 +18,7 @@ class PasswordFormFactory
     }
 
     /**
-     * @param callable(Form, PasswordFormType): void $onSuccess
+     * @param callable(Form, PasswordFormData): void $onSuccess
      * @return Form
      */
     public function create(callable $onSuccess): Form
@@ -38,7 +38,7 @@ class PasswordFormFactory
             ->setOmitted()
             ->addRule(Form::EQUAL, 'Passwords are different.', $form['passwordNew']);
         $form->addSubmit('submit', 'Save');
-        $form->setMappedType(PasswordFormType::class);
+        $form->setMappedType(PasswordFormData::class);
         $form->onSuccess[] = $onSuccess;
 
         return $form;

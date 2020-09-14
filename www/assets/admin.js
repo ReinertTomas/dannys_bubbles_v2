@@ -10,6 +10,7 @@ import 'bootstrap-select';
 // import 'ublaboo-datagrid/assets/datagrid';
 // import 'ublaboo-datagrid/assets/datagrid-instant-url-refresh';
 import './js/image';
+import './js/cropper';
 import './js/sb-admin-2';
 
 /**
@@ -24,5 +25,6 @@ import 'bootstrap-select/dist/css/bootstrap-select.css';
 import './css/datagrid.css';
 import 'dropzone/dist/dropzone.css';
 import 'lightbox2/dist/css/lightbox.css';
+import 'cropperjs/dist/cropper.css';
 import './css/sb-admin-2.css';
 import './css/admin.css';

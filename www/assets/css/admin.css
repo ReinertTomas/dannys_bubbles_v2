@@ -100,7 +100,7 @@
 .img-container .img-group-btn {
     position: absolute;
     width: 100%;
-    left:0;
+    left: 0;
     top: 45%;
     text-align: center;
     opacity: 0;
@@ -127,4 +127,19 @@
     margin: 0;
     padding: 0 0 0 0.1rem;
     background-color: transparent;
+}
+
+.img-container, .img-preview {
+    background-color: #f7f7f7;
+    text-align: center;
+    width: 100%;
+}
+
+.img-preview {
+    overflow: hidden;
+}
+
+.preview-lg {
+    height: 9rem;
+    width: 16rem;
 }

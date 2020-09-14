@@ -7,7 +7,6 @@ use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\EntityManager;
 use App\Model\Exception\Runtime\UploadException;
-use App\Model\File\FileTemporaryFactory;
 use App\UI\Form\Offer\OfferFormType;
 
 final class OfferFacade
@@ -15,12 +14,9 @@ final class OfferFacade
 
     private EntityManager $em;
 
-    private FileTemporaryFactory $fileTemporaryFactory;
-
-    public function __construct(EntityManager $em, FileTemporaryFactory $fileTemporaryFactory)
+    public function __construct(EntityManager $em)
     {
         $this->em = $em;
-        $this->fileTemporaryFactory = $fileTemporaryFactory;
     }
 
     public function get(int $id): ?Offer
@@ -35,8 +31,6 @@ final class OfferFacade
             throw UploadException::create()
                 ->withMessage('File upload failed.');
         }
-
-        $file = $this->fileTemporaryFactory->createFromUpload($formType->image);
 
         $offer = Offer::create(
             new Image($file, Offer::NAMESPACE),

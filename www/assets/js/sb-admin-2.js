@@ -1,6 +1,7 @@
 import 'summernote/dist/summernote-bs4.css'
 import summernote from 'summernote';
 import lightbox2 from 'lightbox2';
+import func from "summernote/src/js/base/core/func";
 
 (function ($) {
     "use strict"; // Start of use strict

@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\UI\Grid\User;
 
-use App\Domain\User\Element\States;
 use App\Model\Database\Entity\User;
 use App\Model\Database\EntityManager;
+use App\Model\User\State\State;
+use App\Model\User\State\States;
 use App\Model\Utils\DateTime;
 use App\Model\Utils\Html;
 use App\UI\Grid\Grid;
@@ -32,9 +33,9 @@ final class UserGridFactory
 
     public function create(IContainer $parent, string $name, callable $onChange): DataGrid
     {
-        $fresh = $this->states->get(User::STATE_FRESH);
-        $activated = $this->states->get(User::STATE_ACTIVATED);
-        $blocked = $this->states->get(User::STATE_BLOCKED);
+        $fresh = $this->states->get(State::FRESH);
+        $activated = $this->states->get(State::ACTIVATED);
+        $blocked = $this->states->get(State::BLOCKED);
 
         $grid = $this->gridFactory->create($parent, $name);
         $grid->setDataSource(
@@ -62,15 +63,15 @@ final class UserGridFactory
             ->setFormat(DateTime::FORMAT_USER);
         $grid->addColumnStatus('state', 'State')
             ->setCaret(false)
-            ->addOption(User::STATE_FRESH, $fresh->getText())
+            ->addOption($fresh->getState(), $fresh->getText())
             ->setIcon($fresh->getIcon())
             ->setClass("btn-{$fresh->getBg()}")
             ->endOption()
-            ->addOption(User::STATE_ACTIVATED, $activated->getText())
+            ->addOption($activated->getState(), $activated->getText())
             ->setIcon($activated->getIcon())
             ->setClass("btn-{$activated->getBg()}")
             ->endOption()
-            ->addOption(User::STATE_BLOCKED, $blocked->getText())
+            ->addOption($blocked->getState(), $blocked->getText())
             ->setIcon($blocked->getIcon())
             ->setClass("btn-{$blocked->getBg()}")
             ->endOption()

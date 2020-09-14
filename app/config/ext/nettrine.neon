@@ -2,26 +2,21 @@
 #
 extensions:
 
-    # Nettrine
-    nettrine.cache: Nettrine\Cache\DI\CacheExtension
-    nettrine.annotations: Nettrine\Annotations\DI\AnnotationsExtension
+    doctrine.annotations: Nettrine\Annotations\DI\AnnotationsExtension
+    doctrine.dbal: Nettrine\DBAL\DI\DbalExtension
+    doctrine.dbal.console: Nettrine\DBAL\DI\DbalConsoleExtension(%consoleMode%)
+    doctrine.orm: Nettrine\ORM\DI\OrmExtension
+    doctrine.orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
+    doctrine.orm.console: Nettrine\ORM\DI\OrmConsoleExtension(%consoleMode%)
+    doctrine.cache: Nettrine\Cache\DI\CacheExtension
+    doctrine.migrations: Nettrine\Migrations\DI\MigrationsExtension
+    doctrine.fixtures: Nettrine\Fixtures\DI\FixturesExtension
 
-    # DBAL
-    dbal: Nettrine\DBAL\DI\DbalExtension
-    dbal.console: Nettrine\DBAL\DI\DbalConsoleExtension(%consoleMode%)
+doctrine.orm.annotations:
+    paths:
+        - %appDir%/model
 
-    # ORM
-    orm: Nettrine\ORM\DI\OrmExtension
-    orm.cache: Nettrine\ORM\DI\OrmCacheExtension
-    orm.console: Nettrine\ORM\DI\OrmConsoleExtension(%consoleMode%)
-    orm.annotations: Nettrine\ORM\DI\OrmAnnotationsExtension
-
-    # Migrations
-    migrations: Nettrine\Migrations\DI\MigrationsExtension
-    # Fixtures
-    fixtures: Nettrine\Fixtures\DI\FixturesExtension
-
-dbal:
+doctrine.dbal:
     debug:
         panel: %debugMode%
         sourcePaths: [%appDir%]
@@ -44,24 +39,24 @@ dbal:
         typesMapping:
             uuid_binary_ordered_time: binary
 
-orm:
+doctrine.orm:
     entityManagerDecoratorClass: App\Model\Database\EntityManager
     configuration:
         autoGenerateProxyClasses: %debugMode%
+        customDatetimeFunctions:
+            dayOfWeek: DoctrineExtensions\Query\Mysql\DayOfWeek
+            year: DoctrineExtensions\Query\Mysql\Year
+            month: DoctrineExtensions\Query\Mysql\Month
+            date: DoctrineExtensions\Query\Mysql\Date
 
-orm.annotations:
-    paths:
-        - %appDir%/model/Database/Entity
-    excludePaths: []
-
-migrations:
+doctrine.migrations:
 	table: doctrine_migrations
 	column: version
 	directory: db/Migrations
 	namespace: Database\Migrations
 	versionsOrganization: null
 
-fixtures:
+doctrine.fixtures:
 	paths:
 		- db/Fixtures
 

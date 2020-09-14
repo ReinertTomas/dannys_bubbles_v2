@@ -3,24 +3,26 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\User;
 
-use App\Domain\User\UserFacade;
 use App\Model\App;
 use App\Model\Database\Entity\User;
 use App\Model\Exception\Logic\InvalidArgumentException;
+use App\Model\User\UserDto;
+use App\Model\User\UserFacade;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Security\PasswordFormFactory;
-use App\UI\Form\Security\PasswordFormType;
+use App\UI\Form\Security\PasswordFormData;
 use App\UI\Form\Security\RoleFormFactory;
-use App\UI\Form\Security\RoleFormType;
+use App\UI\Form\Security\RoleFormData;
 use App\UI\Form\User\RegisterFormFactory;
-use App\UI\Form\User\RegisterFormType;
 use App\UI\Form\User\UserFormFactory;
-use App\UI\Form\User\UserFormType;
 use App\UI\Grid\User\UserGridFactory;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
+/**
+ * @property UserTemplate $template
+ */
 class UserPresenter extends BaseAdminPresenter
 {
 
@@ -83,7 +85,7 @@ class UserPresenter extends BaseAdminPresenter
             $this->userFacade->changeState($user, (int)$value);
 
             if ($this->isAjax()) {
-                $this['userGrid']->reload();
+                $this->getUserGrid()->reload();
             } else {
                 $this->redirect('this');
             }
@@ -92,11 +94,11 @@ class UserPresenter extends BaseAdminPresenter
 
     protected function createComponentRegisterForm(): Form
     {
-        return $this->registerFormFactory->create(function (Form $form, RegisterFormType $formType): void {
+        return $this->registerFormFactory->create(function (Form $form, UserDto $dto): void {
             try {
-                $this->userSelected = $this->userFacade->create($formType);
+                $this->userSelected = $this->userFacade->create($dto);
             } catch (UniqueConstraintViolationException $e) {
-                $this->flashError('messages.user.unique ' . $formType->email);
+                $this->flashError('messages.user.unique ' . $dto->email);
                 return;
             }
             $this->flashSuccess('messages.user.create');
@@ -108,11 +110,11 @@ class UserPresenter extends BaseAdminPresenter
     {
         return $this->userFormFactory->create(
             $this->userSelected,
-            function (Form $form, UserFormType $formType): void {
+            function (Form $form, UserDto $dto): void {
                 try {
-                    $this->userSelected = $this->userFacade->update($this->userSelected, $formType);
+                    $this->userFacade->update($this->userSelected, $dto);
                 } catch (UniqueConstraintViolationException $e) {
-                    $this->flashError('messages.user.unique ' . $formType->email);
+                    $this->flashError('messages.user.unique ' . $dto->email);
                     return;
                 }
 
@@ -126,8 +128,8 @@ class UserPresenter extends BaseAdminPresenter
     {
         return $this->roleFormFactory->create(
             $this->userSelected,
-            function (Form $form, RoleFormType $formType): void {
-                $this->userFacade->changeRole($this->userSelected, $formType);
+            function (Form $form, RoleFormData $formType): void {
+                $this->userFacade->changeRole($this->userSelected, $formType->role);
 
                 $this->flashSuccess('messages.user.change.role');
                 $this->redirect('this');
@@ -137,9 +139,9 @@ class UserPresenter extends BaseAdminPresenter
 
     protected function createComponentPasswordForm(): Form
     {
-        return $this->passwordFormFactory->create(function (Form $form, PasswordFormType $formType): void {
+        return $this->passwordFormFactory->create(function (Form $form, PasswordFormData $formType): void {
             try {
-                $this->userFacade->changePassword($this->userSelected, $formType);
+                $this->userFacade->changePassword($this->userSelected, $formType->passwordOld, $formType->passwordNew);
             } catch (InvalidArgumentException $e) {
                 $this->flashError($e->getMessage());
                 return;
@@ -148,6 +150,13 @@ class UserPresenter extends BaseAdminPresenter
             $this->flashSuccess('messages.user.change.password');
             $this->redirect('this');
         });
+    }
+
+    private function getUserGrid(): DataGrid
+    {
+        /** @var DataGrid $grid */
+        $grid = $this['userGrid'];
+        return $grid;
     }
 
 }

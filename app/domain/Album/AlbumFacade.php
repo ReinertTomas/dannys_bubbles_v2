@@ -7,7 +7,7 @@ use App\Model\Database\Entity\Album;
 use App\Model\Database\Entity\AlbumHasImage;
 use App\Model\Database\Entity\Image;
 use App\Model\Database\EntityManager;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\IFileInfo;
 use App\UI\Form\Album\AlbumFormType;
 
 class AlbumFacade
@@ -75,7 +75,7 @@ class AlbumFacade
             ->find($id);
     }
 
-    public function addAlbumHasImage(Album $album, FileInfoInterface $file): void
+    public function addAlbumHasImage(Album $album, IFileInfo $file): void
     {
         $hasImages = $album->hasImages();
 

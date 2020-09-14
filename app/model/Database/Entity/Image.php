@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Model\Database\Repository\ImageRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Image extends AbstractImage
+class Image extends File
 {
-
 }

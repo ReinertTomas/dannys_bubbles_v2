@@ -27,7 +27,7 @@
         "bootstrap": "^4.5.0",
         "bootstrap-datepicker": "^1.9.0",
         "bootstrap-select": "^1.13.18",
-        "cropperjs": "^1.5.7",
+        "cropperjs": "^2.0.0-alpha.1",
         "dropzone": "^5.7.2",
         "gijgo": "^1.9.13",
         "imagesloaded": "^4.1.4",

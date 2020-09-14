@@ -7,7 +7,7 @@ services:
     - App\UI\Form\Security\SignInFormFactory
 
     # File
-    - App\UI\Form\File\UploadFormFactory
+    - App\UI\Form\File\FileFormFactory
 
     # Security
     - App\UI\Form\Security\PasswordFormFactory
@@ -31,7 +31,6 @@ services:
 
     # Config
     - App\UI\Form\Config\ConfigFormFactory
-    - App\UI\Form\Config\ConfigFilesFormFactory
 
     # Contact
     - App\UI\Form\Contact\ContactFormFactory

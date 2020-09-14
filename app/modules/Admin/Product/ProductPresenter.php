@@ -7,7 +7,7 @@ use App\Domain\Product\Exception\HighlightException;
 use App\Domain\Product\ProductFacade;
 use App\Model\App;
 use App\Model\Database\Entity\Product;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\IFileInfo;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Control\Dropzone\DropzoneControl;
 use App\UI\Control\Dropzone\IDropzoneFactory;
@@ -174,7 +174,7 @@ final class ProductPresenter extends BaseAdminPresenter
     {
         return $this->dropzoneFactory->create(
             $this,
-            function (FileInfoInterface $file): void {
+            function (IFileInfo $file): void {
                 $this->productFacade->addImage($this->product, $file);
             },
             function (): void {

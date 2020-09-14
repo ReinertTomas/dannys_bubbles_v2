@@ -5,8 +5,11 @@ namespace App\UI\Form\Review;
 
 use App\Domain\Review\ReviewFacade;
 use App\Model\Database\Entity\Review;
+use App\Model\File\FileInfo;
+use App\Model\File\FileUploader;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
+use Nette\Http\FileUpload;
 
 final class ReviewFormFactory
 {
@@ -15,10 +18,13 @@ final class ReviewFormFactory
 
     private ReviewFacade $reviewFacade;
 
-    public function __construct(FormFactory $formFactory, ReviewFacade $reviewFacade)
+    private FileUploader $fileUploader;
+
+    public function __construct(FormFactory $formFactory, ReviewFacade $reviewFacade, FileUploader $fileUploader)
     {
         $this->formFactory = $formFactory;
         $this->reviewFacade = $reviewFacade;
+        $this->fileUploader = $fileUploader;
     }
 
     /**
@@ -44,10 +50,11 @@ final class ReviewFormFactory
         $form->setMappedType(ReviewFormType::class);
 
         $form->onSuccess[] = function (Form $form, ReviewFormType $formType) use ($review, $onSuccess): void {
+            $image = $this->getFileInfo($formType->image);
             if ($review === null) {
-                $review = $this->reviewFacade->create($formType->image, $formType->title, $formType->author, $formType->text);
+                $review = $this->reviewFacade->create($image, $formType->title, $formType->author, $formType->text);
             } else {
-                $this->reviewFacade->update($review, $formType->image, $formType->title, $formType->author, $formType->text);
+                $this->reviewFacade->update($review, $image, $formType->title, $formType->author, $formType->text);
             }
             ($onSuccess)($review);
         };
@@ -62,6 +69,14 @@ final class ReviewFormFactory
         }
 
         return $form;
+    }
+
+    private function getFileInfo(FileUpload $fileUpload): ?FileInfo
+    {
+        if ($fileUpload->isOk()) {
+            return $this->fileUploader->upload($fileUpload);
+        }
+        return null;
     }
 
 }

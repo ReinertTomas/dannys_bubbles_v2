@@ -23,7 +23,7 @@ trait TDocument
         }
 
         $this->sendResponse(
-            new FileResponse($document->getPathAbsolute(), $document->getName())
+            new FileResponse($document->getPathAbsolute(), $document->getOriginalName())
         );
     }
 

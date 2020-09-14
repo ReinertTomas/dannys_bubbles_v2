@@ -1,3 +1,5 @@
+{varType App\Model\Database\Entity\Review $review}
+
 {block #heading}
     <div class="mb-4">
         <h1 n:block="title" class="h3 mb-0 text-gray-800">Review</h1>
@@ -13,19 +15,25 @@
 
 {block #content}
     <div class="container p-0">
-        <div class="alert alert-info" role="alert">
-            <i class="fas fa-info"></i>&emsp;Nahrávej obrázky s poměrem stran 1:1, automaticky se upraví velikost na 200x200.
-        </div>
         <div class="card shadow mb-4">
             <div class="card-body">
                 {form reviewForm}
-                    <div class="text-center mb-3">
-                        <div class="img-input">
-                            {input image 'data-image' => ''}
-                            <img class="img-thumb-lg rounded-circle shadow"
-                                 data-image
-                                 src="{$basePath}{$review ? $review->getImage()->getThumbWeb() : $blank_150x150}"
-                                 alt="Image">
+                    <div id="cropper" class="row">
+                        <div class="col-md-4">
+                            <div class="imagepicker">
+                                <div n:class="mb-3, !$review ? d-none">
+                                    <img class="img-fluid rounded" src="{$review ? $review->getImage()->getPathWeb()}" alt="image">
+                                </div>
+                                <div class="mb-3">
+                                    <button type="button" class="btn btn-primary">
+                                        {input image 'class' => 'sr-only'}
+                                        <i class="fas fa-upload"></i> Choose image
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cropper-modal">
+                                        Launch demo modal
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -42,6 +50,29 @@
                     </div>
                     {input submit 'class' => 'btn btn-primary'}
                 {/form}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="cropper-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="img-container">
+                        <img id="cropper-modal-image" class="img-fluid" src="/img/cropper.jpg" alt="picture">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="cropper-modal-btn">Save</button>
+                </div>
             </div>
         </div>
     </div>

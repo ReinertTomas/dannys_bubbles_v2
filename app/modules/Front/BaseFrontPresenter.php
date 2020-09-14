@@ -35,7 +35,7 @@ abstract class BaseFrontPresenter extends UnsecuredPresenter
         }
 
         $this->sendResponse(
-            new FileResponse($document->getPathAbsolute(), $document->getName())
+            new FileResponse($document->getPathAbsolute(), $document->getOriginalName())
         );
     }
 

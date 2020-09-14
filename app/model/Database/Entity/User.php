@@ -6,9 +6,13 @@ namespace App\Model\Database\Entity;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
 use App\Model\Database\Entity\Attributes\TId;
 use App\Model\Database\Entity\Attributes\TUpdatedAt;
-use App\Model\Exception\Logic\InvalidArgumentException;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\FileInfo;
 use App\Model\Security\Identity;
+use App\Model\User\Exception\InvalidRoleException;
+use App\Model\User\Exception\InvalidStateException;
+use App\Model\User\Role\Role;
+use App\Model\User\Role\Roles;
+use App\Model\User\State\State;
 use App\Model\Utils\DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -18,26 +22,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
-
-    public const NAMESPACE = '/user';
-
-    public const ROLE_ADMIN = 'admin';
-    public const ROLE_USER = 'user';
-
-    public const ROLES = [
-        self::ROLE_ADMIN => 'Admin',
-        self::ROLE_USER => 'User'
-    ];
-
-    public const STATE_FRESH = 1;
-    public const STATE_ACTIVATED = 2;
-    public const STATE_BLOCKED = 3;
-
-    public const STATES = [
-        self::STATE_FRESH => 'FRESH',
-        self::STATE_ACTIVATED => 'ACTIVATED',
-        self::STATE_BLOCKED => 'BLOCKED'
-    ];
 
     use TId;
     use TCreatedAt;
@@ -92,8 +76,8 @@ class User
         $this->email = $email;
         $this->password = $password;
 
-        $this->role = self::ROLE_USER;
-        $this->state = self::STATE_FRESH;
+        $this->role = Role::MEMBER;
+        $this->state = State::FRESH;
     }
 
     public function getImage(): Image
@@ -101,7 +85,7 @@ class User
         return $this->image;
     }
 
-    public function changeImage(FileInfoInterface $file): void
+    public function changeImage(FileInfo $file): void
     {
         $this->image->update($file);
         $this->image->resize(96, 96);
@@ -157,18 +141,22 @@ class User
         return $this->role;
     }
 
+    public function getRoleElement(): Role
+    {
+        return Roles::create($this->role);
+    }
+
     public function changeRole(string $role): void
     {
-        if (!array_key_exists($role, self::ROLES)) {
-            throw InvalidArgumentException::create()
-                ->withMessage('Unsupported role ' . $role);
+        if (!in_array($role, Role::ROLES, true)) {
+            throw new InvalidRoleException(sprintf('Unsupported role %s', $role));
         }
         $this->role = $role;
     }
 
     public function isAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMIN;
+        return $this->role === Role::ADMIN;
     }
 
     public function getState(): int
@@ -178,25 +166,25 @@ class User
 
     public function changeState(int $state): void
     {
-        if (!array_key_exists($state, self::STATES)) {
-            throw new InvalidArgumentException(sprintf('Unsupported state %s', $state));
+        if (!in_array($state, State::STATES, true)) {
+            throw new InvalidStateException(sprintf('Unsupported role %d', $state));
         }
         $this->state = $state;
     }
 
     public function block(): void
     {
-        $this->state = self::STATE_BLOCKED;
+        $this->state = State::BLOCKED;
     }
 
     public function activate(): void
     {
-        $this->state = self::STATE_ACTIVATED;
+        $this->state = State::ACTIVATED;
     }
 
     public function isActivated(): bool
     {
-        return $this->state === self::STATE_ACTIVATED;
+        return $this->state === State::ACTIVATED;
     }
 
     public function getLastLoggedAt(): ?DateTime

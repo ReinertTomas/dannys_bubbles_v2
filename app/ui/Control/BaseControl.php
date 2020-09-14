@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace App\UI\Control;
 
-use App\Model\Latte\TemplateProperty;
+use App\Model\Template\BaseTemplate;
 use App\Modules\Base\BasePresenter;
 use Nette\Application\UI\Control;
 
 /**
- * @property TemplateProperty $template
+ * @property BaseTemplate $template
  */
 abstract class BaseControl extends Control
 {

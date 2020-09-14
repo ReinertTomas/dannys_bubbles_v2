@@ -7,7 +7,7 @@ use App\Model\Database\Entity\Album;
 use App\Model\Database\Entity\Document;
 use App\Model\Database\Entity\Image;
 use App\Model\Database\EntityManager;
-use App\Model\Element\Active;
+use App\Model\Html\Active;
 use App\Model\Utils\Html;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;

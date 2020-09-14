@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Gallery;
 
 use App\Model\Database\Entity\Gallery;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\IFileInfo;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Control\Dropzone\DropzoneControl;
 use App\UI\Control\Dropzone\IDropzoneFactory;
@@ -48,7 +48,7 @@ final class GalleryPresenter extends BaseAdminPresenter
     {
         return $this->dropzoneFactory->create(
             $this,
-            function (FileInfoInterface $file): void {
+            function (IFileInfo $file): void {
                 $gallery = new Gallery($file);
                 $this->em->persist($gallery);
                 $this->em->flush();

@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace App\UI\Control\Dropzone;
 
-use App\Model\Exception\Runtime\InvalidStateException;
-use App\Model\File\FileTemporaryFactory;
+use App\Model\File\Exception\FileUploadErrorException;
+use App\Model\File\Exception\ImageAllowOnlyException;
+use App\Model\File\FileUploader;
 use App\Modules\Base\BasePresenter;
 use App\UI\Control\BaseControl;
 use Nette\Http\FileUpload;
 
+/**
+ * @property DropzoneTemplate $template
+ */
 final class DropzoneControl extends BaseControl
 {
 
@@ -22,15 +26,15 @@ final class DropzoneControl extends BaseControl
     /** @var callable */
     private $onSuccess;
 
-    private FileTemporaryFactory $factory;
+    private FileUploader $fileUploader;
 
-    public function __construct(BasePresenter $presenter, callable $onUpload, callable $onSuccess, FileTemporaryFactory $factory)
+    public function __construct(BasePresenter $presenter, callable $onUpload, callable $onSuccess, FileUploader $fileUploader)
     {
         $this->presenter = $presenter;
         $this->onUpload = $onUpload;
         $this->onSuccess = $onSuccess;
         $this->acceptedFiles = null;
-        $this->factory = $factory;
+        $this->fileUploader = $fileUploader;
     }
 
     public function acceptOnlyImages(): void
@@ -54,15 +58,13 @@ final class DropzoneControl extends BaseControl
 
         $fileUpload = array_values($fileUploads)[0];
         if (!$fileUpload->isOk()) {
-            throw InvalidStateException::create()
-                ->withMessage('File upload failed.');
+            throw new FileUploadErrorException($fileUpload->getError());
         }
-        if ($this->acceptedFiles === self::ACCEPT_IMAGES AND !$fileUpload->isImage()) {
-            throw InvalidStateException::create()
-                ->withMessage('Allow upload only images.');
+        if ($this->acceptedFiles === self::ACCEPT_IMAGES and !$fileUpload->isImage()) {
+            throw new ImageAllowOnlyException($fileUpload->getName());
         }
 
-        $file = $this->factory->createFromUpload($fileUpload);
+        $file = $this->fileUploader->upload($fileUpload);
         ($this->onUpload)($file);
     }
 

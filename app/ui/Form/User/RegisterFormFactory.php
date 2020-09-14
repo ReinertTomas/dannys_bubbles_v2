@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace App\UI\Form\User;
 
 use App\Model\Security\Passwords;
+use App\Model\User\UserDto;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
 
-class RegisterFormFactory
+final class RegisterFormFactory
 {
 
     private FormFactory $formFactory;
@@ -18,7 +19,7 @@ class RegisterFormFactory
     }
 
     /**
-     * @param callable(Form, RegisterFormType): void $onSuccess
+     * @param callable(Form, App\Model\User\UserDto): void $onSuccess
      * @return Form
      */
     public function create(callable $onSuccess): Form
@@ -40,7 +41,7 @@ class RegisterFormFactory
             ->setOmitted()
             ->addRule(Form::EQUAL, 'Passwords are different.', $form['password']);
         $form->addSubmit('submit', 'Save');
-        $form->setMappedType(RegisterFormType::class);
+        $form->setMappedType(UserDto::class);
 
         $form->onSuccess[] = $onSuccess;
 

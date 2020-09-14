@@ -14,5 +14,4 @@ use App\Model\Database\Entity\Image;
  */
 class ImageRepository extends AbstractRepository
 {
-
 }

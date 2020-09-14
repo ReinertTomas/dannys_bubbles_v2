@@ -27,3 +27,10 @@ parameters:
 	recaptcha:
 		secret: 6LegFrYZAAAAAA4hKCl_fJ1RVXT-P_SwXTzQ5WlY
 		site: 6LegFrYZAAAAAAj9GawotN4RFf-F2r6FDVa1s5vA
+
+	# Directory
+	dir:
+	    temp:
+	        files: %tempDir%/files
+	    www:
+	        files: %wwwDir%/files

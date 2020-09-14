@@ -5,7 +5,7 @@ namespace App\Modules\Base;
 
 use App\Model\Database\EntityManager;
 use App\Model\File\DirectoryManager;
-use App\Model\Latte\TemplateProperty;
+use App\Model\Template\BaseTemplate;
 use App\UI\Control\TDocument;
 use App\UI\Control\TError;
 use App\UI\Control\TFlashMessage;
@@ -15,7 +15,7 @@ use Contributte\Application\UI\Presenter\StructuredTemplates;
 use Nette\Application\UI\Presenter;
 
 /**
- * @property TemplateProperty $template
+ * @property BaseTemplate $template
  */
 abstract class BasePresenter extends Presenter
 {

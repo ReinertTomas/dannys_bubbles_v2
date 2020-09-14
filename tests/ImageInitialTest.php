@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace App\Tests;
 
 use App\Bootstrap;
-use App\Model\File\FileInfoInterface;
-use App\Model\File\Image\ImageInitialCreator;
+use App\Model\File\IFileInfo;
+use App\Model\File\Image\ImageInitialFactory;
 use Nette\DI\Container;
 use Tester\Assert;
 use Tester\TestCase;
@@ -17,7 +17,7 @@ class ImageInitialTest extends TestCase
 
     private Container $container;
 
-    private ?FileInfoInterface $file;
+    private ?IFileInfo $file;
 
     public function __construct(Container $container)
     {
@@ -26,7 +26,7 @@ class ImageInitialTest extends TestCase
 
     protected function setUp()
     {
-        $creator = $this->container->getByType(ImageInitialCreator::class);
+        $creator = $this->container->getByType(ImageInitialFactory::class);
         $this->file = $creator->create('Test', 'Tester');
     }
 
@@ -34,7 +34,7 @@ class ImageInitialTest extends TestCase
     public function testCreate(): void
     {
         Assert::notNull($this->file);
-        Assert::type(FileInfoInterface::class, $this->file);
+        Assert::type(IFileInfo::class, $this->file);
     }
 
     public function testName(): void

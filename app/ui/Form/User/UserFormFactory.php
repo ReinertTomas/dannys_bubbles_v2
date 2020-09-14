@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\UI\Form\User;
 
 use App\Model\Database\Entity\User;
+use App\Model\User\UserDto;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
 
@@ -19,16 +20,13 @@ final class UserFormFactory
 
     /**
      * @param User $user
-     * @param callable(Form, UserFormType): void $onSuccess
+     * @param callable(Form, App\Model\User\UserDto): void $onSuccess
      * @return Form
      */
     public function create(User $user, callable $onSuccess): Form
     {
         $form = $this->formFactory->createSecured();
 
-        $form->addUpload('image')
-            ->addRule(Form::IMAGE, 'form.message.image')
-            ->addRule(Form::MAX_FILE_SIZE, 'form.message.file %d', 1 * 1024 * 1024);
         $form->addText('name', 'Name')
             ->setRequired();
         $form->addText('surname', 'Surname')
@@ -37,7 +35,7 @@ final class UserFormFactory
             ->setRequired();
 
         $form->addSubmit('submit', 'Save');
-        $form->setMappedType(UserFormType::class);
+        $form->setMappedType(UserDto::class);
         $form->onSuccess[] = $onSuccess;
 
         $form->setDefaults([

@@ -4,8 +4,5 @@ parameters:
 	    # App/Model/Database/TRepository
 	    - '#Method App\\Model\\Database\\EntityManager::get[a-zA-Z]+Repository\(\) should return App\\Model\\Database\\Repository\\[a-zA-Z]+Repository but returns Doctrine\\ORM\\EntityRepository<App\\Model\\Database\\Entity\\[a-zA-Z]+>.#'
 
-	excludes_analyse:
-	    - www/checker
-
 includes:
 	- vendor/phpstan/phpstan/conf/bleedingEdge.neon

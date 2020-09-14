@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace App\UI\Form\Config;
 
+use App\Model\Config\ConfigDto;
+use App\Model\Config\ConfigFacade;
 use App\Model\Database\Entity\Config;
-use App\Model\Database\EntityManager;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
 
@@ -13,12 +14,12 @@ final class ConfigFormFactory
 
     private FormFactory $formFactory;
 
-    private EntityManager $em;
+    private ConfigFacade $configFacade;
 
-    public function __construct(FormFactory $formFactory, EntityManager $em)
+    public function __construct(FormFactory $formFactory, ConfigFacade $configFacade)
     {
         $this->formFactory = $formFactory;
-        $this->em = $em;
+        $this->configFacade = $configFacade;
     }
 
     /**
@@ -49,37 +50,12 @@ final class ConfigFormFactory
         $form->addText('promoVideo', 'Promo Video');
         $form->addTextArea('aboutMe', 'About Me');
         $form->addSubmit('submit', 'Save');
-        $form->setMappedType(ConfigFormType::class);
+        $form->setMappedType(ConfigDto::class);
 
-        $form->onSuccess[] = function (Form $form, ConfigFormType $formType) use ($config, $onSuccess): void {
-            $config->setName($formType->name);
-            $config->setSurname($formType->surname);
-            $config->setIco($formType->ico);
-            $config->setEmail($formType->email);
-            $config->setWebsite($formType->website);
-            $config->setFacebook($formType->facebook);
-            $config->setInstagram($formType->instagram);
-            $config->setYoutube($formType->youtube);
-            $config->setPromoVideo($formType->promoVideo);
-            $config->setAboutMe($formType->aboutMe);
-            $this->em->flush();
-
-            ($onSuccess)();
-        };
+        $form->onSuccess[] = $onSuccess;
 
         if ($config !== null) {
-            $form->setDefaults([
-                'name' => $config->getName(),
-                'surname' => $config->getSurname(),
-                'ico' => $config->getIco(),
-                'email' => $config->getEmail(),
-                'website' => $config->getWebsite(),
-                'facebook' => $config->getFacebook(),
-                'instagram' => $config->getInstagram(),
-                'youtube' => $config->getYoutube(),
-                'promoVideo' => $config->getPromoVideo(),
-                'aboutMe' => $config->getAboutMe()
-            ]);
+            $form->setDefaults(ConfigDto::toArray($config));
         }
 
         return $form;

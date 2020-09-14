@@ -11,7 +11,7 @@ use App\Model\Database\EntityManager;
 use App\Model\Database\Repository\ProductHasImageRepository;
 use App\Model\Database\Repository\ProductRepository;
 use App\Model\Exception\Runtime\InvalidStateException;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\IFileInfo;
 use App\Model\File\FileTemporaryFactory;
 use App\UI\Form\Product\ProductFormType;
 
@@ -75,7 +75,7 @@ class ProductFacade
         return $this->productHasImageRepository->find($id);
     }
 
-    public function addImage(Product $product, FileInfoInterface $file): void
+    public function addImage(Product $product, IFileInfo $file): void
     {
         $image = new Image($file, $product->getNamespace());
         $productHasImage = ProductHasImage::create($product, $image);

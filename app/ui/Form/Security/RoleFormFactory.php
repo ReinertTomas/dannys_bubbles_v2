@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace App\UI\Form\Security;
 
-use App\Domain\User\Element\Roles;
 use App\Model\Database\Entity\User;
+use App\Model\User\Role\Roles;
 use App\UI\Form\FormFactory;
 use Nette\Application\UI\Form;
 
@@ -23,17 +23,17 @@ final class RoleFormFactory
 
     /**
      * @param User $user
-     * @param callable(Form, RoleFormType): void $onSuccess
+     * @param callable(Form, RoleFormData): void $onSuccess
      * @return Form
      */
     public function create(User $user, callable $onSuccess): Form
     {
         $form = $this->formFactory->createSecured();
 
-        $form->addSelect('role', 'Role', $this->roles->getPairs())
+        $form->addSelect('role', 'Role', $this->roles->toItems())
             ->setDefaultValue($user->getRole());
         $form->addSubmit('submit', 'Save');
-        $form->setMappedType(RoleFormType::class);
+        $form->setMappedType(RoleFormData::class);
 
         $form->onSuccess[] = $onSuccess;
 

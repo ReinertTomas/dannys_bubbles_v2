@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Model\Exception;
 
-abstract class RuntimeException extends \RuntimeException
+class RuntimeException extends \RuntimeException
 {
 
 }

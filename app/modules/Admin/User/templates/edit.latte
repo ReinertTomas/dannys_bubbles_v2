@@ -1,135 +1,143 @@
 {block #heading}
-    <div class="mb-4">
-        <h1 n:block="title" class="h3 mb-0 text-gray-800">User</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
-            <li class="breadcrumb-item"><a n:href=":Admin:User:">User</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit</li>
-        </ol>
+    <div class="row">
+        <div class="col-md-6 col-xs-12 mb-4">
+            <h1 class="h3 mb-0 text-gray-800">User</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a n:href=":Admin:Home:">Home</a></li>
+                <li class="breadcrumb-item"><a n:href=":Admin:User:">User</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Edit</li>
+            </ol>
+        </div>
+        <div class="col-md-6 col-xs-12 mb-4">
+            <div class="text-md-right pt-3">
+                <a class="btn btn-sm btn-danger shadow-sm ajax" n:href="modal! 'password'">
+                    <i class="fas fa-lock fa-sm text-white-50"></i> Change Password
+                </a>
+                <a class="btn btn-sm btn-danger shadow-sm ajax" n:href="modal! 'role'">
+                    <i class="fas fa-user-cog fa-sm text-white-50"></i> Change Role
+                </a>
+            </div>
+        </div>
     </div>
 {/}
 
 {block #content}
-    <div class="row">
-        <div class="col">
-            <div class="card shadow mb-4">
-                <div class="card-body">
-                    {form userForm}
-                        <div class="mb-3">
-                            <div class="img-input text-center mb-2">
-                                {input image 'class' => 'form-control', 'data-image' => ''}
-                                <img class="img-thumb-md img-thumbnail rounded-circle"
-                                     data-image
-                                     src="{$basePath}{$userSelected->getImage()->getPathWeb()}"
-                                     alt="Avatar">
-                            </div>
-                            <p class="text-center">Role: <strong>{$userSelected->getRole()}</strong></p>
+    <div class="container px-0">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                {form userForm}
+                    <div class="mb-3">
+                        <div class="img-input text-center mb-2">
+                            <img class="img-thumb-md img-thumbnail rounded-circle"
+                                 src="{$basePath}{$userSelected->getImage()->getPathWeb()}"
+                                 alt="Avatar">
                         </div>
-                        <div class="mb-3">
-                            {label name /}
-                            {input name 'class' => 'form-control'}
-                            <div class="invalid-feedback">
-                                Valid name is required.
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            {label surname /}
-                            {input surname 'class' => 'form-control'}
-                            <div class="invalid-feedback">
-                                Valid surname is required.
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            {label email /}
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">@</span>
-                                </div>
-                                {input email 'class' => 'form-control'}
-                                <div class="invalid-feedback" style="width: 100%;">
-                                    Please enter a valid email address.
-                                </div>
-                            </div>
-                        </div>
-                        {input submit 'class' => 'btn btn-primary'}
-                    {/form}
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
-            <!-- Card - Change Password -->
-            <div class="card shadow mb-4">
-                <!-- Card Header - Accordion -->
-                <a href="#collapseCardPassword"
-                   class="d-block card-header py-3 collapsed"
-                   data-toggle="collapse"
-                   role="button"
-                   aria-expanded="false"
-                   aria-controls="collapseCardPassword">
-                    <h6 class="m-0 font-weight-bold text-danger">Change Password</h6>
-                </a>
-                <!-- Card Content - Collapse -->
-                <div class="collapse" id="collapseCardPassword" style="">
-                    <div class="card-body">
-                        {form passwordForm}
-                            <div class="form-group">
-                                {label passwordOld /}
-                                <div class="input-group">
-                                    {input passwordOld 'class' => 'form-control'}
-                                    <div class="input-group-append">
-                                        <a class="input-group-text password-toggle" type="button">
-                                            <i class="fa fa-eye-slash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {label passwordNew /}
-                                <div class="input-group">
-                                    {input passwordNew 'class' => 'form-control'}
-                                    <div class="input-group-append">
-                                        <a class="input-group-text password-toggle" type="button">
-                                            <i class="fa fa-eye-slash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                {label passwordNewConfirm /}
-                                <div class="input-group">
-                                    {input passwordNewConfirm 'class' => 'form-control'}
-                                    <div class="input-group-append">
-                                        <a class="input-group-text password-toggle" type="button">
-                                            <i class="fa fa-eye-slash"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            {input submit 'class' => 'btn btn-primary'}
-                        {/form}
+                        <p class="text-center">Role: <strong>{$userSelected->getRole()}</strong></p>
                     </div>
-                </div>
-            </div>
-            <!-- Card - Change Role -->
-            <div class="card shadow mb-4">
-                <!-- Card Header - Accordion -->
-                <a href="#collapseCardRole" class="d-block card-header py-3 collapsed" data-toggle="collapse"
-                   role="button" aria-expanded="false" aria-controls="collapseCardRole">
-                    <h6 class="m-0 font-weight-bold text-danger">Change Role</h6>
-                </a>
-                <!-- Card Content - Collapse -->
-                <div class="collapse" id="collapseCardRole" style="">
-                    <div class="card-body">
-                        {form roleForm}
-                            <div class="mb-3">
-                                {label role /}
-                                {input role 'class' => 'form-control'}
-                            </div>
-                            {input submit 'class' => 'btn btn-primary'}
-                        {/form}
+                    <div class="mb-3">
+                        {label name /}
+                        {input name 'class' => 'form-control'}
+                        <div class="invalid-feedback">
+                            Valid name is required.
+                        </div>
                     </div>
-                </div>
+                    <div class="mb-3">
+                        {label surname /}
+                        {input surname 'class' => 'form-control'}
+                        <div class="invalid-feedback">
+                            Valid surname is required.
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {label email /}
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">@</span>
+                            </div>
+                            {input email 'class' => 'form-control'}
+                            <div class="invalid-feedback" style="width: 100%;">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                    </div>
+                    {input submit 'class' => 'btn btn-primary'}
+                {/form}
             </div>
         </div>
     </div>
 {/}
+
+{define modal-content-password}
+    <div class="modal-content">
+        {form passwordForm}
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    {label passwordOld /}
+                    <div class="input-group">
+                        {input passwordOld 'class' => 'form-control'}
+                        <div class="input-group-append">
+                            <a class="input-group-text password-toggle" type="button">
+                                <i class="fa fa-eye-slash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {label passwordNew /}
+                    <div class="input-group">
+                        {input passwordNew 'class' => 'form-control'}
+                        <div class="input-group-append">
+                            <a class="input-group-text password-toggle" type="button">
+                                <i class="fa fa-eye-slash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {label passwordNewConfirm /}
+                    <div class="input-group">
+                        {input passwordNewConfirm 'class' => 'form-control'}
+                        <div class="input-group-append">
+                            <a class="input-group-text password-toggle" type="button">
+                                <i class="fa fa-eye-slash"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                {input submit 'class' => 'btn btn-primary'}
+            </div>
+        {/form}
+    </div>
+{/define}
+
+{define modal-content-role}
+    <div class="modal-content">
+        {form roleForm}
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Change Role</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    {label role /}
+                    {input role 'class' => 'form-control'}
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                {input submit 'class' => 'btn btn-primary'}
+            </div>
+        {/form}
+    </div>
+{/define}

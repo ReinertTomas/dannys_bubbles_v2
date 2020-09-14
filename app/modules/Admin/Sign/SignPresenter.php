@@ -40,7 +40,7 @@ class SignPresenter extends UnsecuredPresenter
                 $this->user->setExpiration($formType->remember ? '14 days' : '30 minutes');
                 $this->user->login($formType->email, $formType->password);
             } catch (AuthenticationException $e) {
-                $form->addError('messages.credential.invalid');
+                $form->addError($e->getMessage());
                 return;
             }
             $this->redirect(App::DESTINATION_AFTER_SIGN_IN);

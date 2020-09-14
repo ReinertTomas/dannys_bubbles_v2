@@ -1,3 +1,5 @@
+{varType App\Model\Database\Entity\Config $config}
+
 {block #heading}
     <div class="mb-4">
         <h1 n:block="title" class="h3 mb-0 text-gray-800">Config</h1>
@@ -67,28 +69,59 @@
             </div>
             <div class="col">
                 <div class="card shadow mb-4">
-                    <div class="card-body">
-                        {form configFilesForm}
-                            <div class="mb-3">
-                                {label show 'class' => 'h5 text-gray-900 font-weight-bold' /}
-                                {input show 'class' => 'form-control border-0 mb-3'}
-                                <a n:if="$config->hasDocumentShow()" n:href="downloadDocument! $config->getDocumentShow()->getId()">Download</a>
-                            </div>
-                            <div class="mb-3">
-                                {label business 'class' => 'h5 text-gray-900 font-weight-bold' /}
-                                {input business 'class' => 'form-control border-0 mb-3'}
-                                <a n:if="$config->hasDocumentBusiness()" n:href="downloadDocument! $config->getDocumentBusiness()->getId()">Download</a>
-                            </div>
-                            <div class="mb-3">
-                                {label personal 'class' => 'h5 text-gray-900 font-weight-bold' /}
-                                {input personal 'class' => 'form-control border-0 mb-3'}
-                                <a n:if="$config->hasDocumentPersonal()" n:href="downloadDocument! $config->getDocumentPersonal()->getId()">Download</a>
-                            </div>
-                            {input submit 'class' => 'btn btn-primary'}
-                        {/form}
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Files</h6>
                     </div>
+                    <ul class="list-group list-group-flush shadow">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a n:if="$config->hasDocumentShow()"
+                                n:href="downloadDocument! $config->getDocumentShow()->getId()">Podmínky představení
+                            </a>
+                            <span n:if="!$config->hasDocumentShow()">Podmínky představení</span>
+                            <a n:href="modal! 'show'"
+                                class="ajax btn btn-warning btn-xs mr-1"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Nahrát"><i class="fas fa-upload"></i>
+                            </a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a n:if="$config->hasDocumentBusiness()"
+                                n:href="downloadDocument! $config->getDocumentBusiness()->getId()">Obchodní podmínky
+                            </a>
+                            <a n:href="modal! 'business'"
+                                class="ajax btn btn-warning btn-xs mr-1"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Nahrát"><i class="fas fa-upload"></i>
+                            </a>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a n:if="$config->hasDocumentPersonal()"
+                                n:href="downloadDocument! $config->getDocumentPersonal()->getId()">Ochrana osobních údajů
+                            </a>
+                            <a n:href="modal! 'personal'"
+                                class="ajax btn btn-warning btn-xs mr-1"
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Nahrát"><i class="fas fa-upload"></i>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 {/}
+
+{define modal-content-show}
+    {control show}
+{/define}
+
+{define modal-content-business}
+    {control business}
+{/define}
+
+{define modal-content-personal}
+    {control personal}
+{/define}

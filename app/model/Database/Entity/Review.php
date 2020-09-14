@@ -6,7 +6,8 @@ namespace App\Model\Database\Entity;
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
 use App\Model\Database\Entity\Attributes\TId;
-use App\Model\File\FileInfoInterface;
+use App\Model\File\FileInfo;
+use App\Model\File\IFileInfo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -59,10 +60,9 @@ class Review
         return $this->image;
     }
 
-    public function changeImage(FileInfoInterface $file): void
+    public function changeImage(FileInfo $file): void
     {
         $this->image->update($file);
-        $this->resizeImage();
     }
 
     private function resizeImage(): void

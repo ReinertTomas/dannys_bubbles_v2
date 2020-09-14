@@ -3,10 +3,9 @@ declare(strict_types=1);
 
 namespace Database\Fixtures;
 
-use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\User;
-use App\Model\File\Image\ImageInitialCreator;
-use App\Model\Security\Passwords;
+use App\Model\User\UserDto;
+use App\Model\User\UserFactory;
 use Doctrine\Persistence\ObjectManager;
 
 class UserFixture extends AbstractFixture
@@ -14,32 +13,22 @@ class UserFixture extends AbstractFixture
 
     public function getOrder(): int
     {
-        return 1;
+        return 2;
     }
 
     public function load(ObjectManager $manager): void
     {
-        /** @var ImageInitialCreator $imageService */
-        $imageService = $this->container->getByType(ImageInitialCreator::class);
-        /** @var Passwords $passwordService */
-        $passwordService = $this->container->getByType(Passwords::class);
+        /** @var UserFactory $userFactory */
+        $userFactory = $this->container->getByType(UserFactory::class);
 
         foreach ($this->getUsers() as $user) {
-            $fileInfo = $imageService->create($user['name'], $user['surname']);
-
-            $entity = new User(
-                new Image($fileInfo, User::NAMESPACE, false),
-                $user['name'],
-                $user['surname'],
-                $user['email'],
-                $passwordService->hash($user['password'])
-            );
-            $entity->changeRole($user['role']);
+            $entity = $userFactory->create(UserDto::fromArray($user));
+            $entity->changeRole(User::ROLE_ADMIN);
             $entity->activate();
 
             $manager->persist($entity);
+            $manager->flush();
         }
-        $manager->flush();
     }
 
     public function getUsers(): iterable
