@@ -19,12 +19,12 @@ abstract class Element implements IElement
 
     public function getBg(): string
     {
-        return "bg-{$this->bg}";
+        return $this->bg;
     }
 
     public function getIcon(): string
     {
-        return "fa-{$this->icon}";
+        return $this->icon;
     }
 
 }

@@ -3,17 +3,22 @@ declare(strict_types=1);
 
 namespace App\Model\Utils\Html;
 
-use App\Model\Utils\Html;
+use Nette\Utils\Html;
 
-final class Badge
+class Badge
 {
 
     private Html $element;
 
+    /** @var array<int, string> */
+    private array $class;
+
     public function __construct()
     {
         $this->element = Html::el('span');
-        $this->element->class = 'badge badge-default';
+        $this->class = [];
+        $this->class[] = 'badge';
+        $this->class[] = 'badge-pill';
     }
 
     public static function create(): Badge
@@ -27,15 +32,15 @@ final class Badge
         return $this;
     }
 
-    public function setBackground(string $bg): Badge
+    public function setBg(string $bg): Badge
     {
-        $this->element->class = "badge badge-{$bg}";
+        $this->class[] = "badge-{$bg}";
         return $this;
     }
 
-    public function toString(): string
+    public function toHtml(): Html
     {
-        return $this->element->toHtml();
+        return $this->element->class(implode(' ', $this->class));
     }
 
 }

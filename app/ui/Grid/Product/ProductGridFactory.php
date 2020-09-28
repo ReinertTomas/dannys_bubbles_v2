@@ -6,8 +6,10 @@ namespace App\UI\Grid\Product;
 use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Product;
 use App\Model\Database\EntityManager;
-use App\Model\Html\Active;
-use App\Model\Html\Highlight;
+use App\Model\Html\Active\Disable;
+use App\Model\Html\Active\Enable;
+use App\Model\Html\Priority\Primary;
+use App\Model\Html\Priority\Secondary;
 use App\Model\Utils\DateTime;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
@@ -22,25 +24,19 @@ final class ProductGridFactory
 
     private EntityManager $em;
 
-    private Active $active;
-
-    protected Highlight $highlight;
-
-    public function __construct(GridFactory $gridFactory, EntityManager $em, Active $active, Highlight $highlight)
+    public function __construct(GridFactory $gridFactory, EntityManager $em)
     {
         $this->gridFactory = $gridFactory;
         $this->em = $em;
-        $this->active = $active;
-        $this->highlight = $highlight;
     }
 
     public function create(IContainer $container, string $name, callable $onActive, callable $onHighlight): DataGrid
     {
-        $disabled = $this->active->getDisabled();
-        $enabled = $this->active->getEnabled();
+        $disabled = new Disable();
+        $enabled = new Enable();
 
-        $common = $this->highlight->getCommon();
-        $highlight = $this->highlight->getHighlight();
+        $primary = new Primary();
+        $secondary = new Secondary();
 
         $grid = $this->gridFactory->create($container, $name);
         $grid->setDataSource(
@@ -61,7 +57,7 @@ final class ProductGridFactory
 
                 return Html::el('img')
                     ->src($path)
-                    ->class('img-thumb-sm')
+                    ->class('img-sm')
                     ->alt('Image');
             });
         $grid->addColumnText('title', 'Title');
@@ -70,13 +66,13 @@ final class ProductGridFactory
             ->setFormat(DateTime::FORMAT_USER);
         $grid->addColumnStatus('highlight', 'Highlight')
             ->setCaret(false)
-            ->addOption(false, $common->getText())
-            ->setIcon($common->getIcon())
-            ->setClass("btn-{$common->getBg()}")
+            ->addOption(false, $secondary->getText())
+            ->setIcon($secondary->getIcon())
+            ->setClass("btn-{$secondary->getBg()}")
             ->endOption()
-            ->addOption(true, $highlight->getText())
-            ->setIcon($highlight->getIcon())
-            ->setClass("btn-{$highlight->getBg()}")
+            ->addOption(true, $primary->getText())
+            ->setIcon($primary->getIcon())
+            ->setClass("btn-{$primary->getBg()}")
             ->endOption()
             ->onChange[] = $onHighlight;
 

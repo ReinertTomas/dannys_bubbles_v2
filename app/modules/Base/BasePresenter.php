@@ -33,4 +33,11 @@ abstract class BasePresenter extends Presenter
     /** @inject */
     public DirectoryManager $dm;
 
+    protected function beforeRender()
+    {
+        parent::beforeRender();
+
+        $this->template->blank_1200x800 = '/img/blank_1200x800.png';
+    }
+
 }

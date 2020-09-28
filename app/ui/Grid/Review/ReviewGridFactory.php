@@ -6,6 +6,8 @@ namespace App\UI\Grid\Review;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\EntityManager;
 use App\Model\Html\Active;
+use App\Model\Html\Active\Disable;
+use App\Model\Html\Active\Enable;
 use App\Model\Utils\DateTime;
 use App\Model\Utils\Html;
 use App\Model\Utils\Strings;
@@ -24,17 +26,16 @@ final class ReviewGridFactory
 
     private Active $active;
 
-    public function __construct(GridFactory $gridFactory, EntityManager $em, Active $active)
+    public function __construct(GridFactory $gridFactory, EntityManager $em)
     {
         $this->gridFactory = $gridFactory;
         $this->em = $em;
-        $this->active = $active;
     }
 
     public function create(IContainer $container, string $name, callable $onChange): DataGrid
     {
-        $disabled = $this->active->getDisabled();
-        $enabled = $this->active->getEnabled();
+        $disabled = new Disable();
+        $enabled = new Enable();
 
         $grid = $this->gridFactory->create($container, $name);
         $grid->setDataSource(
@@ -45,7 +46,7 @@ final class ReviewGridFactory
         $grid->addColumnText('image', 'Image')
             ->setRenderer(function (Review $review): NetteHtml {
                 return Html::el('img')
-                    ->class('img-thumb-xxs rounded-circle')
+                    ->class('img-xs rounded-circle')
                     ->src($review->getImage()->getPathWeb())
                     ->alt('Image');
             });

@@ -5,7 +5,8 @@ namespace App\UI\Grid\Offer;
 
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\EntityManager;
-use App\Model\Html\Active;
+use App\Model\Html\Active\Disable;
+use App\Model\Html\Active\Enable;
 use App\Model\Utils\Html;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
@@ -20,19 +21,16 @@ final class OfferGridFactory
 
     private EntityManager $em;
 
-    private Active $active;
-
-    public function __construct(GridFactory $gridFactory, EntityManager $em, Active $active)
+    public function __construct(GridFactory $gridFactory, EntityManager $em)
     {
         $this->gridFactory = $gridFactory;
         $this->em = $em;
-        $this->active = $active;
     }
 
     public function create(IContainer $container, string $name, callable $onChange): DataGrid
     {
-        $disabled = $this->active->getDisabled();
-        $enabled = $this->active->getEnabled();
+        $disabled = new Disable();
+        $enabled = new Enable();
 
         $grid = $this->gridFactory->create($container, $name);
         $grid->setDataSource(
@@ -44,7 +42,7 @@ final class OfferGridFactory
             ->setRenderer(function (Offer $offer): NetteHtml {
                 return Html::el('img')
                     ->src($offer->getImage()->getThumbWeb())
-                    ->class('img-thumb-sm')
+                    ->class('img-sm')
                     ->alt('Image');
             });
         $grid->addColumnText('title', 'Title');
@@ -61,7 +59,7 @@ final class OfferGridFactory
                 ->endOption()
             ->onChange[] = $onChange;
 
-        $grid->addAction('edit', '', ':Admin:Offer:offer')
+        $grid->addAction('edit', '', ':Admin:Offer:edit')
             ->setClass(Grid::BTN_WARNING)
             ->setIcon(Grid::ICON_PENCIL)
             ->setTitle(Grid::TITLE_EDIT);

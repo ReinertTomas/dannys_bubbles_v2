@@ -14,13 +14,12 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 {form offerForm}
-                    <div class="text-center mb-3">
-                        <div class="img-input">
-                            {input image 'data-image' => ''}
-                            <img class="img-thumb-xl shadow"
-                                 data-image
-                                 src="{$basePath}{$offer ? $offer->getImage()->getThumbWeb() : $blank_200x200}"
-                                 alt="Image">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-fluid mb-3" src="{$basePath}{$blank_1200x800}" alt="Image">
+                        </div>
+                        <div class="col-md-6">
+                            {input image}
                         </div>
                     </div>
                     <div class="mb-3">

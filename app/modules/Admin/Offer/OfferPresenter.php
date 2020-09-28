@@ -13,6 +13,9 @@ use App\UI\Grid\Offer\OfferGridFactory;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
+/**
+ * @property OfferTemplate $template
+ */
 final class OfferPresenter extends BaseAdminPresenter
 {
 
@@ -27,7 +30,7 @@ final class OfferPresenter extends BaseAdminPresenter
     /** @inject */
     public OfferFacade $offerFacade;
 
-    public function actionOffer(?int $id): void
+    public function actionEdit(?int $id): void
     {
         if ($id !== null) {
             $this->offer = $this->em->getOfferRepository()->find($id);

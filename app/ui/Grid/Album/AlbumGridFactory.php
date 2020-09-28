@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace App\UI\Grid\Album;
 
-use App\Model\Database\Entity\Album;
-use App\Model\Database\Entity\Document;
 use App\Model\Database\Entity\Image;
 use App\Model\Database\EntityManager;
 use App\Model\Html\Active;
+use App\Model\Html\Active\Disable;
+use App\Model\Html\Active\Enable;
 use App\Model\Utils\Html;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
@@ -22,19 +22,16 @@ final class AlbumGridFactory
 
     private EntityManager $em;
 
-    private Active $active;
-
-    public function __construct(GridFactory $gridFactory, EntityManager $em, Active $active)
+    public function __construct(GridFactory $gridFactory, EntityManager $em)
     {
         $this->gridFactory = $gridFactory;
         $this->em = $em;
-        $this->active = $active;
     }
 
     public function create(IContainer $container, string $name, callable $onChange): DataGrid
     {
-        $disabled = $this->active->getDisabled();
-        $enabled = $this->active->getEnabled();
+        $disabled = new Disable();
+        $enabled = new Enable();
 
         $grid = $this->gridFactory->create($container, $name);
         $grid->setDataSource(
@@ -55,7 +52,7 @@ final class AlbumGridFactory
 
                 return Html::el('img')
                     ->src($path)
-                    ->class('img-thumb-sm')
+                    ->class('img-sm')
                     ->alt('Image');
             });
         $grid->addColumnText('title', 'Title');

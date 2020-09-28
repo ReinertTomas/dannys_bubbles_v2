@@ -36,34 +36,20 @@
     flex-direction: column;
 }
 
-.img-thumb-xxs {
+.img-xs {
     width: 32px;
-    height: 32px;
 }
 
-.img-thumb-xs {
-    width: 48px;
-    height: 48px;
-}
-
-.img-thumb-sm {
+.img-sm {
     width: 64px;
-    height: 64px;
 }
 
-.img-thumb-md {
+.img-md {
     width: 96px;
-    height: 96px;
 }
 
-.img-thumb-lg {
+.img-lg {
     width: 150px;
-    height: 150px;
-}
-
-.img-thumb-xl {
-    width: 200px;
-    height: 200px;
 }
 
 .img-circle {

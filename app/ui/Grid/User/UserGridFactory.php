@@ -5,14 +5,15 @@ namespace App\UI\Grid\User;
 
 use App\Model\Database\Entity\User;
 use App\Model\Database\EntityManager;
-use App\Model\User\State\State;
-use App\Model\User\State\States;
-use App\Model\Utils\DateTime;
-use App\Model\Utils\Html;
+use App\Model\User\State\Active;
+use App\Model\User\State\Block;
+use App\Model\User\State\Fresh;
+use App\Model\Utils\Html\Badge;
+use App\Model\Utils\Html\Img;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
 use Nette\ComponentModel\IContainer;
-use Nette\Utils\Html as NetteHtml;
+use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 
 final class UserGridFactory
@@ -22,20 +23,17 @@ final class UserGridFactory
 
     private EntityManager $em;
 
-    private States $states;
-
-    public function __construct(GridFactory $gridFactory, EntityManager $em, States $states)
+    public function __construct(GridFactory $gridFactory, EntityManager $em)
     {
         $this->gridFactory = $gridFactory;
         $this->em = $em;
-        $this->states = $states;
     }
 
     public function create(IContainer $parent, string $name, callable $onChange): DataGrid
     {
-        $fresh = $this->states->get(State::FRESH);
-        $activated = $this->states->get(State::ACTIVATED);
-        $blocked = $this->states->get(State::BLOCKED);
+        $fresh = new Fresh();
+        $activated = new Active();
+        $blocked = new Block();
 
         $grid = $this->gridFactory->create($parent, $name);
         $grid->setDataSource(
@@ -44,11 +42,11 @@ final class UserGridFactory
 
         $grid->addColumnText('id', 'Id');
         $grid->addColumnText('image', 'Image')
-            ->setRenderer(function (User $user): NetteHtml {
-                return Html::el('img')
-                    ->class('img-thumb-xxs rounded-circle')
-                    ->src($user->getImage()->getPathWeb())
-                    ->alt('Image');
+            ->setRenderer(function (User $user): Html {
+                return Img::create($user->getImage()->getPathWeb())
+                    ->setSizeExtraSmall()
+                    ->setRoundedCircle()
+                    ->toHtml();
             });
         $grid->addColumnText('name', 'Name')
             ->setFilterText();
@@ -56,11 +54,14 @@ final class UserGridFactory
             ->setFilterText();
         $grid->addColumnText('email', 'Email')
             ->setFilterText();
-        $grid->addColumnText('role', 'Role');
-        $grid->addColumnDateTime('createdAt', 'Created')
-            ->setFormat(DateTime::FORMAT_USER);
-        $grid->addColumnDateTime('updatedAt', 'Updated')
-            ->setFormat(DateTime::FORMAT_USER);
+        $grid->addColumnText('role', 'Role')
+            ->setRenderer(function (User $user): Html {
+                $element = $user->getRoleElement();
+                return Badge::create()
+                    ->setText($element->getText())
+                    ->setBg($element->getBg())
+                    ->toHtml();
+            });
         $grid->addColumnStatus('state', 'State')
             ->setCaret(false)
             ->addOption($fresh->getState(), $fresh->getText())

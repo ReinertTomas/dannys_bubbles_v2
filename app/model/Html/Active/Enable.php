@@ -1,15 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Model\User\State;
+namespace App\Model\Html\Active;
 
-class Active extends State
+use App\Model\Html\Element;
+
+class Enable extends Element
 {
 
     public function __construct()
     {
-        $this->state = self::FRESH;
-        $this->text = 'Activated';
+        $this->text = 'Enabled';
         $this->bg = 'success';
         $this->icon = 'check';
     }

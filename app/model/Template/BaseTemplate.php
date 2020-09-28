@@ -11,4 +11,6 @@ class BaseTemplate extends Template
 
     public User $userLoggedIn;
 
+    public string $blank_1200x800;
+
 }
