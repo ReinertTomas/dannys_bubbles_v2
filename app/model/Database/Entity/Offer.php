@@ -5,7 +5,7 @@ namespace App\Model\Database\Entity;
 
 use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TId;
-use App\Model\File\IFileInfo;
+use App\Model\File\FileInfo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,17 +49,12 @@ class Offer
         $this->active = false;
     }
 
-    public static function create(Image $image, string $title, string $description, string $text): Offer
-    {
-        return new Offer($image, $title, $description, $text);
-    }
-
     public function getImage(): Image
     {
         return $this->image;
     }
 
-    public function changeImage(IFileInfo $file): void
+    public function changeImage(FileInfo $file): void
     {
         $this->image->update($file);
     }

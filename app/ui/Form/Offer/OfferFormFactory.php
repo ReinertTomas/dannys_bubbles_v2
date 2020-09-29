@@ -23,9 +23,11 @@ final class OfferFormFactory
         $form = $this->formFactory->createSecured();
 
         $form->addText('title', 'Title')
-            ->setRequired();
+            ->setRequired()
+            ->setMaxLength(64);
         $form->addTextArea('description', 'Description')
-            ->setRequired();
+            ->setRequired()
+            ->setMaxLength(255);
         $form->addTextArea('text', 'Text')
             ->setRequired();
         $image = $form
@@ -33,7 +35,7 @@ final class OfferFormFactory
             ->setRequired()
             ->addRule(Form::IMAGE, 'Select only images');
         $form->addSubmit('submit');
-        $form->setMappedType(OfferFormType::class);
+        $form->setMappedType(OfferFormData::class);
 
         if ($offer !== null) {
             $image->setRequired(false);

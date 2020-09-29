@@ -54,7 +54,8 @@ services:
 	- App\Model\User\State\States
 
 	## Offer
-	- App\Domain\Offer\OfferFacade
+	- App\Model\Offer\OfferFactory
+	- App\Model\Offer\OfferFacade
 
 	## Review
 	- App\Domain\Review\ReviewFacade

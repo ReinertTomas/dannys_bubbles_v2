@@ -89,6 +89,7 @@
                             <a n:if="$config->hasDocumentBusiness()"
                                 n:href="downloadDocument! $config->getDocumentBusiness()->getId()">Obchodní podmínky
                             </a>
+                            <span n:if="!$config->hasDocumentShow()">Obchodní podmínky</span>
                             <a n:href="modal! 'business'"
                                 class="ajax btn btn-warning btn-xs mr-1"
                                 data-toggle="tooltip"
@@ -100,6 +101,7 @@
                             <a n:if="$config->hasDocumentPersonal()"
                                 n:href="downloadDocument! $config->getDocumentPersonal()->getId()">Ochrana osobních údajů
                             </a>
+                            <span n:if="!$config->hasDocumentShow()">Ochrana osobních údajů</span>
                             <a n:href="modal! 'personal'"
                                 class="ajax btn btn-warning btn-xs mr-1"
                                 data-toggle="tooltip"

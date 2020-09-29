@@ -7,11 +7,11 @@ use App\Model\Database\Entity\Offer;
 use App\Model\Database\EntityManager;
 use App\Model\Html\Active\Disable;
 use App\Model\Html\Active\Enable;
-use App\Model\Utils\Html;
+use App\Model\Utils\Html\Img;
 use App\UI\Grid\Grid;
 use App\UI\Grid\GridFactory;
 use Nette\ComponentModel\IContainer;
-use Nette\Utils\Html as NetteHtml;
+use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 
 final class OfferGridFactory
@@ -39,11 +39,10 @@ final class OfferGridFactory
 
         $grid->addColumnText('id', 'Id');
         $grid->addColumnText('image', 'Image')
-            ->setRenderer(function (Offer $offer): NetteHtml {
-                return Html::el('img')
-                    ->src($offer->getImage()->getThumbWeb())
-                    ->class('img-sm')
-                    ->alt('Image');
+            ->setRenderer(function (Offer $offer): Html {
+                return Img::create($offer->getImage()->getPathWeb())
+                    ->setSizeMedium()
+                    ->toHtml();
             });
         $grid->addColumnText('title', 'Title');
         $grid->addColumnText('description', 'Description');

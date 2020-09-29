@@ -3,12 +3,14 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Offer;
 
-use App\Domain\Offer\OfferFacade;
 use App\Model\App;
 use App\Model\Database\Entity\Offer;
+use App\Model\File\FileUploader;
+use App\Model\Offer\OfferDto;
+use App\Model\Offer\OfferFacade;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Offer\OfferFormFactory;
-use App\UI\Form\Offer\OfferFormType;
+use App\UI\Form\Offer\OfferFormData;
 use App\UI\Grid\Offer\OfferGridFactory;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
@@ -29,6 +31,9 @@ final class OfferPresenter extends BaseAdminPresenter
 
     /** @inject */
     public OfferFacade $offerFacade;
+
+    /** @inject */
+    public FileUploader $fileUploader;
 
     public function actionEdit(?int $id): void
     {
@@ -93,12 +98,13 @@ final class OfferPresenter extends BaseAdminPresenter
     protected function createComponentOfferForm(): Form
     {
         $form = $this->offerFormFactory->create($this->offer);
-        $form->onSuccess[] = function (Form $form, OfferFormType $formType): void {
+        $form->onSuccess[] = function (Form $form, OfferFormData $data): void {
             if ($this->offer === null) {
-                $this->offer = $this->offerFacade->create($formType);
+                $file = $this->fileUploader->upload($data->image);
+                $this->offer = $this->offerFacade->create(OfferDto::fromForm($data), $file);
                 $this->flashSuccess('messages.offer.created');
             } else {
-                $this->offerFacade->update($this->offer, $formType);
+                $this->offerFacade->update($this->offer, OfferDto::fromForm($data));
                 $this->flashSuccess('messages.offer.updated');
             }
             $this->redirect('this', $this->offer->getId());

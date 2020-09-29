@@ -5,7 +5,7 @@ namespace App\UI\Form\Offer;
 
 use Nette\Http\FileUpload;
 
-final class OfferFormType
+final class OfferFormData
 {
 
     public FileUpload $image;
