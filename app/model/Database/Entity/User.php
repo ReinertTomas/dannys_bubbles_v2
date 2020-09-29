@@ -85,12 +85,6 @@ class User
         return $this->image;
     }
 
-    public function changeImage(FileInfo $file): void
-    {
-        $this->image->update($file);
-        $this->image->resize(96, 96);
-    }
-
     public function getName(): string
     {
         return $this->name;

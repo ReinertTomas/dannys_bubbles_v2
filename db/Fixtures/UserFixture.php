@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Database\Fixtures;
 
-use App\Model\Database\Entity\User;
+use App\Model\User\Role\Role;
 use App\Model\User\UserDto;
 use App\Model\User\UserFactory;
 use Doctrine\Persistence\ObjectManager;
@@ -23,7 +23,7 @@ class UserFixture extends AbstractFixture
 
         foreach ($this->getUsers() as $user) {
             $entity = $userFactory->create(UserDto::fromArray($user));
-            $entity->changeRole(User::ROLE_ADMIN);
+            $entity->changeRole(Role::ADMIN);
             $entity->activate();
 
             $manager->persist($entity);
@@ -37,8 +37,7 @@ class UserFixture extends AbstractFixture
             'name' => 'Admin',
             'surname' => 'Administrator',
             'email' => 'admin@admin.net',
-            'password' => 'Admin123!',
-            'role' => User::ROLE_ADMIN
+            'password' => 'Admin123!'
         ];
     }
 

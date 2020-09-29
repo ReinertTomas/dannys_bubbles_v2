@@ -2,13 +2,13 @@
 <footer class="footer">
     <div class="footer-bottom text-center py-3 py-md-5">
         <ul class="list-unstyled">
-            <li class="list-inline-item">
+            <li n:if="$config->hasDocumentShow()" class="list-inline-item">
                 <a n:href="downloadDocument! $config->getDocumentShow()->getId()">Podmínky představení</a>
             </li>
-            <li class="list-inline-item">
+            <li n:if="$config->hasDocumentBusiness()" class="list-inline-item">
                 <a n:href="downloadDocument! $config->getDocumentBusiness()->getId()">Obchodní podmínky</a>
             </li>
-            <li class="list-inline-item">
+            <li n:if="$config->hasDocumentPersonal()" class="list-inline-item">
                 <a n:href="downloadDocument! $config->getDocumentPersonal()->getId()">Ochrana osobních údajů</a>
             </li>
         </ul>

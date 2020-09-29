@@ -5,7 +5,9 @@ namespace App\Modules\Admin\User;
 
 use App\Model\App;
 use App\Model\Database\Entity\User;
-use App\Model\Exception\Logic\InvalidArgumentException;
+use App\Model\Security\Exception\PasswordEqualException;
+use App\Model\Security\Exception\PasswordVerifyException;
+use App\Model\User\Exception\EmailUniqueException;
 use App\Model\User\UserDto;
 use App\Model\User\UserFacade;
 use App\Modules\Admin\BaseAdminPresenter;
@@ -16,7 +18,6 @@ use App\UI\Form\Security\RoleFormData;
 use App\UI\Form\User\RegisterFormFactory;
 use App\UI\Form\User\UserFormFactory;
 use App\UI\Grid\User\UserGridFactory;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
@@ -97,8 +98,8 @@ class UserPresenter extends BaseAdminPresenter
         return $this->registerFormFactory->create(function (Form $form, UserDto $dto): void {
             try {
                 $this->userSelected = $this->userFacade->create($dto);
-            } catch (UniqueConstraintViolationException $e) {
-                $this->flashError('messages.user.unique ' . $dto->email);
+            } catch (EmailUniqueException $e) {
+                $this->flashError($e->getMessage() . ' ' . $dto->email);
                 return;
             }
             $this->flashSuccess('messages.user.create');
@@ -108,20 +109,17 @@ class UserPresenter extends BaseAdminPresenter
 
     protected function createComponentUserForm(): Form
     {
-        return $this->userFormFactory->create(
-            $this->userSelected,
-            function (Form $form, UserDto $dto): void {
-                try {
-                    $this->userFacade->update($this->userSelected, $dto);
-                } catch (UniqueConstraintViolationException $e) {
-                    $this->flashError('messages.user.unique ' . $dto->email);
-                    return;
-                }
-
-                $this->flashSuccess('messages.user.update');
-                $this->redirect('this');
+        return $this->userFormFactory->create($this->userSelected, function (Form $form, UserDto $dto): void {
+            try {
+                $this->userFacade->update($this->userSelected, $dto);
+            } catch (EmailUniqueException $e) {
+                $this->flashError($e->getMessage() . ' ' . $dto->email);
+                return;
             }
-        );
+
+            $this->flashSuccess('messages.user.update');
+            $this->redirect('this');
+        });
     }
 
     protected function createComponentRoleForm(): Form
@@ -142,7 +140,10 @@ class UserPresenter extends BaseAdminPresenter
         return $this->passwordFormFactory->create(function (Form $form, PasswordFormData $formType): void {
             try {
                 $this->userFacade->changePassword($this->userSelected, $formType->passwordOld, $formType->passwordNew);
-            } catch (InvalidArgumentException $e) {
+            } catch (PasswordVerifyException $e) {
+                $this->flashError($e->getMessage());
+                return;
+            } catch (PasswordEqualException $e) {
                 $this->flashError($e->getMessage());
                 return;
             }

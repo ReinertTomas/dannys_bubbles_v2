@@ -11,7 +11,7 @@ class Fresh extends State
         $this->state = self::FRESH;
         $this->text = 'Fresh';
         $this->bg = 'warning';
-        $this->icon = 'plus';
+        $this->icon = 'clock';
     }
 
 }

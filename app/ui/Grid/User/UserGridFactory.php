@@ -57,9 +57,7 @@ final class UserGridFactory
         $grid->addColumnText('role', 'Role')
             ->setRenderer(function (User $user): Html {
                 $element = $user->getRoleElement();
-                return Badge::create()
-                    ->setText($element->getText())
-                    ->setBg($element->getBg())
+                return Badge::fromElement($element)
                     ->toHtml();
             });
         $grid->addColumnStatus('state', 'State')

@@ -8,7 +8,7 @@ class Block extends State
 
     public function __construct()
     {
-        $this->state = self::FRESH;
+        $this->state = self::BLOCKED;
         $this->text = 'Blocked';
         $this->bg = 'danger';
         $this->icon = 'ban';

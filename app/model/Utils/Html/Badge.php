@@ -3,9 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Utils\Html;
 
+use App\Model\Html\IElement;
 use Nette\Utils\Html;
 
-class Badge
+final class Badge
 {
 
     private Html $element;
@@ -24,6 +25,14 @@ class Badge
     public static function create(): Badge
     {
         return new static();
+    }
+
+    public static function fromElement(IElement $element): Badge
+    {
+        $el = new static();
+        $el->setText($element->getText());
+        $el->setBg($element->getBg());
+        return $el;
     }
 
     public function setText(string $text): Badge

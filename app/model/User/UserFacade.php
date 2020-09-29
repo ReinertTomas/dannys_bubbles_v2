@@ -6,8 +6,11 @@ namespace App\Model\User;
 use App\Model\Database\Entity\User;
 use App\Model\Database\EntityManager;
 use App\Model\Database\Repository\UserRepository;
-use App\Model\Exception\Logic\InvalidArgumentException;
+use App\Model\Security\Exception\PasswordEqualException;
+use App\Model\Security\Exception\PasswordVerifyException;
 use App\Model\Security\Passwords;
+use App\Model\User\Exception\EmailUniqueException;
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 
 class UserFacade
 {
@@ -38,8 +41,12 @@ class UserFacade
         $user = $this->userFactory->create($dto);
         $user->activate();
 
-        $this->em->persist($user);
-        $this->em->flush();
+        try {
+            $this->em->persist($user);
+            $this->em->flush();
+        } catch (UniqueConstraintViolationException $e) {
+            throw new EmailUniqueException('messages.user.unique');
+        }
 
         return $user;
     }
@@ -49,7 +56,12 @@ class UserFacade
         $user->changeName($dto->name);
         $user->changeSurname($dto->surname);
         $user->changeEmail($dto->email);
-        $this->em->flush();
+
+        try {
+            $this->em->flush();
+        } catch (UniqueConstraintViolationException $e) {
+            throw new EmailUniqueException('messages.user.unique');
+        }
     }
 
     public function remove(User $user): void
@@ -67,10 +79,10 @@ class UserFacade
     public function changePassword(User $user, string $passwordOld, string $passwordNew): void
     {
         if (!$this->passwords->verify($passwordOld, $user->getPassword())) {
-            throw new InvalidArgumentException('messages.credentials.wrong');
+            throw new PasswordVerifyException('messages.credentials.wrong');
         }
         if ($passwordOld === $passwordNew) {
-            throw new InvalidArgumentException('messages.password.equal');
+            throw new PasswordEqualException('messages.password.equal');
         }
 
         $user->changePassword($this->passwords->hash($passwordNew));

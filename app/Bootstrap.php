@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Model\Utils\FileSystem;
 use Nette\Configurator;
 
 final class Bootstrap
@@ -26,6 +27,8 @@ final class Bootstrap
             ->register();
 
         $configurator->addConfig(__DIR__ . '/config/env/dev.neon');
+
+        FileSystem::createDir(__DIR__ . '/../temp/sessions');
 
         return $configurator;
     }

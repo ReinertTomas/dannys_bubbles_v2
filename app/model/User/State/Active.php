@@ -8,7 +8,7 @@ class Active extends State
 
     public function __construct()
     {
-        $this->state = self::FRESH;
+        $this->state = self::ACTIVATED;
         $this->text = 'Activated';
         $this->bg = 'success';
         $this->icon = 'check';
