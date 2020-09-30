@@ -17,8 +17,6 @@ class Offer
     use TId;
     use TActive;
 
-    public const NAMESPACE = '/offer';
-
     /**
      * @ORM\ManyToOne(targetEntity="Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=FALSE)

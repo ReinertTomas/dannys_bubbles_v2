@@ -5,7 +5,6 @@ namespace App\Modules\Admin\Offer;
 
 use App\Model\App;
 use App\Model\Database\Entity\Offer;
-use App\Model\File\FileUploader;
 use App\Model\Offer\OfferDto;
 use App\Model\Offer\OfferFacade;
 use App\Modules\Admin\BaseAdminPresenter;
@@ -31,9 +30,6 @@ final class OfferPresenter extends BaseAdminPresenter
 
     /** @inject */
     public OfferFacade $offerFacade;
-
-    /** @inject */
-    public FileUploader $fileUploader;
 
     public function actionEdit(?int $id): void
     {

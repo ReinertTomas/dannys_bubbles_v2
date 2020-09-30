@@ -14,9 +14,6 @@ class TestPresenter extends BaseAdminPresenter
 {
 
     /** @inject */
-    public FileUploader $fileUploader;
-
-    /** @inject */
     public ImageFactory $imageFactory;
 
     protected function createComponentForm(): Form

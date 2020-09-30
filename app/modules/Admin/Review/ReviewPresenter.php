@@ -3,16 +3,19 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Review;
 
-use App\Domain\Review\ReviewFacade;
 use App\Model\App;
 use App\Model\Database\Entity\Review;
+use App\Model\Review\ReviewDto;
+use App\Model\Review\ReviewFacade;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Form\Review\ReviewFormFactory;
-use App\UI\Form\Review\ReviewFormType;
 use App\UI\Grid\Review\ReviewGridFactory;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
+/**
+ * @property ReviewTemplate $template
+ */
 final class ReviewPresenter extends BaseAdminPresenter
 {
 
@@ -27,7 +30,7 @@ final class ReviewPresenter extends BaseAdminPresenter
     /** @inject */
     public ReviewFacade $reviewFacade;
 
-    public function actionReview(?int $id): void
+    public function actionEdit(?int $id): void
     {
         if ($id !== null) {
             $this->review = $this->reviewFacade->get($id);
@@ -59,7 +62,6 @@ final class ReviewPresenter extends BaseAdminPresenter
     protected function beforeRender(): void
     {
         parent::beforeRender();
-
         $this->template->review = $this->review;
     }
 
@@ -91,13 +93,15 @@ final class ReviewPresenter extends BaseAdminPresenter
 
     protected function createComponentReviewForm(): Form
     {
-        return $this->reviewFormFactory->create($this->review, function (Review $review): void {
+        return $this->reviewFormFactory->create($this->review, function (Form $form, ReviewDto $dto): void {
             if ($this->review === null) {
+                $this->review = $this->reviewFacade->create($dto);
                 $this->flashSuccess('messages.review.create');
             } else {
+                $this->reviewFacade->update($this->review, $dto);
                 $this->flashSuccess('messages.review.update');
             }
-            $this->redirect('this', $review->getId());
+            $this->redirect('this', $this->review->getId());
         });
     }
 

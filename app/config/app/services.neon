@@ -58,7 +58,8 @@ services:
 	- App\Model\Offer\OfferFacade
 
 	## Review
-	- App\Domain\Review\ReviewFacade
+	- App\Model\Review\ReviewFactory
+	- App\Model\Review\ReviewFacade
 
 	## Album
 	- App\Domain\Album\AlbumFacade

@@ -18,31 +18,25 @@
         <div class="card shadow mb-4">
             <div class="card-body">
                 {form reviewForm}
-                    <div id="cropper" class="row">
-                        <div class="col-md-4">
-                            <div class="imagepicker">
-                                <div n:class="mb-3, !$review ? d-none">
-                                    <img class="img-fluid rounded" src="{$review ? $review->getImage()->getPathWeb()}" alt="image">
-                                </div>
-                                <div class="mb-3">
-                                    <button type="button" class="btn btn-primary">
-                                        {input image 'class' => 'sr-only'}
-                                        <i class="fas fa-upload"></i> Choose image
-                                    </button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cropper-modal">
-                                        Launch demo modal
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                    <div n:if="$review" class="text-center mb-3">
+                        <img class="img-md rounded-circle" src="{$basePath}{$review->getImage()->getPathWeb()}" alt="Image">
                     </div>
                     <div class="mb-3">
                         {label title/}
                         {input title 'class' => 'form-control'}
+                        <small class="text-muted"><i class="fas fa-info-circle"></i> Max. délka je 64 znaků</small>
                     </div>
-                    <div class="mb-3">
-                        {label author/}
-                        {input author 'class' => 'form-control'}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {label name/}
+                            {input name 'class' => 'form-control'}
+                            <small class="text-muted"><i class="fas fa-info-circle"></i> Max. délka je 64 znaků</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {label surname/}
+                            {input surname 'class' => 'form-control'}
+                            <small class="text-muted"><i class="fas fa-info-circle"></i> Max. délka je 64 znaků</small>
+                        </div>
                     </div>
                     <div class="mb-3">
                         {label text/}

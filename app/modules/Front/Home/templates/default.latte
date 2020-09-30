@@ -70,14 +70,14 @@
             <div class="mb-5 text-center section-intro">Join 500,000+ users around the world lorem ipsum dolor sit amet</div>
 
             <div class="testimonial-carousel owl-carousel owl-theme">
-{*                {varType App\Model\Database\Entity\Review $review}*}
+                {varType App\Model\Database\Entity\Review $review}
                 <div n:foreach="$reviews as $review" class="item">
                     <div class="item-inner rounded shadow-sm bg-white">
                         <div class="media source-holder">
-                            <img src="{$review->getImage()->getThumbWeb()}" class="source-profile mr-3" alt="">
+                            <img src="{$review->getImage()->getPathWeb()}" class="source-profile mr-3" alt="">
                             <div class="media-body source-meta align-self-center ">
                                 <div class="name">{$review->getTitle()}</div>
-                                <div n:if="$review->getAuthor()" class="info">{$review->getAuthor()}</div>
+                                <div class="info">{$review->getAuthorFullname()}</div>
                             </div>
                             <div class="source-icon text-warning">
                                 <i class="fas fa-star"></i>

@@ -48,13 +48,16 @@ final class ImageInitialFactory
         $this->fileInfoFactory = $fileInfoFactory;
     }
 
-    public function create(string $name, string $surname): FileInfo
+    public function create(string $name, ?string $surname): FileInfo
     {
-        $originalName = Strings::lower($name . '.' . $surname);
+        $length = $surname === null ? 1 : 2;
+        $originalName = $this->getOriginalName($name, $surname);
+        $initialName = $this->getInitialName($name, $surname);
         $file = $this->fileInfoFactory->create($this->getPath(), $originalName, false);
 
         $initialAvatar = new InitialAvatar();
-        $initialAvatar->name($name . ' ' . $surname)
+        $initialAvatar->name($initialName)
+            ->length($length)
             ->color('#ffffff')
             ->background($this->getRandomColor())
             ->size(96)
@@ -72,6 +75,22 @@ final class ImageInitialFactory
     private function getPath(): string
     {
         return $this->directory . '/' . Uuid::uuid4() . '.jpg';
+    }
+
+    private function getOriginalName(string $name, ?string $surname): string
+    {
+        if ($surname === null) {
+            return Strings::lower($name);
+        }
+        return Strings::lower($name . '.' . $surname);
+    }
+
+    private function getInitialName(string $name, ?string $surname): string
+    {
+        if ($surname === null) {
+            return $name;
+        }
+        return $name . ' ' . $surname;
     }
 
 }

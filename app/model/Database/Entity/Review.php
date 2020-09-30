@@ -7,7 +7,7 @@ use App\Model\Database\Entity\Attributes\TActive;
 use App\Model\Database\Entity\Attributes\TCreatedAt;
 use App\Model\Database\Entity\Attributes\TId;
 use App\Model\File\FileInfo;
-use App\Model\File\IFileInfo;
+use App\Model\Utils\Strings;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,8 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Review
 {
-
-    public const NAMESPACE = '/review';
 
     use TId;
     use TCreatedAt;
@@ -40,19 +38,22 @@ class Review
     protected string $text;
 
     /**
+     * @ORM\Column(type="string", length=64)
+     */
+    protected string $authorName;
+
+    /**
      * @ORM\Column(type="string", length=64, nullable=TRUE)
      */
-    protected ?string $author;
+    protected ?string $authorSurname;
 
-    public function __construct(Image $image, string $title, string $text, ?string $author)
+    public function __construct(Image $image, string $title, string $text, string $authorName, ?string $authorSurname)
     {
         $this->image = $image;
         $this->title = $title;
         $this->text = $text;
-        $this->author = $author;
         $this->active = false;
-
-        $this->resizeImage();
+        $this->changeAuthor($authorName, $authorSurname);
     }
 
     public function getImage(): Image
@@ -63,11 +64,6 @@ class Review
     public function changeImage(FileInfo $file): void
     {
         $this->image->update($file);
-    }
-
-    private function resizeImage(): void
-    {
-        $this->image->resize(200, 200);
     }
 
     public function getTitle(): string
@@ -90,19 +86,30 @@ class Review
         $this->text = $text;
     }
 
-    public function getAuthor(): ?string
+    public function getAuthorFullname(): string
     {
-        return $this->author;
+        return $this->getAuthorName() . ' ' . $this->getAuthorSurname();
     }
 
-    public function changeAuthor(?string $author): void
+    public function getAuthorName(): string
     {
-        $this->author = $author;
+        return $this->authorName;
     }
 
-    public function hasAuthor(): bool
+    public function getAuthorSurname(): ?string
     {
-        return $this->author !== null;
+        return $this->authorSurname;
+    }
+
+    public function changeAuthor(string $name, ?string $surname): void
+    {
+        $this->authorName = Strings::firstUpper($name);
+        $this->authorSurname = $surname !== null ? Strings::firstUpper($surname) : null;
+    }
+
+    public function isAuthorUpdated(string $name, ?string $surname): bool
+    {
+        return $name !== $this->authorName || $surname !== $this->authorSurname;
     }
 
 }

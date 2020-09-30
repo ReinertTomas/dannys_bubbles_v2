@@ -1,13 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Domain\Review;
+namespace App\Model\Review;
 
-use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Review;
 use App\Model\Database\EntityManager;
 use App\Model\Database\Repository\ReviewRepository;
-use App\Model\File\FileInfo;
+use App\Model\File\Image\ImageInitialFactory;
 
 class ReviewFacade
 {
@@ -16,10 +15,16 @@ class ReviewFacade
 
     private ReviewRepository $reviewRepository;
 
-    public function __construct(EntityManager $em)
+    private ReviewFactory $reviewFactory;
+
+    private ImageInitialFactory $imageInitialFactory;
+
+    public function __construct(EntityManager $em, ReviewFactory $reviewFactory, ImageInitialFactory $imageInitialFactory)
     {
         $this->em = $em;
         $this->reviewRepository = $em->getReviewRepository();
+        $this->reviewFactory = $reviewFactory;
+        $this->imageInitialFactory = $imageInitialFactory;
     }
 
     public function get(int $id): ?Review
@@ -27,14 +32,9 @@ class ReviewFacade
         return $this->reviewRepository->find($id);
     }
 
-    public function create(FileInfo $file, string $title, ?string $author, string $text): Review
+    public function create(ReviewDto $dto): Review
     {
-        $review = new Review(
-            new Image($file, Review::NAMESPACE),
-            $title,
-            $text,
-            $author
-        );
+        $review = $this->reviewFactory->create($dto);
 
         $this->em->persist($review);
         $this->em->flush();
@@ -42,14 +42,16 @@ class ReviewFacade
         return $review;
     }
 
-    public function update(Review $review, ?FileInfo $file, string $title, ?string $author, string $text): void
+    public function update(Review $review, ReviewDto $dto): void
     {
-        if ($file !== null) {
+        if ($review->isAuthorUpdated($dto->name, $dto->surname)) {
+            $file = $this->imageInitialFactory->create($dto->name, $dto->surname);
             $review->changeImage($file);
         }
-        $review->changeTitle($title);
-        $review->changeText($text);
-        $review->changeAuthor($author);
+
+        $review->changeTitle($dto->title);
+        $review->changeText($dto->text);
+        $review->changeAuthor($dto->name, $dto->surname);
         $this->em->flush();
     }
 

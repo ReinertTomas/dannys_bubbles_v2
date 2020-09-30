@@ -28,12 +28,6 @@ final class ConfigPresenter extends BaseAdminPresenter
     /** @inject */
     public ConfigFacade $configFacade;
 
-    /** @inject */
-    public FileUploader $fileUploader;
-
-    /** @inject */
-    public FileUploadFactory $fileUploadFactory;
-
     public function actionDefault(): void
     {
         $this->config = $this->configFacade->getConfig();

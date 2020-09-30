@@ -3,13 +3,10 @@ declare(strict_types=1);
 
 namespace App\Model\Offer;
 
-use App\Model\Database\Entity\Image;
 use App\Model\Database\Entity\Offer;
 use App\Model\Database\EntityManager;
 use App\Model\Database\Repository\OfferRepository;
-use App\Model\Exception\Runtime\UploadException;
 use App\Model\File\FileInfo;
-use App\UI\Form\Offer\OfferFormData;
 
 class OfferFacade
 {
@@ -64,8 +61,6 @@ class OfferFacade
             $offer->disabled();
         }
         $this->em->flush();
-
-        return $offer;
     }
 
 }
