@@ -3,44 +3,46 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Gallery;
 
-use App\Model\Database\Entity\Gallery;
-use App\Model\File\IFileInfo;
+use App\Model\App;
+use App\Model\File\FileInfo;
+use App\Model\Gallery\GalleryFacade;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Control\Dropzone\DropzoneControl;
 use App\UI\Control\Dropzone\IDropzoneFactory;
 
+/**
+ * @property GalleryTemplate $template
+ */
 final class GalleryPresenter extends BaseAdminPresenter
 {
 
     /** @inject */
     public IDropzoneFactory $dropzoneFactory;
 
+    /** @inject */
+    public GalleryFacade $galleryFacade;
+
     public function renderDefault(): void
     {
-        $this->template->galleries = $this->em
-            ->getGalleryRepository()
-            ->findAll();;
+        $this->template->images = $this->galleryFacade->getAll();
     }
 
-    public function handleDeleteGallery(int $idGallery): void
+    public function handleDeleteImage(int $idImage): void
     {
-        $gallery = $this->em
-            ->getGalleryRepository()
-            ->find($idGallery);
-        if ($gallery === null) {
-            $this->errorNotFoundEntity($idGallery);
+        $image = $this->galleryFacade->get($idImage);
+        if ($image === null) {
+            $this->errorNotFoundEntity($idImage);
         }
 
-        $this->em->remove($gallery);
-        $this->em->flush();
+        $this->galleryFacade->remove($image);
+        $this->flashSuccess('messages.gallery.remove');
 
-        $this->flashSuccess('messages.image.remove');
         if ($this->isAjax()) {
             $this->redrawFlashes();
             $this->redrawImages();
             $this->setAjaxPostGet();
         } else {
-            $this->redirect('this');
+            $this->redirect(App::ADMIN_ALBUM);
         }
     }
 
@@ -48,10 +50,8 @@ final class GalleryPresenter extends BaseAdminPresenter
     {
         return $this->dropzoneFactory->create(
             $this,
-            function (IFileInfo $file): void {
-                $gallery = new Gallery($file);
-                $this->em->persist($gallery);
-                $this->em->flush();
+            function (FileInfo $file): void {
+                $this->galleryFacade->create($file);
             },
             function (): void {
                 $this->flashSuccess('messages.upload.success');

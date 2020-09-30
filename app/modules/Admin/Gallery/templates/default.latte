@@ -1,3 +1,5 @@
+{varType App\Model\Database\Entity\Image $image}
+
 {block #heading}
     <div class="row">
         <div class="col-md-6 col-xs-12 mb-4">
@@ -21,20 +23,14 @@
 {/}
 
 {block #content}
-    <div n:snippet="images" class="container p-0">
-        <div class="row text-center text-lg-left">
-            <div n:foreach="$galleries as $gallery" class="col-lg-3 col-md-4 col-6 mb-4">
-                <div class="img-container">
-                    <img class="img-fluid img-thumbnail" src="{$basePath}{$gallery->getPathWeb()}" alt="Image">
-                    <div class="img-overlay"></div>
-                    <div class="img-group-btn">
-                        <a href="{$basePath}{$gallery->getPathWeb()}"
-                           title="{$gallery->getName()}"
-                           data-lightbox="images"
-                           class="btn btn-primary btn-sm"><i class="fas fa-search"></i>
-                        </a>
-                        <a n:href="deleteGallery! $gallery->getId()" class="ajax btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash"></i></a>
-                    </div>
+    <div n:snippet="images" class="row">
+        <div n:foreach="$images as $image" class="col-lg-3 col-md-4 col-6 mb-4">
+            <div class="card">
+                <a href="{$basePath}{$image->getPathWeb()}" title="{$image->getOriginalName()}" data-lightbox="images">
+                    <img class="card-img-top" src="{$basePath}{$image->getPathWeb()}" alt="Image">
+                </a>
+                <div class="card-body text-center">
+                    <a n:href="deleteImage! $image->getId()" class="ajax btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash"></i></a>
                 </div>
             </div>
         </div>

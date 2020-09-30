@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Control;
+namespace App\Modules\Base\Traits;
 
 use App\Modules\Base\BasePresenter;
 use stdClass;

@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace App\UI\Control;
+namespace App\Modules\Base\Traits;
 
 use App\Modules\Base\BasePresenter;
 use Nette\Application\Responses\FileResponse;
 
 /**
- * 2@mixin BasePresenter
+ * @mixin BasePresenter
  */
-trait TDocument
+trait TDocumentDownload
 {
 
     public function handleDownloadDocument(int $idDocument): void

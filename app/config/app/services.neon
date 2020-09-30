@@ -61,8 +61,8 @@ services:
 	- App\Model\Review\ReviewFactory
 	- App\Model\Review\ReviewFacade
 
-	## Album
-	- App\Domain\Album\AlbumFacade
+	## Gallery
+	- App\Model\Gallery\GalleryFacade
 
 	## Product
 	- App\Domain\Product\ProductFacade
