@@ -7,7 +7,6 @@ use App\Domain\Product\Exception\HighlightException;
 use App\Domain\Product\ProductFacade;
 use App\Model\App;
 use App\Model\Database\Entity\Product;
-use App\Model\File\IFileInfo;
 use App\Modules\Admin\BaseAdminPresenter;
 use App\UI\Control\Dropzone\DropzoneControl;
 use App\UI\Control\Dropzone\IDropzoneFactory;
@@ -17,6 +16,9 @@ use App\UI\Grid\Product\ProductGridFactory;
 use Nette\Application\UI\Form;
 use Ublaboo\DataGrid\DataGrid;
 
+/**
+ * @property ProductTemplate $template
+ */
 final class ProductPresenter extends BaseAdminPresenter
 {
 
