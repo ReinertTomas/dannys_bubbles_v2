@@ -2,6 +2,21 @@ Nette Bundle
 =============
 This is a nette bundle for new projects.
 
+Features
+----------------
+- PHP 7.4
+- Phpstan
+- Tester
+- Doctrine (Nettrine)
+- Migrations (Nettrine)
+- Fixtures (Nettrine)
+- Webpack (css & js bundler)
+- Naja.js (AJAX library)
+- Datagrid
+- Console
+- Events
+- Modal
+
 Install
 ----------------
 1. Clone repository
@@ -16,14 +31,22 @@ Install
 
 Then visit `http://localhost:8000` in your browser to see the welcome page.
 
-Features
+Commands
 ----------------
-- PHP 7.4
-- Phpstan
-- Doctrine (Nettrine)
-- Webpack (css & js bundler)
-- Naja.js (AJAX library)
-- Datagrid
-- Console
-- Events
-- uuid
+Switch symlink to another directory:
+- `ln -sfn [dir] [symlink]`
+
+Copy files from target to source (use "source/" with slash to copy hidden files):
+- `rsync -avz --exclude-from='rsync.txt' [source]/ [target]`
+
+Tester
+----------------
+Run tester via command line:
+
+- `vendor\bin\tester tests`
+- `vendor\bin\tester tests/ContainerTest.php`
+- `vendor\bin\tester tests/GreetingTest.php`
+
+Run tester via composer script
+
+- `composer run tester`
